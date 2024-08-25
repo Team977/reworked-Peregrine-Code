@@ -2,10 +2,6 @@ package frc.robot.subsystems;
 
 public class MotorIDConst {
 
-  // Elevator
-  public static final int leaderElevatorKrakenID = 0;
-  public static final int followerElevatorKrakenID = 9;
-
   // intake
   public static final int IntakefrontRollersID = 19;
   public static final int IntakeBackRollersID = 6;
