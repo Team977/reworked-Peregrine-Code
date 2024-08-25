@@ -1,0 +1,87 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.9614100139881189,
+      "y": 4.490555305896938
+    },
+    "rotation": -58.67130713219582
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "GetShooterReadyCloseFast"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunMagAndIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SSMid-S3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score-S3-Sweep"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GetShooterReadyCloseFast"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunMagAndIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Score-S3-C5"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score-C5-Straght"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "DistrictAutos",
+  "choreoAuto": false
+}

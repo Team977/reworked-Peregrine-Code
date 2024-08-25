@@ -1,0 +1,70 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.42228054825804,
+        "y": 2.444078278470133
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.762010207781099,
+        "y": 0.9238382009527565
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5167325548326307,
+        "y": 3.028786000591945
+      },
+      "prevControl": {
+        "x": 3.3470175202458665,
+        "y": 0.9238382009527565
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.2,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "GetShooterReady"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -55.24408744645866,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "DistrictPaths",
+  "previewStartingState": {
+    "rotation": 0.8550973962666655,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

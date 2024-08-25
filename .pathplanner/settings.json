@@ -1,0 +1,19 @@
+{
+  "robotWidth": 0.9,
+  "robotLength": 0.9,
+  "holonomicMode": true,
+  "pathFolders": [
+    "Bottom_S3_C5_C4_C3-Paths",
+    "DistrictPaths",
+    "Mid_S2_S1_S3_C4-Paths",
+    "Top_S1_C1_C2_C3-Paths"
+  ],
+  "autoFolders": [
+    "DistrictAutos"
+  ],
+  "defaultMaxVel": 3.0,
+  "defaultMaxAccel": 3.0,
+  "defaultMaxAngVel": 540.0,
+  "defaultMaxAngAccel": 720.0,
+  "maxModuleSpeed": 4.5
+}
