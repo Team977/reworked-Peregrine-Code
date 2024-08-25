@@ -22,15 +22,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.aimTest;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.aim.Aim;
+import frc.robot.subsystems.aim.aimMotorsIOKraken;
+import frc.robot.subsystems.aim.aimMotorsIOSim;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
-import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.shooter.Aim;
-import frc.robot.subsystems.shooter.MagRoller;
-import frc.robot.subsystems.shooter.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -44,10 +44,7 @@ public class RobotContainer {
   SysIdRoutine.Direction aDirection;
 
   public static Drive drive;
-  private final Intake intake;
-  private final MagRoller magRoller;
-  private final Shooter shooter;
-  private final Aim aim;
+  public static Aim aim;
   public static final Vision vision = new Vision();
 
   // Controller
@@ -71,6 +68,8 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
 
+        aim = new Aim(new aimMotorsIOSim());
+
         break;
 
       default:
@@ -82,13 +81,10 @@ public class RobotContainer {
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
 
+        aim = new Aim(new aimMotorsIOKraken());
+
         break;
     }
-    intake = new Intake();
-    shooter = new Shooter();
-    aim = new Aim();
-    magRoller = new MagRoller();
-
     /*NamedCommands.registerCommand(
     "Run Flywheel",
     Commands.startEnd(
@@ -119,9 +115,14 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> -1,
+            () -> -driverController.getLeftX(),
             () -> -driverController.getLeftY(),
             () -> -driverController.getRightX()));
+
+    Command go45Deg = new aimTest(aim, Math.PI / 4);
+    Command goNeg45Deg = new aimTest(aim, -Math.PI / 4);
+    SmartDashboard.putData("go 45 deg", go45Deg);
+    SmartDashboard.putData("go -45 deg", goNeg45Deg);
   }
 
   /**
