@@ -14,7 +14,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -24,9 +23,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.TeleoperatedAutos.ModeController;
 import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
 
@@ -59,6 +55,7 @@ public class DriveCommands {
           linearMagnitude = linearMagnitude * linearMagnitude;
           omega = Math.copySign(omega * omega, omega);
 
+          /*
           // translation Mod
           switch (RobotContainer.modeController.getTranslationDriveMode()) {
             case FAST:
@@ -101,7 +98,7 @@ public class DriveCommands {
             omega = pidController.calculate(drive.getPose().getRotation().getDegrees());
 
             pidController.close();
-          }
+          } */
           // SmartDashboard.putNumber("Omega", omega);
 
           // Calculate new linear velocity

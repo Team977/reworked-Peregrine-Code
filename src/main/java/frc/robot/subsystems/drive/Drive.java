@@ -155,18 +155,20 @@ public class Drive extends SubsystemBase {
                   LogOut logout = modules[0].getLog();
 
                   log.motor("FL")
-                      // .angularPosition(logout.rotation)
-                      // .angularVelocity(logout.anglerVelocity)
+                      .angularPosition(logout.rotation)
+                      .angularVelocity(logout.anglerVelocity)
                       .current(logout.amps)
-                      .voltage(logout.volts)
-                      .linearPosition(logout.Position)
-                      .linearVelocity(logout.Velocity);
+                      .voltage(logout.volts);
+                  // .linearPosition(logout.Position)
+                  // .linearVelocity(logout.Velocity);
                 },
                 this));
 
     // m_estGlobalPose = RobotContainer.vision.getEstimatedGlobalPose();
 
     SmartDashboard.putData("field", m_Field);
+    SmartDashboard.putNumber("x", m_Field.getRobotPose().getX());
+    SmartDashboard.putNumber("y", m_Field.getRobotPose().getY());
   }
 
   public void periodic() {
