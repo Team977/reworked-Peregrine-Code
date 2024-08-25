@@ -20,9 +20,6 @@ import frc.robot.util.Alert.AlertType;
 
 public class aimMotorsIOKraken implements aimMotorsIO {
 
-  private final double MaxAccle = 150;
-  private final double MaxVelocity = 300;
-
   private final DutyCycleEncoder leaderAimEncoder = new DutyCycleEncoder(0);
   private final DutyCycleEncoder followerAimEncoder = new DutyCycleEncoder(1);
 
@@ -54,8 +51,8 @@ public class aimMotorsIOKraken implements aimMotorsIO {
     aimingConfig.Slot0.kD = ShooterConstants.AimKd;
 
     var aimMotionMagicConfigs = aimingConfig.MotionMagic;
-    aimMotionMagicConfigs.MotionMagicCruiseVelocity = MaxAccle;
-    aimMotionMagicConfigs.MotionMagicAcceleration = MaxVelocity;
+    aimMotionMagicConfigs.MotionMagicCruiseVelocity = aimConstaints.MaxAccle;
+    aimMotionMagicConfigs.MotionMagicAcceleration = aimConstaints.MaxVelocity;
     aimMotionMagicConfigs.MotionMagicJerk = 2000;
 
     aimingConfig.CurrentLimits.StatorCurrentLimit = 30.0;

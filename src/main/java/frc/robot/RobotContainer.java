@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.aimTest;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.aim.Aim;
 import frc.robot.subsystems.aim.aimMotorsIOKraken;
@@ -118,11 +117,6 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getLeftY(),
             () -> -driverController.getRightX()));
-
-    Command go45Deg = new aimTest(aim, Math.PI / 4);
-    Command goNeg45Deg = new aimTest(aim, -Math.PI / 4);
-    SmartDashboard.putData("go 45 deg", go45Deg);
-    SmartDashboard.putData("go -45 deg", goNeg45Deg);
   }
 
   /**

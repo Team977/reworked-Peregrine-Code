@@ -61,7 +61,7 @@ public class Aim extends SubsystemBase {
 
   public boolean atPosition(Rotation2d angle, Rotation2d treashould) {
 
-    double ShooterAngle = angle
+    double ShooterAngle = angle.getDegrees();
 
     return getAngle().getDegrees() > ShooterAngle - treashould.getDegrees()
         && getAngle().getDegrees() < ShooterAngle + treashould.getDegrees();
