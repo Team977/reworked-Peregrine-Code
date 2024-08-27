@@ -7,14 +7,12 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.subsystems.shooter.ShooterConstants;
 
-import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-
 public class aimMotorsIOSim implements aimMotorsIO {
   private static final double LOOP_PERIOD_SECS = 0.02;
 
   private final DCMotorSim motor =
       new DCMotorSim(DCMotor.getKrakenX60(2), ShooterConstants.kAimGearRatio, 5);
-  
+
   private final PIDController pid;
 
   public aimMotorsIOSim() {

@@ -4,28 +4,27 @@
 
 package frc.robot.subsystems.intake;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.MotorIDConst;
+import frc.robot.subsystems.intake.IntakeMotorsIO.OutputIntake;
 
 public class Intake extends SubsystemBase {
 
-  private final AnalogInput IRsensor;
-  private final VictorSPX frontRollers;
-  private final VictorSPX backRollers;
+  IntakeMotorsIO intakeMotorsIO;
 
   /** Creates a new Intake. */
-  public Intake() {
-    IRsensor = new AnalogInput(IntakeConstants.IRsensorPort);
-    IRsensor.setAverageBits(4);
-    frontRollers = new VictorSPX(MotorIDConst.IntakefrontRollersID);
-    backRollers = new VictorSPX(MotorIDConst.IntakeBackRollersID);
+  public Intake(IntakeMotorsIO intakeMotorsIO) {
+
+    this.intakeMotorsIO = intakeMotorsIO;
   }
 
   @Override
   public void periodic() {
+
+    OutputIntake outputIntake = intakeMotorsIO.getOutputs();
+    SmartDashboard.putNumber("intake Sim Speed", outputIntake.speed);
+    SmartDashboard.putBoolean("Intake has Note", isNotePresent());
+
     // This method will be called once per scheduler run
     // SmartDashboard.putNumber("Voltage", IRsensor.getVoltage());
     // SmartDashboard.putNumber("AverageVoltage", IRsensor.getAverageVoltage());
@@ -34,22 +33,11 @@ public class Intake extends SubsystemBase {
     // SmartDashboard.putBoolean("Note Present", isNotePresent());
   }
 
-  public void intakeNote() {
-    frontRollers.set(ControlMode.PercentOutput, IntakeConstants.defaultIntakeSpeed);
-    backRollers.set(ControlMode.PercentOutput, IntakeConstants.defaultIntakeSpeed);
-  }
-
   public void intakeNote(double speed) {
-    frontRollers.set(ControlMode.PercentOutput, speed);
-    backRollers.set(ControlMode.PercentOutput, speed);
-  }
-
-  public void stopIntake() {
-    frontRollers.set(ControlMode.PercentOutput, 0);
-    backRollers.set(ControlMode.PercentOutput, 0);
+    intakeMotorsIO.setSpeed(speed);
   }
 
   public boolean isNotePresent() {
-    return IRsensor.getAverageValue() > IntakeConstants.IRthreshold;
+    return intakeMotorsIO.HasNote();
   }
 }

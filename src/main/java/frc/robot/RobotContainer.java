@@ -31,6 +31,9 @@ import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeMotorsIOSim;
+import frc.robot.subsystems.intake.IntakeMotorsIOVictor;
 import frc.robot.subsystems.shooter.mag.MagRoller;
 import frc.robot.subsystems.shooter.mag.magMotorFalcon;
 import frc.robot.subsystems.shooter.mag.magRollerSim;
@@ -53,6 +56,7 @@ public class RobotContainer {
   public static Aim aim;
   public static MagRoller magRoller;
   public static Shooter shooter;
+  public static Intake intake;
   public static final Vision vision = new Vision();
 
   // Controller
@@ -79,6 +83,7 @@ public class RobotContainer {
         aim = new Aim(new aimMotorsIOSim());
         magRoller = new MagRoller(new magRollerSim());
         shooter = new Shooter(new shooterRollerSim());
+        intake = new Intake(new IntakeMotorsIOSim());
 
         break;
 
@@ -94,6 +99,7 @@ public class RobotContainer {
         aim = new Aim(new aimMotorsIOKraken());
         magRoller = new MagRoller(new magMotorFalcon());
         shooter = new Shooter(new shooterMotorFalcon());
+        intake = new Intake(new IntakeMotorsIOVictor());
 
         break;
     }
@@ -131,8 +137,8 @@ public class RobotContainer {
             () -> -driverController.getLeftY(),
             () -> -driverController.getRightX()));
 
-    Command testMagFull = Commands.run(() -> shooter.setVelocity(106), shooter);
-    Command testMagNo = Commands.run(() -> shooter.setVelocity(0), shooter);
+    Command testMagFull = Commands.run(() -> intake.intakeNote(1), shooter);
+    Command testMagNo = Commands.run(() -> intake.intakeNote(0), shooter);
 
     SmartDashboard.putData("Full", testMagFull);
     SmartDashboard.putData("no", testMagNo);

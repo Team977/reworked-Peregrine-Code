@@ -17,7 +17,7 @@ public class shooterRollerSim implements shooterMotorIO {
     OutputShooter outputShooter = new OutputShooter();
 
     outputShooter.amps = shooterMotor.getCurrentDrawAmps();
-    outputShooter.speed = shooterMotor.getAngularVelocityRPM() / 60;
+    outputShooter.speed = shooterMotor.getAngularVelocityRPM() / 60 / 2;
     outputShooter.volts = 0;
 
     return outputShooter;
@@ -29,7 +29,6 @@ public class shooterRollerSim implements shooterMotorIO {
 
   public void setSpeed(double speed) {
 
-    shooterMotor.setInputVoltage(speed * RobotController.getBatteryVoltage());
+    shooterMotor.setInputVoltage(speed / 108 * RobotController.getBatteryVoltage());
   }
-  ;
 }
