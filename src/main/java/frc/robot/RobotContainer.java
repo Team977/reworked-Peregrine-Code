@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
@@ -30,6 +31,12 @@ import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
+import frc.robot.subsystems.shooter.mag.MagRoller;
+import frc.robot.subsystems.shooter.mag.magMotorFalcon;
+import frc.robot.subsystems.shooter.mag.magRollerSim;
+import frc.robot.subsystems.shooter.shooterSub.Shooter;
+import frc.robot.subsystems.shooter.shooterSub.shooterMotorFalcon;
+import frc.robot.subsystems.shooter.shooterSub.shooterRollerSim;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -44,6 +51,8 @@ public class RobotContainer {
 
   public static Drive drive;
   public static Aim aim;
+  public static MagRoller magRoller;
+  public static Shooter shooter;
   public static final Vision vision = new Vision();
 
   // Controller
@@ -68,6 +77,8 @@ public class RobotContainer {
                 new ModuleIOSim());
 
         aim = new Aim(new aimMotorsIOSim());
+        magRoller = new MagRoller(new magRollerSim());
+        shooter = new Shooter(new shooterRollerSim());
 
         break;
 
@@ -81,6 +92,8 @@ public class RobotContainer {
                 new ModuleIOSparkMax(3));
 
         aim = new Aim(new aimMotorsIOKraken());
+        magRoller = new MagRoller(new magMotorFalcon());
+        shooter = new Shooter(new shooterMotorFalcon());
 
         break;
     }
@@ -117,6 +130,12 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getLeftY(),
             () -> -driverController.getRightX()));
+
+    Command testMagFull = Commands.run(() -> shooter.setVelocity(106), shooter);
+    Command testMagNo = Commands.run(() -> shooter.setVelocity(0), shooter);
+
+    SmartDashboard.putData("Full", testMagFull);
+    SmartDashboard.putData("no", testMagNo);
   }
 
   /**

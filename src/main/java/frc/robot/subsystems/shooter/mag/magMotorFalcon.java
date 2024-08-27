@@ -1,22 +1,17 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
-package frc.robot.subsystems.shooter;
+package frc.robot.subsystems.shooter.mag;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.MotorIDConst;
+import frc.robot.subsystems.shooter.mag.magMotorIO.OutputMag;
 
-public class MagRoller extends SubsystemBase {
+public class magMotorFalcon implements magMotorIO {
 
   private final TalonFX leaderMagFalcon =
       new TalonFX(MotorIDConst.ShooterleaderMagFalconID, Constants.CANivore);
@@ -30,7 +25,7 @@ public class MagRoller extends SubsystemBase {
   private final StatusSignal<Double> followerMagCurrent = followerMagFalcon.getStatorCurrent();
 
   /** Creates a new Shooter. */
-  public MagRoller() {
+  public magMotorFalcon() {
 
     var magConfig = new TalonFXConfiguration();
     magConfig.CurrentLimits.StatorCurrentLimit = 40.0;
@@ -50,25 +45,20 @@ public class MagRoller extends SubsystemBase {
         followerMagCurrent);
   }
 
-  @Override
-  public void periodic() {}
+  public OutputMag getOutput() {
 
-  /** Set the speed of the mag roller -1.0 to 1.0 */
-  public void setMagSpeed(double speed) {
+    OutputMag outputMag = new OutputMag();
+
+    outputMag.amps = leaderMagCurrent.getValueAsDouble();
+    outputMag.speed = leaderMagVelocity.getValueAsDouble();
+    outputMag.volts = leaderMagAppliedVolts.getValueAsDouble();
+
+    return outputMag;
+  }
+
+  public void setSpeed(double speed) {
+
     leaderMagFalcon.setControl(new DutyCycleOut(speed, true, false, false, false));
   }
-
-  public void resetMagPosition() {
-    leaderMagFalcon.setPosition(0.0);
-  }
-
-  /** Set the position of the mag roller */
-  public void setMagPosition(double position) {
-    leaderMagFalcon.setControl(
-        new PositionVoltage(position, 0.0, true, 0.0, 0, false, false, false));
-  }
-
-  public void stopMag() {
-    leaderMagFalcon.stopMotor();
-  }
+  ;
 }

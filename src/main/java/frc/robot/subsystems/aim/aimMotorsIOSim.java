@@ -4,16 +4,17 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.subsystems.shooter.ShooterConstants;
+
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
 public class aimMotorsIOSim implements aimMotorsIO {
   private static final double LOOP_PERIOD_SECS = 0.02;
 
   private final DCMotorSim motor =
       new DCMotorSim(DCMotor.getKrakenX60(2), ShooterConstants.kAimGearRatio, 5);
-
+  
   private final PIDController pid;
 
   public aimMotorsIOSim() {
@@ -47,7 +48,7 @@ public class aimMotorsIOSim implements aimMotorsIO {
     outputAim.Current = motor.getCurrentDrawAmps();
     outputAim.Rotation = new Rotation2d(motor.getAngularPositionRad());
     outputAim.Velocity = motor.getAngularVelocityRPM();
-    outputAim.Volts = motor.getCurrentDrawAmps() * RobotController.getBatteryVoltage();
+    outputAim.Volts = 0;
 
     return outputAim;
   }
