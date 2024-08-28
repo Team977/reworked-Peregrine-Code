@@ -15,6 +15,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -63,6 +64,8 @@ public class RobotContainer {
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
 
+  private final Joystick simJoystick = new Joystick(0);
+
   //  private final OIbase OI = new OIGuitarAndJoystick(1,0);
   // Dashboard inputs
   private final SendableChooser<Command> autoChooser;
@@ -103,6 +106,8 @@ public class RobotContainer {
 
         break;
     }
+
+    Goals.setPositionSuppler(() -> drive.getPose());
     /*NamedCommands.registerCommand(
     "Run Flywheel",
     Commands.startEnd(
@@ -130,12 +135,20 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    /*
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
             () -> -driverController.getLeftX(),
             () -> -driverController.getLeftY(),
-            () -> -driverController.getRightX()));
+            () -> -driverController.getRightX()));*/
+
+    drive.setDefaultCommand(
+        DriveCommands.joystickDrive(
+            drive,
+            () -> -simJoystick.getRawAxis(0),
+            () -> -simJoystick.getRawAxis(1),
+            () -> -simJoystick.getRawAxis(2)));
 
     Command testMagFull = Commands.run(() -> intake.intakeNote(1), shooter);
     Command testMagNo = Commands.run(() -> intake.intakeNote(0), shooter);
