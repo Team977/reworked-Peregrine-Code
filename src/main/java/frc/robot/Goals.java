@@ -35,8 +35,6 @@ public class Goals {
   private static final double SpeekerSwitchPosX = 6;
   private static final double NoteSwitchPoseX = 11;
 
-  private static boolean MannulyChanged = false;
-
   private static List<Supplier<GoalChangeInfo>> goalChangeInfoSup = new ArrayList<>(0);
 
   public static void setPositionSuppler(Supplier<Pose2d> positionSup) {
@@ -60,6 +58,8 @@ public class Goals {
     // else
 
     if (position.get().getX() < SpeekerSwitchPosX && goalInfo.goal != Goal.AMP) {
+
+        
       goalInfo.goal = Goal.SPEEKER;
       return;
     }
