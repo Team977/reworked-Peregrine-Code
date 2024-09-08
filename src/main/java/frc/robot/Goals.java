@@ -59,7 +59,6 @@ public class Goals {
 
     if (position.get().getX() < SpeekerSwitchPosX && goalInfo.goal != Goal.AMP) {
 
-        
       goalInfo.goal = Goal.SPEEKER;
       return;
     }
