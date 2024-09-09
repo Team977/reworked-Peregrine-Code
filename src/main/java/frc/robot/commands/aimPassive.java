@@ -20,8 +20,6 @@ public class aimPassive {
   // The avarage shooter angle when note shoot
   private static Rotation2d ShootAvgAngle = new Rotation2d(Degree.of((35 + 45) / 2));
 
-  public void aimPassive() {}
-
   public static Command aimPassive(Aim aim) {
     return Commands.run(
         () -> {

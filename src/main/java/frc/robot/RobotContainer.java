@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.aimPassive;
+import frc.robot.commands.shooterPassive;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.aim.Aim;
 import frc.robot.subsystems.aim.aimMotorsIOKraken;
@@ -152,6 +153,7 @@ public class RobotContainer {
             () -> -simJoystick.getRawAxis(2)));
 
     aim.setDefaultCommand(aimPassive.aimPassive(aim));
+    shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
     Command testMagFull = Commands.run(() -> intake.intakeNote(1), shooter);
     Command testMagNo = Commands.run(() -> intake.intakeNote(0), shooter);

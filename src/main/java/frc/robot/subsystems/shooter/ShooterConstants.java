@@ -1,19 +1,15 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 public class ShooterConstants {
 
-  public enum ShooterEjectSpeeds {
-    Fast,
-    Medium,
-    Slow,
-    Custom
-  };
+  // rps
+  public static final double SpeekerShooterSpeed = 4;
+  // rps
+  public static final double FeedShooterSpeed = 4;
 
-  public static final double ShooterShotFastSpeed = 20;
-  public static final double ShooterShotMediumSpeed = 4;
-  public static final double ShooterShotSlowSpeed = 4;
-
-  public static final double AmpAngleInDegrees = 0;
+  public static final Rotation2d PassiveAmpAngle = new Rotation2d(0);
 
   public static final double ShooterMagRollerSpeed = -1.0;
   public static final double IntakeMagRollerSpeed = -0.5;
