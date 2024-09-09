@@ -10,7 +10,12 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -20,6 +25,13 @@ public class Aim extends SubsystemBase {
 
   private final aimMotorsIO AimMotorsIO;
   private final SysIdRoutine sysId;
+
+  // Create a Mechanism2d display of an Arm with a fixed ArmTower and moving Arm.
+  private final Mechanism2d m_mech2d = new Mechanism2d(60, 60);
+  private final MechanismRoot2d m_armPivot = m_mech2d.getRoot("ArmPivot", 30, 30);
+  private final MechanismLigament2d m_armTower =
+      m_armPivot.append(new MechanismLigament2d("ArmTower", 30, -90));
+  private final MechanismLigament2d m_arm;
 
   Rotation2d DesiredAngle = new Rotation2d(0);
 
@@ -47,6 +59,19 @@ public class Aim extends SubsystemBase {
                   // .linearVelocity(logout.Velocity);
                 },
                 this));
+
+    m_arm =
+        m_armPivot.append(
+            new MechanismLigament2d(
+                "Arm",
+                30,
+                AimMotorsIO.getOutputs().Rotation.getDegrees() + 90,
+                6,
+                new Color8Bit(Color.kYellow)));
+
+    // Put Mechanism 2d to SmartDashboard
+    SmartDashboard.putData("Arm Sim", m_mech2d);
+    m_armTower.setColor(new Color8Bit(Color.kBlue));
   }
 
   public void aimShooter(Rotation2d rotation) {
@@ -89,6 +114,8 @@ public class Aim extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     OutputAim outputAim = AimMotorsIO.getOutputs();
+
+    m_arm.setAngle(new Rotation2d(outputAim.Rotation.getRadians() + Math.PI / 2));
 
     SmartDashboard.putNumber("aim angle deg", outputAim.Rotation.getDegrees());
     SmartDashboard.putNumber("aim current", outputAim.Current);
