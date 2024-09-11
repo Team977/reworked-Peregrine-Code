@@ -147,10 +147,7 @@ public class RobotContainer {
 
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive,
-            () -> -simJoystick.getRawAxis(0),
-            () -> -simJoystick.getRawAxis(1),
-            () -> -simJoystick.getRawAxis(2)));
+            drive, () -> -simJoystick.getRawAxis(0), () -> -simJoystick.getRawAxis(1), () -> -1));
 
     aim.setDefaultCommand(aimPassive.aimPassive(aim));
     shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));

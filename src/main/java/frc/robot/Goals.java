@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 public class Goals {
 
+  // goals
   public static enum Goal {
     SPEEKER,
     FEED,
@@ -106,5 +107,57 @@ public class Goals {
 
   public static void setPassivlysSwitch(boolean on) {
     goalInfo.PassivlysSwitch = on;
+  }
+
+  // drive Modes
+  private static enum DriveMode {
+    FULL,
+    NORMAL,
+    SLOW
+  }
+
+  private static DriveMode driveMode = DriveMode.NORMAL;
+
+  private static final double FullTranslationModifier = 1.0;
+  private static final double FullRotationModifier = 0.70;
+  private static final double NormalTranslationModifier = 0.75;
+  private static final double NormalRotationModifier = 0.30;
+  private static final double SlowTranslationModifier = 0.40;
+  private static final double SlowRotationModifier = 0.15;
+
+  public static DriveMode getDriveSpeedMode() {
+    return driveMode;
+  }
+
+  public static double getTranslationMod() {
+    switch (driveMode) {
+        // full speed
+      case FULL:
+        return FullTranslationModifier;
+
+        // slow mode
+      case SLOW:
+        return SlowTranslationModifier;
+
+        // normal
+      default:
+        return NormalTranslationModifier;
+    }
+  }
+
+  public static double getRotationnMod() {
+    switch (driveMode) {
+        // full speed
+      case FULL:
+        return FullRotationModifier;
+
+        // slow mode
+      case SLOW:
+        return SlowRotationModifier;
+
+        // normal
+      default:
+        return NormalRotationModifier;
+    }
   }
 }

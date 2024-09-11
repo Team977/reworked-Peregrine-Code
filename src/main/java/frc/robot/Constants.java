@@ -64,6 +64,9 @@ public final class Constants {
     // (Fake values. Experiment and determine estimation noise on an actual robot.)
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
     public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+
+    public static final Translation3d SpeekerRed = new Translation3d(0, 0, 0);
+    public static final Translation3d SpeekerBlue = new Translation3d(0, 0, 0);
   }
 
   public static final Mode currentMode = Mode.SIM;
@@ -79,18 +82,5 @@ public final class Constants {
     REPLAY
   }
 
-  public static class Drive {
-    public static enum DriveMode {
-      FULL,
-      NORMAL,
-      SLOW
-    }
-
-    public static final double FullTranslationModifier = 1.0;
-    public static final double FullRotationModifier = 0.70;
-    public static final double NormalTranslationModifier = 0.75;
-    public static final double NormalRotationModifier = 0.30;
-    public static final double SlowTranslationModifier = 0.40;
-    public static final double SlowRotationModifier = 0.15;
-  }
+  public static class Drive {}
 }

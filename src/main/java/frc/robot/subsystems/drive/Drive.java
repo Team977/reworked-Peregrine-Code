@@ -167,8 +167,7 @@ public class Drive extends SubsystemBase {
     // m_estGlobalPose = RobotContainer.vision.getEstimatedGlobalPose();
 
     SmartDashboard.putData("field", m_Field);
-    SmartDashboard.putNumber("x", m_Field.getRobotPose().getX());
-    SmartDashboard.putNumber("y", m_Field.getRobotPose().getY());
+    SmartDashboard.putNumber("robot Rotation", rawGyroRotation.getDegrees());
   }
 
   public void periodic() {
@@ -217,6 +216,7 @@ public class Drive extends SubsystemBase {
     } else {
       // Use the angle delta from the kinematics and module deltas
       Twist2d twist = kinematics.toTwist2d(moduleDeltas);
+
       rawGyroRotation = rawGyroRotation.plus(new Rotation2d(twist.dtheta));
     }
 
@@ -381,5 +381,9 @@ public class Drive extends SubsystemBase {
 
   public void setVisionStDevs(Matrix<N3, N1> stdDevs) {
     m_PoseEstimator.setVisionMeasurementStdDevs(stdDevs);
+  }
+
+  public Rotation2d getGyroYVel() {
+    return new Rotation2d(gyroInputs.yawVelocityRadPerSec);
   }
 }

@@ -14,15 +14,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants;
+import frc.robot.Goals;
 import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
 
@@ -55,51 +59,12 @@ public class DriveCommands {
           linearMagnitude = linearMagnitude * linearMagnitude;
           omega = Math.copySign(omega * omega, omega);
 
-          /*
-          // translation Mod
-          switch (RobotContainer.modeController.getTranslationDriveMode()) {
-            case FAST:
-              linearMagnitude *= Constants.Drive.FullTranslationModifier;
-              break;
-            case NORMAL:
-              linearMagnitude *= Constants.Drive.NormalTranslationModifier;
-              break;
-            case SLOW:
-              linearMagnitude *= Constants.Drive.SlowTranslationModifier;
-              break;
-            default:
-              linearMagnitude *= Constants.Drive.NormalTranslationModifier;
-              break;
-          }
+          linearMagnitude = addTranslationMod(linearMagnitude);
+          omega = addRotationMod(omega);
 
-          // Rotation Mod
-          switch (RobotContainer.modeController.getRotationDriveMode()) {
-            case FAST:
-              omega *= Constants.Drive.FullRotationModifier;
-              break;
-            case NORMAL:
-              omega *= Constants.Drive.NormalRotationModifier;
-              break;
-            case SLOW:
-              omega *= Constants.Drive.SlowRotationModifier;
-              break;
-            default:
-              omega *= Constants.Drive.NormalRotationModifier;
-              break;
-          }
-
-          if (omega == 0.0
-              && RobotContainer.modeController.getAutoRotateMode()
-                  != ModeController.AutoRotateMode.OFF) {
-            PIDController pidController = new PIDController(0.0005, 0.0, 0.0);
-            pidController.enableContinuousInput(-180, 180);
-
-            pidController.setSetpoint(RobotContainer.rotationAutoPilot.GetHeading());
-            omega = pidController.calculate(drive.getPose().getRotation().getDegrees());
-
-            pidController.close();
-          } */
-          // SmartDashboard.putNumber("Omega", omega);
+          /*if (Goals.getGoalInfo().AutoRotate && omega <= 0.1) {
+            omega = getAutoTurnPower(drive);
+          }*/
 
           // Calculate new linear velocity
           Translation2d linearVelocity =
@@ -108,9 +73,7 @@ public class DriveCommands {
                   .getTranslation();
 
           // Convert to field relative speeds & send command
-          boolean isFlipped =
-              DriverStation.getAlliance().isPresent()
-                  && DriverStation.getAlliance().get() == Alliance.Red;
+          boolean isFlipped = isRed();
           drive.runVelocity(
               ChassisSpeeds.fromFieldRelativeSpeeds(
                   linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
@@ -121,5 +84,73 @@ public class DriveCommands {
                       : drive.getRotation()));
         },
         drive);
+  }
+
+  private static boolean isRed() {
+    return DriverStation.getAlliance().isPresent()
+        && DriverStation.getAlliance().get() == Alliance.Red;
+  }
+
+  private static final ProfiledPIDController PID =
+      new ProfiledPIDController(1, 0, 0, new Constraints(.75, .2), 0.02);
+
+  private static double getAutoTurnPower(Drive drive) {
+
+    // get Rotations
+    Rotation2d DesiredRotation = getDiseredAutoRotationOffset(drive.getPose());
+
+    return PID.calculate(DesiredRotation.getRotations(), 0);
+  }
+
+  private static Rotation2d getDiseredAutoRotationOffset(Pose2d Robot) {
+    switch (Goals.getGoalInfo().goal) {
+      case SPEEKER:
+        return getAngleBetweenRobotAndSpeeker(Robot);
+
+      case INTAKE:
+        return getAngleBetweenRobotAndNote(Robot);
+
+      case FEED:
+        return getAngleOffsetToFeedRotation(Robot);
+
+      case AMP:
+        return getAngleOffsetToAmp(Robot);
+
+      default:
+        return new Rotation2d(0);
+    }
+  }
+
+  private static Rotation2d getAngleBetweenRobotAndSpeeker(Pose2d Robot) {
+    Translation2d SpeekerPos =
+        isRed()
+            ? Constants.Vision.SpeekerRed.toTranslation2d()
+            : Constants.Vision.SpeekerBlue.toTranslation2d();
+
+    // add offset to robot Pos
+    Robot.minus(new Pose2d(SpeekerPos, new Rotation2d(0)));
+
+    // get angle
+    return new Rotation2d(Robot.getX(), Robot.getY());
+  }
+
+  private static Rotation2d getAngleBetweenRobotAndNote(Pose2d Robot) {
+    return new Rotation2d();
+  }
+
+  private static Rotation2d getAngleOffsetToAmp(Pose2d Robot) {
+    return new Rotation2d();
+  }
+
+  private static Rotation2d getAngleOffsetToFeedRotation(Pose2d Robot) {
+    return new Rotation2d();
+  }
+
+  private static double addTranslationMod(double input) {
+    return input * Goals.getTranslationMod();
+  }
+
+  private static double addRotationMod(double input) {
+    return input * Goals.getRotationnMod();
   }
 }
