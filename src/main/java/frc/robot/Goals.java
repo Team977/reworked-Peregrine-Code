@@ -36,8 +36,6 @@ public class Goals {
   private static final double SpeekerSwitchPosX = 6;
   private static final double NoteSwitchPoseX = 11;
 
-  private static List<Supplier<GoalChangeInfo>> goalChangeInfoSup = new ArrayList<>(0);
-
   public static void setPositionSuppler(Supplier<Pose2d> positionSup) {
     position = positionSup;
   }
@@ -45,13 +43,6 @@ public class Goals {
   public static void Update() {
 
     SmartDashboard.putString("goal", goalInfo.goal.toString());
-
-    for (int i = 0; i < goalChangeInfoSup.size(); i++) {
-      if (goalChangeInfoSup.get(i).get().change) {
-        goalInfo.goal = goalChangeInfoSup.get(i).get().GoaltoChange;
-        return;
-      }
-    }
 
     if (!goalInfo.PassivlysSwitch) {
       return;
