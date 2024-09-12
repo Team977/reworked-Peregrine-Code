@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 import frc.robot.Goals;
+import frc.robot.Math977;
 import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
 
@@ -73,7 +75,7 @@ public class DriveCommands {
                   .getTranslation();
 
           // Convert to field relative speeds & send command
-          boolean isFlipped = isRed();
+          boolean isFlipped = Math977.isRed();
           drive.runVelocity(
               ChassisSpeeds.fromFieldRelativeSpeeds(
                   linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
@@ -84,11 +86,6 @@ public class DriveCommands {
                       : drive.getRotation()));
         },
         drive);
-  }
-
-  private static boolean isRed() {
-    return DriverStation.getAlliance().isPresent()
-        && DriverStation.getAlliance().get() == Alliance.Red;
   }
 
   private static final ProfiledPIDController PID =
@@ -105,7 +102,7 @@ public class DriveCommands {
   private static Rotation2d getDiseredAutoRotationOffset(Pose2d Robot) {
     switch (Goals.getGoalInfo().goal) {
       case SPEEKER:
-        return getAngleBetweenRobotAndSpeeker(Robot);
+        return getAngleBetweenRobotAndSpeeker(Robot.getTranslation());
 
       case INTAKE:
         return getAngleBetweenRobotAndNote(Robot);
@@ -121,17 +118,8 @@ public class DriveCommands {
     }
   }
 
-  private static Rotation2d getAngleBetweenRobotAndSpeeker(Pose2d Robot) {
-    Translation2d SpeekerPos =
-        isRed()
-            ? Constants.Vision.SpeekerRed.toTranslation2d()
-            : Constants.Vision.SpeekerBlue.toTranslation2d();
-
-    // add offset to robot Pos
-    Robot.minus(new Pose2d(SpeekerPos, new Rotation2d(0)));
-
-    // get angle
-    return new Rotation2d(Robot.getX(), Robot.getY());
+  private static Rotation2d getAngleBetweenRobotAndSpeeker(Translation2d Robot) {
+    return Math977.getRotationBetweanSpeekerAndRobotYaw(new Translation3d(Robot.getX(), Robot.getY(), 0));
   }
 
   private static Rotation2d getAngleBetweenRobotAndNote(Pose2d Robot) {
