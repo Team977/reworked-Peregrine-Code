@@ -31,6 +31,6 @@ public class IntakeMotorsIOSim implements IntakeMotorsIO {
   }
 
   public boolean HasNote() {
-    return true;
+    return false;
   }
 }

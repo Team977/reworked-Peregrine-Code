@@ -86,10 +86,7 @@ public class Aim extends SubsystemBase {
 
   public boolean atPosition(Rotation2d angle, Rotation2d treashould) {
 
-    double ShooterAngle = angle.getDegrees();
-
-    return getAngle().getDegrees() > ShooterAngle - treashould.getDegrees()
-        && getAngle().getDegrees() < ShooterAngle + treashould.getDegrees();
+    return Math.abs(angle.getDegrees() - getAngle().getDegrees()) < treashould.getDegrees();
   }
 
   public boolean atPosition(Rotation2d treashould) {
@@ -108,6 +105,10 @@ public class Aim extends SubsystemBase {
   /** Returns a command to run a dynamic test in the specified direction. */
   public Command sysIdDynamic(SysIdRoutine.Direction direction) {
     return sysId.dynamic(direction);
+  }
+
+  public void STOP() {
+    AimMotorsIO.stop();
   }
 
   @Override

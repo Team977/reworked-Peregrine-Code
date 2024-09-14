@@ -34,9 +34,7 @@ public class IOSim implements IOMoudlue {
     SmartDashboard.putBoolean(setModeDriveFast, false);
     SmartDashboard.putBoolean(setModeDriveNormal, false);
     SmartDashboard.putBoolean(setModeDriveSlow, false);
-
-
-}
+  }
 
   public DoubleSupplier getXPower() {
     return () -> simJoystick.getRawAxis(0);

@@ -20,12 +20,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.DriveCommands;
-import frc.robot.commands.aimPassive;
-import frc.robot.commands.shooterPassive;
+import frc.robot.commands.BasicCommands.RunIntake;
+import frc.robot.commands.Passive.DriveCommands;
+import frc.robot.commands.Passive.shooterPassive;
 import frc.robot.subsystems.IO.IOMoudlue;
 import frc.robot.subsystems.IO.IOSim;
 import frc.robot.subsystems.Vision;
@@ -155,13 +154,10 @@ public class RobotContainer {
         DriveCommands.joystickDrive(
             drive, Contruller.getXPower(), Contruller.getYPower(), Contruller.getOmegaPower()));
 
-    aim.setDefaultCommand(aimPassive.aimPassive(aim));
+    // aim.setDefaultCommand(aimPassive.aimPassive(aim));
     shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
-    Command testMagFull = Commands.run(() -> intake.intakeNote(1), shooter);
-    Command testMagNo = Commands.run(() -> intake.intakeNote(0), shooter);
-
-    Contruller.getShooterReady().onTrue(testMagFull);
+    SmartDashboard.putData("intake", new RunIntake(intake, 1));
   }
 
   /**

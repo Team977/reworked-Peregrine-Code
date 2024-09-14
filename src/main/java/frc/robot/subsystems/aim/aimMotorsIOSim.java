@@ -73,4 +73,8 @@ public class aimMotorsIOSim implements aimMotorsIO {
 
   public void resetAimZeroPosition() {}
   ;
+
+  public void stop() {
+    m_armSim.setInputVoltage(0);
+  }
 }
