@@ -24,7 +24,8 @@ public class Shoot extends Command {
   private final Trigger timerStart;
 
   /** Creates a new Shoot. */
-  public Shoot(Shooter shooter, Intake intake, double shooterSpeed, double intakeSpeed, double shooterTime) {
+  public Shoot(
+      Shooter shooter, Intake intake, double shooterSpeed, double intakeSpeed, double shooterTime) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.shooter = shooter;
@@ -50,15 +51,13 @@ public class Shoot extends Command {
     shooter.setVelocity(shooterSpeed);
 
     timerStart.onTrue(Commands.run(() -> timer.restart()));
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
-    timer.stop();
 
+    timer.stop();
   }
 
   // Returns true when the command should end.
