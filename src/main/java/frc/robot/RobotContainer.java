@@ -15,17 +15,15 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.DriveCommands;
-import frc.robot.commands.aimPassive;
-import frc.robot.commands.shooterPassive;
+import frc.robot.commands.Passive.DriveCommands;
+import frc.robot.commands.Passive.aimPassive;
+import frc.robot.commands.Passive.shooterPassive;
+import frc.robot.subsystems.IO.IOJoystick;
 import frc.robot.subsystems.IO.IOMoudlue;
 import frc.robot.subsystems.IO.IOSim;
 import frc.robot.subsystems.Vision;
@@ -39,9 +37,6 @@ import frc.robot.subsystems.drive.ModuleIOSparkMax;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeMotorsIOSim;
 import frc.robot.subsystems.intake.IntakeMotorsIOVictor;
-import frc.robot.subsystems.shooter.mag.MagRoller;
-import frc.robot.subsystems.shooter.mag.magMotorFalcon;
-import frc.robot.subsystems.shooter.mag.magRollerSim;
 import frc.robot.subsystems.shooter.shooterSub.Shooter;
 import frc.robot.subsystems.shooter.shooterSub.shooterMotorFalcon;
 import frc.robot.subsystems.shooter.shooterSub.shooterRollerSim;
@@ -59,18 +54,11 @@ public class RobotContainer {
 
   public static Drive drive;
   public static Aim aim;
-  public static MagRoller magRoller;
   public static Shooter shooter;
   public static Intake intake;
   public static final Vision vision = new Vision();
 
   private static IOMoudlue Contruller;
-
-  // Controller
-  private final CommandXboxController driverController = new CommandXboxController(0);
-  private final CommandXboxController operatorController = new CommandXboxController(1);
-
-  private final Joystick simJoystick = new Joystick(0);
 
   //  private final OIbase OI = new OIGuitarAndJoystick(1,0);
   // Dashboard inputs
@@ -90,7 +78,6 @@ public class RobotContainer {
                 new ModuleIOSim());
 
         aim = new Aim(new aimMotorsIOSim());
-        magRoller = new MagRoller(new magRollerSim());
         shooter = new Shooter(new shooterRollerSim());
         intake = new Intake(new IntakeMotorsIOSim());
         Contruller = new IOSim();
@@ -107,10 +94,9 @@ public class RobotContainer {
                 new ModuleIOSparkMax(3));
 
         aim = new Aim(new aimMotorsIOKraken());
-        magRoller = new MagRoller(new magMotorFalcon());
         shooter = new Shooter(new shooterMotorFalcon());
         intake = new Intake(new IntakeMotorsIOVictor());
-        Contruller = new IOSim();
+        Contruller = new IOJoystick();
 
         break;
     }
@@ -157,11 +143,6 @@ public class RobotContainer {
 
     aim.setDefaultCommand(aimPassive.aimPassive(aim));
     shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
-
-    Command testMagFull = Commands.run(() -> intake.intakeNote(1), shooter);
-    Command testMagNo = Commands.run(() -> intake.intakeNote(0), shooter);
-
-    Contruller.getShooterReady().onTrue(testMagFull);
   }
 
   /**
