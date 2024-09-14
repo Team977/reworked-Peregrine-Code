@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.aimPassive;
 import frc.robot.commands.shooterPassive;
+import frc.robot.subsystems.IO.IOMoudlue;
+import frc.robot.subsystems.IO.IOSim;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.aim.Aim;
 import frc.robot.subsystems.aim.aimMotorsIOKraken;
@@ -62,6 +64,8 @@ public class RobotContainer {
   public static Intake intake;
   public static final Vision vision = new Vision();
 
+  private static IOMoudlue Contruller;
+
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
@@ -89,6 +93,7 @@ public class RobotContainer {
         magRoller = new MagRoller(new magRollerSim());
         shooter = new Shooter(new shooterRollerSim());
         intake = new Intake(new IntakeMotorsIOSim());
+        Contruller = new IOSim();
 
         break;
 
@@ -105,6 +110,7 @@ public class RobotContainer {
         magRoller = new MagRoller(new magMotorFalcon());
         shooter = new Shooter(new shooterMotorFalcon());
         intake = new Intake(new IntakeMotorsIOVictor());
+        Contruller = new IOSim();
 
         break;
     }
@@ -147,10 +153,7 @@ public class RobotContainer {
 
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive,
-            () -> -simJoystick.getRawAxis(0),
-            () -> -simJoystick.getRawAxis(1),
-            () -> -simJoystick.getRawAxis(2)));
+            drive, Contruller.getXPower(), Contruller.getYPower(), Contruller.getOmegaPower()));
 
     aim.setDefaultCommand(aimPassive.aimPassive(aim));
     shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
@@ -158,8 +161,7 @@ public class RobotContainer {
     Command testMagFull = Commands.run(() -> intake.intakeNote(1), shooter);
     Command testMagNo = Commands.run(() -> intake.intakeNote(0), shooter);
 
-    SmartDashboard.putData("Full", testMagFull);
-    SmartDashboard.putData("no", testMagNo);
+    Contruller.getShooterReady().onTrue(testMagFull);
   }
 
   /**

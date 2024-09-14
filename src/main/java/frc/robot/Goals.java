@@ -2,8 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
 public class Goals {
@@ -66,10 +64,6 @@ public class Goals {
       goalInfo.goal = Goal.INTAKE;
       return;
     }
-  }
-
-  public static void addGoalChangeInfo(Supplier<GoalChangeInfo> newGoalChangeInfo) {
-    goalChangeInfoSup.add(newGoalChangeInfo);
   }
 
   public static Supplier<GoalInfo> getGoalInfo_Supplier() {
