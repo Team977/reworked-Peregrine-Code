@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.intake.IntakeSub.Intake;
-import frc.robot.subsystems.shooter.shooterSub.Shooter;
+import frc.robot.subsystems.shooter.Shooter;
 
 public class Shoot extends Command {
 

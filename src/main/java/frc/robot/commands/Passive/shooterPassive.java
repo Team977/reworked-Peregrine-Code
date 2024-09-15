@@ -3,8 +3,8 @@ package frc.robot.commands.Passive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Goals;
+import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterConstants;
-import frc.robot.subsystems.shooter.shooterSub.Shooter;
 
 public class shooterPassive {
 

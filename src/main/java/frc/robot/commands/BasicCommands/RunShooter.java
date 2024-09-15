@@ -5,7 +5,7 @@
 package frc.robot.commands.BasicCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.shooter.shooterSub.Shooter;
+import frc.robot.subsystems.shooter.Shooter;
 
 public class RunShooter extends Command {
 

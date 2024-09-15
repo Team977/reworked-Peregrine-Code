@@ -17,8 +17,9 @@ import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.subsystems.aim.Aim;
 import frc.robot.subsystems.aim.aimConstaints;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterConstants;
-import frc.robot.subsystems.shooter.shooterSub.Shooter;
+
 import java.util.function.Supplier;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

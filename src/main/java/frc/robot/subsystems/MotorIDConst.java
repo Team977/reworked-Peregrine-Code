@@ -5,6 +5,7 @@ public class MotorIDConst {
   // intake
   public static final int IntakefrontRollersID = 19;
   public static final int IntakeBackRollersID = 6;
+  public static final int FeedIntakeID = 1;
 
   // Shooter
   public static final int ShooterleaderAimingKrakenID = 12;

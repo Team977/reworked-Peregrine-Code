@@ -13,7 +13,7 @@ import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.subsystems.aim.Aim;
 import frc.robot.subsystems.aim.aimConstaints;
 import frc.robot.subsystems.intake.IntakeSub.Intake;
-import frc.robot.subsystems.shooter.shooterSub.Shooter;
+import frc.robot.subsystems.shooter.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

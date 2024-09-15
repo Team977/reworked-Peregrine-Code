@@ -1,4 +1,4 @@
-package frc.robot.subsystems.shooter.shooterSub;
+package frc.robot.subsystems.shooter;
 
 public interface shooterMotorIO {
 

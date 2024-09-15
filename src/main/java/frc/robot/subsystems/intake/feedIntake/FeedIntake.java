@@ -12,10 +12,11 @@ import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.MotorIDConst;
 
 public class FeedIntake extends SubsystemBase {
 
-  private static final VictorSPX FeedFrontRollers_REAL = new VictorSPX(1);
+  private static final VictorSPX FeedFrontRollers_REAL = new VictorSPX(MotorIDConst.FeedIntakeID);
   private static final DCMotorSim FeedFrontRollers_SIM =
       new DCMotorSim(DCMotor.getMiniCIM(1), 1, .2);
 

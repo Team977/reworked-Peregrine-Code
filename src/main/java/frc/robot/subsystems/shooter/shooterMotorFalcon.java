@@ -1,4 +1,4 @@
-package frc.robot.subsystems.shooter.shooterSub;
+package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -8,7 +8,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.robot.Constants;
 import frc.robot.subsystems.MotorIDConst;
-import frc.robot.subsystems.shooter.ShooterConstants;
 
 public class shooterMotorFalcon implements shooterMotorIO {
 

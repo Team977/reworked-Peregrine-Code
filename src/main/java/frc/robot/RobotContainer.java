@@ -40,9 +40,9 @@ import frc.robot.subsystems.intake.IntakeSub.Intake;
 import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIOSim;
 import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIOVictor;
 import frc.robot.subsystems.intake.feedIntake.FeedIntake;
-import frc.robot.subsystems.shooter.shooterSub.Shooter;
-import frc.robot.subsystems.shooter.shooterSub.shooterMotorFalcon;
-import frc.robot.subsystems.shooter.shooterSub.shooterRollerSim;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.shooterMotorFalcon;
+import frc.robot.subsystems.shooter.shooterRollerSim;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
