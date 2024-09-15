@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.BasicCommands.runFeedIntake;
 import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.commands.Passive.shooterPassive;
 import frc.robot.subsystems.IO.IOJoystick;
@@ -148,7 +148,7 @@ public class RobotContainer {
     // aim.setDefaultCommand(aimPassive.aimPassive(aim));
     shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
-    SmartDashboard.putData("intake", Commands.run(() -> feedIntake.setSpeed(1), feedIntake));
+    SmartDashboard.putData("intake", new runFeedIntake(feedIntake, 1));
   }
 
   /**
