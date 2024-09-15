@@ -14,18 +14,19 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.BasicCommands.AngleShooter;
+import frc.robot.commands.BasicCommands.RunIntake;
+import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.commands.Passive.DriveCommands;
-import frc.robot.commands.Passive.shooterPassive;
-import frc.robot.subsystems.IO.IOJoystick;
-import frc.robot.subsystems.IO.IOMoudlue;
-import frc.robot.subsystems.IO.IOSim;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.aim.Aim;
 import frc.robot.subsystems.aim.aimMotorsIOKraken;
@@ -60,7 +61,8 @@ public class RobotContainer {
   public static final Vision vision = new Vision();
   public static FeedIntake feedIntake;
 
-  private static IOMoudlue Contruller;
+  private static final CommandXboxController test = new CommandXboxController(0);
+  // private static IOMoudlue Contruller;
 
   //  private final OIbase OI = new OIGuitarAndJoystick(1,0);
   // Dashboard inputs
@@ -82,7 +84,7 @@ public class RobotContainer {
         aim = new Aim(new aimMotorsIOSim());
         shooter = new Shooter(new shooterRollerSim());
         intake = new Intake(new IntakeMotorsIOSim());
-        Contruller = new IOSim();
+        // Contruller = new IOSim();
         feedIntake = new FeedIntake();
 
         break;
@@ -99,7 +101,7 @@ public class RobotContainer {
         aim = new Aim(new aimMotorsIOKraken());
         shooter = new Shooter(new shooterMotorFalcon());
         intake = new Intake(new IntakeMotorsIOVictor());
-        Contruller = new IOJoystick();
+        // Contruller = new IOJoystick();
         feedIntake = new FeedIntake();
 
         break;
@@ -143,12 +145,16 @@ public class RobotContainer {
 
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive, Contruller.getXPower(), Contruller.getYPower(), Contruller.getOmegaPower()));
+            drive, () -> test.getLeftX(), () -> test.getLeftY(), () -> test.getRightX()));
 
     // aim.setDefaultCommand(aimPassive.aimPassive(aim));
-    shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
+    // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
-    SmartDashboard.putData("intake", Commands.run(() -> feedIntake.setSpeed(1), feedIntake));
+    test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(Units.Degrees.of(20))));
+
+    test.b().whileTrue(new RunIntake(intake, 0.5));
+
+    test.x().whileTrue(new RunShooter(shooter, 2));
   }
 
   /**

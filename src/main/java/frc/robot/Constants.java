@@ -65,11 +65,11 @@ public final class Constants {
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
     public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
 
-    public static final Translation3d SpeekerRed = new Translation3d(0, 0, 5);
-    public static final Translation3d SpeekerBlue = new Translation3d(0, 0, 5);
+    public static final Translation3d SpeekerRed = new Translation3d(16.579342, 1.4478, 2.1209);
+    public static final Translation3d SpeekerBlue = new Translation3d(-0.0381, 1.4478, 2.1209);
   }
 
-  public static final Mode currentMode = Mode.SIM;
+  public static final Mode currentMode = Mode.REAL;
 
   public static enum Mode {
     /** Running on a real robot. */
