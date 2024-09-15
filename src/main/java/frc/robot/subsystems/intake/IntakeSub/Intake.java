@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.intake.IntakeSub;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.intake.IntakeMotorsIO.OutputIntake;
+import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIO.OutputIntake;
 
 public class Intake extends SubsystemBase {
 

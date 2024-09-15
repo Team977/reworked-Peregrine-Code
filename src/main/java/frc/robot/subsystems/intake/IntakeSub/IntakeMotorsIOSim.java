@@ -1,9 +1,9 @@
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.intake.IntakeSub;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import frc.robot.subsystems.intake.IntakeMotorsIO.OutputIntake;
+import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIO.OutputIntake;
 
 public class IntakeMotorsIOSim implements IntakeMotorsIO {
 
