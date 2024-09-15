@@ -5,10 +5,13 @@
 package frc.robot.commands.CommandGroup;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants;
 import frc.robot.Goals;
 import frc.robot.Goals.Goal;
+import frc.robot.Math977;
 import frc.robot.commands.BasicCommands.AngleShooter;
 import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.subsystems.aim.Aim;
@@ -25,6 +28,9 @@ public class getShooterReady extends ParallelCommandGroup {
   /** Creates a new getShooterReady. */
   public getShooterReady(Drive drive, Aim aim, Shooter shooter) {
 
+    Translation3d Speeker =
+        Math977.isRed() ? Constants.Vision.SpeekerRed : Constants.Vision.SpeekerBlue;
+
     Supplier<Rotation2d> shooterAngle =
         () ->
             Goals.getGoalInfo().goal == Goal.SPEEKER
@@ -34,8 +40,8 @@ public class getShooterReady extends ParallelCommandGroup {
                         drive
                             .getPose()
                             .getTranslation()
-                            .getDistance(Constants.Vision.SpeekerBlue.toTranslation2d()),
-                        Constants.Vision.SpeekerBlue.getZ())
+                            .getDistance(new Translation2d(Speeker.getX(), Speeker.getY())),
+                        Speeker.getZ())
                     .minus(new Rotation2d(Math.PI / 2))
                     .times(-1)
                 :
