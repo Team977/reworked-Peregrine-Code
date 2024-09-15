@@ -162,7 +162,7 @@ public class RobotContainer {
 
     // test last
     /*
-    test.a().whileTrue(new IntakeSequence(intake, shooter));
+    test.a().whileTrue(new IntakeSequence(feedIntake, intake, shooter));
 
     test.b().whileTrue(new getShooterReady(drive, aim, shooter));
 

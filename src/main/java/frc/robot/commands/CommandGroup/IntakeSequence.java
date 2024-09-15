@@ -7,7 +7,9 @@ package frc.robot.commands.CommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.BasicCommands.RunIntake;
 import frc.robot.commands.BasicCommands.RunShooter;
+import frc.robot.commands.BasicCommands.runFeedIntake;
 import frc.robot.subsystems.intake.IntakeSub.Intake;
+import frc.robot.subsystems.intake.feedIntake.FeedIntake;
 import frc.robot.subsystems.shooter.shooterSub.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -15,11 +17,11 @@ import frc.robot.subsystems.shooter.shooterSub.Shooter;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class IntakeSequence extends ParallelCommandGroup {
   /** Creates a new IntakeSequence. */
-  public IntakeSequence(Intake intake, Shooter shooter) {
+  public IntakeSequence(FeedIntake feedIntake, Intake intake, Shooter shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new RunIntake(intake, .75)
+        new RunIntake(intake, .75).alongWith(new runFeedIntake(feedIntake, 1))
             .andThen(
                 new RunIntake(intake, .25).repeatedly().alongWith(new RunShooter(shooter, 1))));
   }
