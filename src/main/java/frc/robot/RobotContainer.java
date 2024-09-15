@@ -146,7 +146,7 @@ public class RobotContainer {
 
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive, () -> test.getLeftX(), () -> test.getLeftY(), () -> test.getRightX()));
+            drive, () -> -test.getLeftX(), () -> -test.getLeftY(), () -> -test.getRightX()));
 
     // aim.setDefaultCommand(aimPassive.aimPassive(aim));
     // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
@@ -170,7 +170,7 @@ public class RobotContainer {
 
     test.x().whileTrue(new AmpScore(aim, shooter, intake));
 
-    test.rightTrigger().whileTrue(new Shoot(shooter, intake, ShooterConstants.SpeekerShooterSpeed, 1, 1)); */
+    test.rightTrigger().whileTrue(new Shoot(shooter, intake, ShooterConstants.SpeekerShooterSpeed, 1)); */
   }
 
   /**

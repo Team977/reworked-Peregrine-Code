@@ -29,8 +29,6 @@ public class AmpScore extends ParallelCommandGroup {
     addCommands(
 
         Commands.deadline(
-
-
                                                                                   //threashould
             Commands.waitUntil(() -> aim.atPosition(shootRotation, new Rotation2d(Math.PI / 20)))
                 // run shooter when angle close to 0

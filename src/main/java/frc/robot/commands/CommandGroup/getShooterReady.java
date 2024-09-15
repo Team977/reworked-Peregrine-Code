@@ -68,8 +68,11 @@ public class getShooterReady extends ParallelCommandGroup {
         new AngleShooter(aim, shooterAngle),
 
         // run shooter back so note note in shooter motor
-        new RunShooter(shooter, -1).withTimeout(.2).andThen(
-            new RunShooter(
+        new RunShooter(shooter, -1).withTimeout(.2)
+            .andThen(
+
+            //spin up shooter
+                new RunShooter(
                 shooter,
                     Goals.getGoalInfo().goal == Goal.SPEEKER
                     ? ShooterConstants.SpeekerShooterSpeed
