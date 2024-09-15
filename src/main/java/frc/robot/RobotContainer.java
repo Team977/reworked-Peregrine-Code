@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.BasicCommands.AngleShooter;
 import frc.robot.commands.BasicCommands.RunIntake;
 import frc.robot.commands.BasicCommands.RunShooter;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.BasicCommands.runFeedIntake;
 import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.subsystems.Vision;
@@ -152,11 +151,26 @@ public class RobotContainer {
     // aim.setDefaultCommand(aimPassive.aimPassive(aim));
     // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
+    // test first
     test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(Units.Degrees.of(20))));
 
     test.b().whileTrue(new RunIntake(intake, 0.5));
 
     test.x().whileTrue(new RunShooter(shooter, 2));
+
+    test.y().whileTrue(new runFeedIntake(feedIntake, .5));
+
+    // test last
+    /*
+    test.a().whileTrue(new IntakeSequence(intake, shooter));
+
+    test.b().whileTrue(new getShooterReady(drive, aim, shooter));
+
+    test.y().whileTrue(new getAmpReady(intake, shooter, aim));
+
+    test.x().whileTrue(new AmpScore(aim, shooter, intake));
+
+    test.rightTrigger().whileTrue(new Shoot(shooter, intake, ShooterConstants.SpeekerShooterSpeed, 1, 1)); */
   }
 
   /**
