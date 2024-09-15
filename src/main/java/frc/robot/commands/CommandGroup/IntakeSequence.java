@@ -21,6 +21,6 @@ public class IntakeSequence extends ParallelCommandGroup {
     addCommands(
         new RunIntake(intake, .75)
             .andThen(
-                new RunIntake(intake, .25).repeatedly().alongWith(new RunShooter(shooter, -2))));
+                new RunIntake(intake, .25).repeatedly().alongWith(new RunShooter(shooter, 1))));
   }
 }

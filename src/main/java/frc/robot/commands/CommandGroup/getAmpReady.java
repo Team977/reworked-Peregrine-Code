@@ -32,6 +32,13 @@ public class getAmpReady extends ParallelCommandGroup {
         Commands.deadline(
             Commands.waitUntil(() -> !intake.isNotePresent()),
             new RunIntake(intake, .2).repeatedly(),
-            new RunShooter(shooter, -1)));
+            new RunShooter(shooter, 1))
+        
+        .andThen(
+          new RunShooter(shooter, 1).withTimeout(.2))
+        )
+            
+            
+    );
   }
 }
