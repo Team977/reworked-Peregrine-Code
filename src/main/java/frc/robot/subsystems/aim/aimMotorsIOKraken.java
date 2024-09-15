@@ -148,4 +148,8 @@ public class aimMotorsIOKraken implements aimMotorsIO {
       noFollowerEncoder.set(true);
     }
   }
+
+  public void stop() {
+    leaderAimingKraken.stopMotor();
+  }
 }

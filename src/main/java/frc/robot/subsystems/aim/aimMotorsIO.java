@@ -18,6 +18,8 @@ public interface aimMotorsIO {
   }
   ;
 
+  public default void stop() {}
+
   public default void setVolts(double Volts) {}
   ;
 
