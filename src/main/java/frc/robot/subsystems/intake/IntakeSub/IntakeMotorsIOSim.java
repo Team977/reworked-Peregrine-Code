@@ -3,6 +3,7 @@ package frc.robot.subsystems.intake.IntakeSub;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIO.OutputIntake;
 
 public class IntakeMotorsIOSim implements IntakeMotorsIO {
@@ -11,6 +12,10 @@ public class IntakeMotorsIOSim implements IntakeMotorsIO {
 
   DCMotorSim topMotor = new DCMotorSim(DCMotor.getMiniCIM(1), 1, 0.1);
   DCMotorSim bottomMotor = new DCMotorSim(DCMotor.getMiniCIM(1), 1, 0.1);
+
+  public IntakeMotorsIOSim() {
+    SmartDashboard.putBoolean("Has Note", false);
+  }
 
   public OutputIntake getOutputs() {
 
@@ -31,6 +36,6 @@ public class IntakeMotorsIOSim implements IntakeMotorsIO {
   }
 
   public boolean HasNote() {
-    return false;
+    return SmartDashboard.getBoolean("Has Note", false);
   }
 }

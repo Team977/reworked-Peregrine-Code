@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Goals;
 import frc.robot.subsystems.aim.Aim;
+import frc.robot.subsystems.aim.aimConstaints;
 
 public class aimPassive {
 
@@ -15,7 +16,7 @@ public class aimPassive {
   private static Rotation2d ShooterAvg = new Rotation2d(Degree.of(35));
 
   // 45 deg
-  private static final Rotation2d shooterFeedAngle = new Rotation2d(Degree.of(45));
+  private static final Rotation2d shooterFeedAngle = aimConstaints.FeedAngle;
 
   // The avarage shooter angle when note shoot
   private static Rotation2d ShootAvgAngle = new Rotation2d(Degree.of((35 + 45) / 2));

@@ -152,17 +152,11 @@ public class RobotContainer {
     // aim.setDefaultCommand(aimPassive.aimPassive(aim));
     // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
-
-    // TEST FIRST MAKE SURE ALL RUN
     test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(Units.Degrees.of(20))));
 
     test.b().whileTrue(new RunIntake(intake, 0.5));
 
     test.x().whileTrue(new RunShooter(shooter, 2));
-
-    test.y().whileTrue(new runFeedIntake(feedIntake, .5));
-
-    //then test:
   }
 
   /**
