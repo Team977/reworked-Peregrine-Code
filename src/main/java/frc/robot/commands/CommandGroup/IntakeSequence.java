@@ -21,8 +21,17 @@ public class IntakeSequence extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new RunIntake(intake, .75).alongWith(new runFeedIntake(feedIntake, 1))
-            .andThen(
-                new RunIntake(intake, .25).repeatedly().alongWith(new RunShooter(shooter, 1))));
+
+    //once run intake finshes go forward
+        new RunIntake(intake, .75).deadlineWith(new runFeedIntake(feedIntake, 1))
+          
+
+        //pull note into shooter slowly
+        .andThen(
+                new RunIntake(intake, .15).repeatedly()
+                .alongWith(new RunShooter(shooter, -1))
+            ).withTimeout(1)
+            
+    );
   }
 }

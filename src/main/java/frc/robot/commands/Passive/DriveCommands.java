@@ -24,6 +24,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants;
 import frc.robot.Goals;
 import frc.robot.Math977;
 import frc.robot.subsystems.drive.Drive;
@@ -116,8 +117,10 @@ public class DriveCommands {
   }
 
   private static Rotation2d getAngleBetweenRobotAndSpeeker(Translation2d Robot) {
-    return Math977.getRotationBetweanSpeekerAndRobotYaw(
-        new Translation3d(Robot.getX(), Robot.getY(), 0));
+    Translation2d offset = Robot.minus(
+      Math977.isRed() ? Constants.Vision.SpeekerRed.toTranslation2d() : Constants.Vision.SpeekerBlue.toTranslation2d());
+
+    return new Rotation2d(offset.getX(), offset.getY());
   }
 
   private static Rotation2d getAngleBetweenRobotAndNote(Pose2d Robot) {

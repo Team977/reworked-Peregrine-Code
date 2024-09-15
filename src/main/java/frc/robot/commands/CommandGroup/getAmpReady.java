@@ -24,15 +24,22 @@ public class getAmpReady extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+
+        //aim shooter
         new AngleShooter(aim, () -> aimConstaints.PassiveAmpAngle, new Rotation2d(Math.PI / 30)),
 
         // along with
 
         // once the note is not seen stop
         Commands.deadline(
-                Commands.waitUntil(() -> !intake.isNotePresent()),
+
+            //run Intake and Shooter UNTIL note is not seen
+            Commands.waitUntil(() -> !intake.isNotePresent()),
                 new RunIntake(intake, .2).repeatedly(),
-                new RunShooter(shooter, 1))
-            .andThen(new RunShooter(shooter, 1).withTimeout(.2)));
+                new RunShooter(shooter, 1)
+          )
+
+        // once note is not seen run shooter for a secound
+        .andThen(new RunShooter(shooter, 1).withTimeout(.2)));
   }
 }

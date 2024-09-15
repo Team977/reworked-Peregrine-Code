@@ -19,22 +19,15 @@ public class Shoot extends Command {
   private final double shooterSpeed;
   private final double intakeSpeed;
 
-  private final Timer timer = new Timer();
-  private final double shooterTime;
-  private final Trigger timerStart;
-
   /** Creates a new Shoot. */
   public Shoot(
-      Shooter shooter, Intake intake, double shooterSpeed, double intakeSpeed, double shooterTime) {
+      Shooter shooter, Intake intake, double shooterSpeed, double intakeSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.shooter = shooter;
     this.intake = intake;
     this.intakeSpeed = intakeSpeed;
     this.shooterSpeed = shooterSpeed;
-    this.shooterTime = shooterTime;
-
-    timerStart = new Trigger(() -> intake.isNotePresent());
 
     addRequirements(shooter, intake);
   }
@@ -49,21 +42,17 @@ public class Shoot extends Command {
 
     intake.intakeNote(intakeSpeed);
     shooter.setVelocity(shooterSpeed);
-
-    timerStart.onTrue(Commands.run(() -> timer.restart()));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
 
-    timer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-    return timer.advanceIfElapsed(shooterTime);
+    return false;
   }
 }

@@ -32,6 +32,18 @@ public class getShooterReady extends ParallelCommandGroup {
     Translation3d Speeker =
         Math977.isRed() ? Constants.Vision.SpeekerRed : Constants.Vision.SpeekerBlue;
 
+    /*
+     * 
+     * 
+     * get angle 
+     * 
+     * if Speeker:
+     *    angle at speeker
+     * 
+     * if Feed:
+     *    angle at 45
+     * 
+     */
     Supplier<Rotation2d> shooterAngle =
         () ->
             Goals.getGoalInfo().goal == Goal.SPEEKER
@@ -49,14 +61,19 @@ public class getShooterReady extends ParallelCommandGroup {
                 // FEED, 45
                 aimConstaints.FeedAngle;
 
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+
     addCommands(
+        
+        // aim shooter
         new AngleShooter(aim, shooterAngle),
-        new RunShooter(
-            shooter,
-            Goals.getGoalInfo().goal == Goal.SPEEKER
-                ? ShooterConstants.SpeekerShooterSpeed
-                : ShooterConstants.FeedShooterSpeed));
+
+        // run shooter back so note note in shooter motor
+        new RunShooter(shooter, -1).withTimeout(.2).andThen(
+            new RunShooter(
+                shooter,
+                    Goals.getGoalInfo().goal == Goal.SPEEKER
+                    ? ShooterConstants.SpeekerShooterSpeed
+                    : ShooterConstants.FeedShooterSpeed)
+        ));
   }
 }
