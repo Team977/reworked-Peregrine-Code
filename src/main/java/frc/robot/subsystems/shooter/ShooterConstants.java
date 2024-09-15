@@ -1,15 +1,11 @@
 package frc.robot.subsystems.shooter;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-
 public class ShooterConstants {
 
   // rps
   public static final double SpeekerShooterSpeed = 4;
   // rps
   public static final double FeedShooterSpeed = 4;
-
-  public static final Rotation2d PassiveAmpAngle = new Rotation2d(0);
 
   public static final double ShooterMagRollerSpeed = -1.0;
   public static final double IntakeMagRollerSpeed = -0.5;
