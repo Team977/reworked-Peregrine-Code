@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.CommandGroup.getShooterReady;
+import frc.robot.commands.CommandGroup.getAmpReady;
 import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.subsystems.IO.IOJoystick;
 import frc.robot.subsystems.IO.IOMoudlue;
@@ -147,7 +147,7 @@ public class RobotContainer {
     // aim.setDefaultCommand(aimPassive.aimPassive(aim));
     // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
-    SmartDashboard.putData("intake", new getShooterReady(drive, aim, shooter));
+    SmartDashboard.putData("intake", new getAmpReady(intake, shooter, aim));
   }
 
   /**

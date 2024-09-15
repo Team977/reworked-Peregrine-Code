@@ -35,7 +35,7 @@ public class RunIntake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.intakeNote(0);
+    // intake.intakeNote(0);
   }
 
   // Returns true when the command should end.

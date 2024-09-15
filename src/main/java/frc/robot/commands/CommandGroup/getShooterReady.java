@@ -43,7 +43,7 @@ public class getShooterReady extends ParallelCommandGroup {
                             .getDistance(new Translation2d(Speeker.getX(), Speeker.getY())),
                         Speeker.getZ())
                     .minus(new Rotation2d(Math.PI / 2))
-                    .times(-1)
+                    .times(1)
                 :
                 // FEED, 45
                 aimConstaints.FeedAngle;
