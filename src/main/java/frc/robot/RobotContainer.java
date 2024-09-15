@@ -157,6 +157,8 @@ public class RobotContainer {
     test.b().whileTrue(new RunIntake(intake, 0.5));
 
     test.x().whileTrue(new RunShooter(shooter, 2));
+
+    test.y().whileTrue(new runFeedIntake(feedIntake, .5));
   }
 
   /**
