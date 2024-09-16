@@ -76,7 +76,7 @@ public class ModuleIOSparkMax implements ModuleIO {
         turnSparkMax = new CANSparkMax(2, MotorType.kBrushless);
         cancoder = new CANcoder(3);
         // turnAbsoluteEncoder = new AnalogInput(0);
-        absoluteEncoderOffset = new Rotation2d(-0.062256 * 2 * Math.PI); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(-0.077881 * 2 * Math.PI); // MUST BE CALIBRATED
         break;
 
         // Front Right
@@ -84,7 +84,7 @@ public class ModuleIOSparkMax implements ModuleIO {
         driveSparkMax = new CANSparkMax(4, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(5, MotorType.kBrushless);
         cancoder = new CANcoder(6);
-        absoluteEncoderOffset = new Rotation2d(0.126221 * 2 * Math.PI); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(0.283936 * 2 * Math.PI); // MUST BE CALIBRATED
         break;
 
         // Back Left
@@ -92,7 +92,7 @@ public class ModuleIOSparkMax implements ModuleIO {
         driveSparkMax = new CANSparkMax(7, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(8, MotorType.kBrushless);
         cancoder = new CANcoder(9);
-        absoluteEncoderOffset = new Rotation2d(-0.0625 * 2 * Math.PI); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(0.098633 * 2 * Math.PI); // MUST BE CALIBRATED
         break;
 
         // Back Right
@@ -100,7 +100,7 @@ public class ModuleIOSparkMax implements ModuleIO {
         driveSparkMax = new CANSparkMax(10, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(11, MotorType.kBrushless);
         cancoder = new CANcoder(12);
-        absoluteEncoderOffset = new Rotation2d(-0.299805 * 2 * Math.PI); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(-0.145020 * 2 * Math.PI); // MUST BE CALIBRATED
         break;
 
       default:

@@ -27,19 +27,14 @@ public class AmpScore extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-
         Commands.deadline(
-                                                                                  //threashould
+            // threashould
             Commands.waitUntil(() -> aim.atPosition(shootRotation, new Rotation2d(Math.PI / 20)))
                 // run shooter when angle close to 0
                 .andThen(new RunShooter(shooter, 4).alongWith(new RunIntake(intake, .5)))
                 .withTimeout(1),
 
-            //ends when above command ends:
-            new AngleShooter(aim, () -> aimConstaints.PassiveAmpAngle.times(-1))
-          
-          )
-            
-    );
+            // ends when above command ends:
+            new AngleShooter(aim, () -> aimConstaints.PassiveAmpAngle.times(-1))));
   }
 }

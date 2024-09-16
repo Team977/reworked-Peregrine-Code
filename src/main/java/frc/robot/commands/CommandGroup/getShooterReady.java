@@ -19,7 +19,6 @@ import frc.robot.subsystems.aim.aimConstaints;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterConstants;
-
 import java.util.function.Supplier;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -33,16 +32,16 @@ public class getShooterReady extends ParallelCommandGroup {
         Math977.isRed() ? Constants.Vision.SpeekerRed : Constants.Vision.SpeekerBlue;
 
     /*
-     * 
-     * 
-     * get angle 
-     * 
+     *
+     *
+     * get angle
+     *
      * if Speeker:
      *    angle at speeker
-     * 
+     *
      * if Feed:
      *    angle at 45
-     * 
+     *
      */
     Supplier<Rotation2d> shooterAngle =
         () ->
@@ -61,22 +60,21 @@ public class getShooterReady extends ParallelCommandGroup {
                 // FEED, 45
                 aimConstaints.FeedAngle;
 
-
     addCommands(
-        
+
         // aim shooter
         new AngleShooter(aim, shooterAngle),
 
         // run shooter back so note note in shooter motor
-        new RunShooter(shooter, -1).withTimeout(.2)
+        new RunShooter(shooter, -1)
+            .withTimeout(.2)
             .andThen(
 
-            //spin up shooter
+                // spin up shooter
                 new RunShooter(
-                shooter,
+                    shooter,
                     Goals.getGoalInfo().goal == Goal.SPEEKER
-                    ? ShooterConstants.SpeekerShooterSpeed
-                    : ShooterConstants.FeedShooterSpeed)
-        ));
+                        ? ShooterConstants.SpeekerShooterSpeed
+                        : ShooterConstants.FeedShooterSpeed)));
   }
 }

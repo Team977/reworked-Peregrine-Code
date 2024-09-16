@@ -4,10 +4,7 @@
 
 package frc.robot.commands.BasicCommands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.intake.IntakeSub.Intake;
 import frc.robot.subsystems.shooter.Shooter;
 
@@ -20,8 +17,7 @@ public class Shoot extends Command {
   private final double intakeSpeed;
 
   /** Creates a new Shoot. */
-  public Shoot(
-      Shooter shooter, Intake intake, double shooterSpeed, double intakeSpeed) {
+  public Shoot(Shooter shooter, Intake intake, double shooterSpeed, double intakeSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.shooter = shooter;
@@ -46,9 +42,7 @@ public class Shoot extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

@@ -14,8 +14,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -23,10 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.BasicCommands.AngleShooter;
-import frc.robot.commands.BasicCommands.RunIntake;
 import frc.robot.commands.BasicCommands.RunShooter;
-import frc.robot.commands.BasicCommands.runFeedIntake;
+import frc.robot.commands.CommandGroup.IntakeSequence;
 import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.aim.Aim;
@@ -152,18 +148,18 @@ public class RobotContainer {
     // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
     // test first
-    test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(Units.Degrees.of(20))));
+    // test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(Units.Degrees.of(-35))));
 
-    test.b().whileTrue(new RunIntake(intake, 0.5));
+    // test.b().whileTrue(new RunIntake(intake, -0.5));
 
-    test.x().whileTrue(new RunShooter(shooter, 2));
+    //test.x().whileTrue(new RunShooter(shooter, 2));
 
-    test.y().whileTrue(new runFeedIntake(feedIntake, .5));
+    // test.y().whileTrue(new runFeedIntake(feedIntake, -.5));
 
     // test last
-    /*
-    test.a().whileTrue(new IntakeSequence(feedIntake, intake, shooter));
 
+    test.a().whileTrue(new IntakeSequence(feedIntake, intake, shooter));
+    /*
     test.b().whileTrue(new getShooterReady(drive, aim, shooter));
 
     test.y().whileTrue(new getAmpReady(intake, shooter, aim));

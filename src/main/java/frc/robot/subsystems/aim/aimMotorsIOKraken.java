@@ -77,25 +77,25 @@ public class aimMotorsIOKraken implements aimMotorsIO {
 
   public boolean setAngle(Rotation2d angle) {
 
-    if (angle.getDegrees() > -70 && angle.getDegrees() < 45) {
+    // if (angle.getDegrees() > -70 && angle.getDegrees() < 45) {
 
-      leaderAimingKraken.setControl(
-          new MotionMagicVoltage(
-              angle.getRotations() * ShooterConstants.kAimGearRatio,
-              true,
-              0.0,
-              0,
-              true,
-              false,
-              false));
+    leaderAimingKraken.setControl(
+        new MotionMagicVoltage(
+            angle.getRotations() * ShooterConstants.kAimGearRatio,
+            true,
+            0.0,
+            0,
+            true,
+            false,
+            false));
 
-      aimOutofLimit.set(false);
-      return true;
-    } else {
+    aimOutofLimit.set(false);
+    return true;
+    // } else {
 
-      aimOutofLimit.set(true);
-      return false;
-    }
+    //  aimOutofLimit.set(true);
+    //  return false;
+    // }
   }
   ;
 
@@ -109,9 +109,14 @@ public class aimMotorsIOKraken implements aimMotorsIO {
     OutputAim outputAim = new OutputAim();
 
     outputAim.Current = leaderAimCurrent.getValueAsDouble();
-    outputAim.Rotation = new Rotation2d(Rotations.of(leaderAimPosition.getValueAsDouble()));
+    outputAim.Rotation =
+        new Rotation2d(
+            Rotations.of(leaderAimPosition.getValueAsDouble() / aimConstaints.kAimGearRatio));
     outputAim.Velocity = leaderAimVelocity.getValueAsDouble();
     outputAim.Volts = leaderAimAppliedVolts.getValueAsDouble();
+
+    SmartDashboard.putNumber("LEncoder", leaderAimEncoder.getAbsolutePosition());
+    SmartDashboard.putNumber("FEncoder", followerAimEncoder.getAbsolutePosition());
 
     return outputAim;
   }
@@ -128,8 +133,8 @@ public class aimMotorsIOKraken implements aimMotorsIO {
 
     if (leaderAimEncoder.isConnected()) {
       var rotations =
-          (leaderAimEncoder.getAbsolutePosition() - ShooterConstants.kLeaderAimOffset)
-              * ShooterConstants.kAimGearRatio;
+          (leaderAimEncoder.getAbsolutePosition() - aimConstaints.kLeaderAimOffset)
+              * aimConstaints.kAimGearRatio;
       leaderAimingKraken.setPosition(-rotations);
       followerAimingKraken.setPosition(-rotations);
       noLeadEncoder.set(false);
