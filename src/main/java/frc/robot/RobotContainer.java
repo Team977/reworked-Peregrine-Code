@@ -19,10 +19,14 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.BasicCommands.RunShooter;
+import frc.robot.commands.BasicCommands.Shoot;
+import frc.robot.commands.CommandGroup.AmpScore;
 import frc.robot.commands.CommandGroup.IntakeSequence;
+import frc.robot.commands.CommandGroup.getShooterReady;
 import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.aim.Aim;
@@ -37,6 +41,7 @@ import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIOSim;
 import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIOVictor;
 import frc.robot.subsystems.intake.feedIntake.FeedIntake;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.subsystems.shooter.shooterMotorFalcon;
 import frc.robot.subsystems.shooter.shooterRollerSim;
 
@@ -158,15 +163,22 @@ public class RobotContainer {
 
     // test last
 
-    test.a().whileTrue(new IntakeSequence(feedIntake, intake, shooter));
-    /*
-    test.b().whileTrue(new getShooterReady(drive, aim, shooter));
+    Command intakeSequence = new IntakeSequence(feedIntake, intake, shooter);
+    Command getShooterReady = new getShooterReady(drive, aim, shooter);
+    Command getAmpReady = new AmpScore(aim, shooter, intake);
+    Command ampScore = new AmpScore(aim, shooter, intake);
+    Command shoot = new Shoot(shooter, intake, 1, ShooterConstants.SpeekerShooterSpeed);
 
+    test.leftStick().onTrue(intakeSequence).onFalse(CancleCommand(intakeSequence));
+    
+    test.leftTrigger().whileTrue(getShooterReady).onFalse(CancleCommand(shoot));
+
+    test.rightTrigger().whileTrue(shoot).onFalse(CancleCommand(shoot));
+    /*
     test.y().whileTrue(new getAmpReady(intake, shooter, aim));
 
     test.x().whileTrue(new AmpScore(aim, shooter, intake));
-
-    test.rightTrigger().whileTrue(new Shoot(shooter, intake, ShooterConstants.SpeekerShooterSpeed, 1)); */
+    */
   }
 
   /**
@@ -176,5 +188,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
+  }
+
+  public Command CancleCommand(Command command) {
+    return Commands.run(() -> command.cancel());
   }
 }
