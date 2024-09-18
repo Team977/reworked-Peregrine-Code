@@ -69,7 +69,7 @@ public final class Constants {
     public static final Translation3d SpeekerBlue = new Translation3d(-0.0381, 5.5, 1.4478);
   }
 
-  public static final Mode currentMode = Mode.SIM;
+  public static final Mode currentMode = Mode.REAL;
 
   public static enum Mode {
     /** Running on a real robot. */
