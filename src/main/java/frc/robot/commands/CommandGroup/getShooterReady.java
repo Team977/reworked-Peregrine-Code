@@ -13,10 +13,12 @@ import frc.robot.Goals;
 import frc.robot.Goals.Goal;
 import frc.robot.Math977;
 import frc.robot.commands.BasicCommands.AngleShooter;
+import frc.robot.commands.BasicCommands.RunIntake;
 import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.subsystems.aim.Aim;
 import frc.robot.subsystems.aim.aimConstaints;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.intake.IntakeSub.Intake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterConstants;
 import java.util.function.Supplier;
@@ -26,7 +28,7 @@ import java.util.function.Supplier;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class getShooterReady extends ParallelCommandGroup {
   /** Creates a new getShooterReady. */
-  public getShooterReady(Drive drive, Aim aim, Shooter shooter) {
+  public getShooterReady(Drive drive, Aim aim, Shooter shooter, Intake intake) {
 
     Translation3d Speeker =
         Math977.isRed() ? Constants.Vision.SpeekerRed : Constants.Vision.SpeekerBlue;
@@ -66,7 +68,7 @@ public class getShooterReady extends ParallelCommandGroup {
         new AngleShooter(aim, shooterAngle),
 
         // run shooter back so note note in shooter motor
-        new RunShooter(shooter, -1)
+        new RunShooter(shooter, -1).alongWith(new RunIntake(intake, -.1))
             .withTimeout(.2)
             .andThen(
 
