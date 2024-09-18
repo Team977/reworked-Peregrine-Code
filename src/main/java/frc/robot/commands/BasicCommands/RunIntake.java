@@ -12,6 +12,8 @@ public class RunIntake extends Command {
   private final Intake intake;
   private final double speed;
 
+  private boolean stop = false;
+
   /** Creates a new RunIntake. */
   public RunIntake(Intake intake, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -20,6 +22,11 @@ public class RunIntake extends Command {
     this.speed = speed;
 
     addRequirements(intake);
+  }
+
+  public RunIntake stop() {
+    stop = true;
+    return this;
   }
 
   // Called when the command is initially scheduled.
@@ -34,11 +41,14 @@ public class RunIntake extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+
+    intake.intakeNote(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intake.isNotePresent();
+    return intake.isNotePresent() && stop;
   }
 }

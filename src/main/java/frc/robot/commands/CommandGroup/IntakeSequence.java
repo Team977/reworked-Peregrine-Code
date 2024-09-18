@@ -24,6 +24,7 @@ public class IntakeSequence extends ParallelCommandGroup {
 
         // once run intake finshes go forward
         new RunIntake(intake, -.25)
+            .stop()
             .deadlineWith(new runFeedIntake(feedIntake, -1))
 
             // pull note into shooter slowly

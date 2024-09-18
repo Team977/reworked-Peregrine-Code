@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.commands.BasicCommands.Shoot;
 import frc.robot.commands.CommandGroup.AmpScore;
 import frc.robot.commands.CommandGroup.IntakeSequence;
@@ -157,11 +157,14 @@ public class RobotContainer {
 
     // test.b().whileTrue(new RunIntake(intake, -0.5));
 
-    //test.x().whileTrue(new RunShooter(shooter, 2));
+    // test.x().whileTrue(new RunShooter(shooter, 2));
 
     // test.y().whileTrue(new runFeedIntake(feedIntake, -.5));
 
     // test last
+
+    SmartDashboard.putBoolean("TEST Intake Sequnece", false);
+    Trigger run = new Trigger(() -> SmartDashboard.getBoolean("TEST Intake Sequnece", false));
 
     Command intakeSequence = new IntakeSequence(feedIntake, intake, shooter);
     Command getShooterReady = new getShooterReady(drive, aim, shooter);
@@ -169,8 +172,8 @@ public class RobotContainer {
     Command ampScore = new AmpScore(aim, shooter, intake);
     Command shoot = new Shoot(shooter, intake, 1, ShooterConstants.SpeekerShooterSpeed);
 
-    test.leftStick().onTrue(intakeSequence).onFalse(CancleCommand(intakeSequence));
-    
+    run.whileTrue(intakeSequence);
+
     test.leftTrigger().whileTrue(getShooterReady).onFalse(CancleCommand(shoot));
 
     test.rightTrigger().whileTrue(shoot).onFalse(CancleCommand(shoot));
