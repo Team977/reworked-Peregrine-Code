@@ -36,7 +36,11 @@ public class Shoot extends Command {
   @Override
   public void execute() {
 
-    intake.intakeNote(intakeSpeed);
+    if (intake.isNotePresent()) {
+      intake.intakeNote(-1);
+    } else {
+      intake.intakeNote(0);
+    }
     shooter.setVelocity(shooterSpeed);
   }
 

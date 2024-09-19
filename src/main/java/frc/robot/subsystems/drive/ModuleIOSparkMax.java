@@ -78,7 +78,8 @@ public class ModuleIOSparkMax implements ModuleIO {
         turnSparkMax = new CANSparkMax(2, MotorType.kBrushless);
         cancoder = new CANcoder(3);
         // turnAbsoluteEncoder = new AnalogInput(0);
-        absoluteEncoderOffset = new Rotation2d(Units.rotationsToRadians(-0.077881) + (driveEncoderSwitch ? Math.PI : 0)); // MUST BE CALIBRATED
+        absoluteEncoderOffset =
+            new Rotation2d(Units.rotationsToRadians(-0.073)); // MUST BE CALIBRATED
         break;
 
         // Front Right
@@ -86,7 +87,8 @@ public class ModuleIOSparkMax implements ModuleIO {
         driveSparkMax = new CANSparkMax(4, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(5, MotorType.kBrushless);
         cancoder = new CANcoder(6);
-        absoluteEncoderOffset = new Rotation2d(Units.rotationsToRadians(0.283936) + (driveEncoderSwitch ? Math.PI : 0)); // MUST BE CALIBRATED
+        absoluteEncoderOffset =
+            new Rotation2d(Units.rotationsToRadians(.117)); // MUST BE CALIBRATED
         break;
 
         // Back Left
@@ -94,7 +96,8 @@ public class ModuleIOSparkMax implements ModuleIO {
         driveSparkMax = new CANSparkMax(7, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(8, MotorType.kBrushless);
         cancoder = new CANcoder(9);
-        absoluteEncoderOffset = new Rotation2d(Units.rotationsToRadians(0.098633) + (driveEncoderSwitch ? Math.PI : 0)); // MUST BE CALIBRATED
+        absoluteEncoderOffset =
+            new Rotation2d(Units.rotationsToRadians(-.059)); // MUST BE CALIBRATED
         break;
 
         // Back Right
@@ -102,7 +105,8 @@ public class ModuleIOSparkMax implements ModuleIO {
         driveSparkMax = new CANSparkMax(10, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(11, MotorType.kBrushless);
         cancoder = new CANcoder(12);
-        absoluteEncoderOffset = new Rotation2d(Units.rotationsToRadians(-0.145020 ) + (driveEncoderSwitch ? Math.PI : 0)); // MUST BE CALIBRATED
+        absoluteEncoderOffset =
+            new Rotation2d(Units.rotationsToRadians(-0.308)); // MUST BE CALIBRATED
         break;
 
       default:

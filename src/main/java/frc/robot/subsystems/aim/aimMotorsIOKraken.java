@@ -79,22 +79,22 @@ public class aimMotorsIOKraken implements aimMotorsIO {
 
     if (angle.getDegrees() > -65 && angle.getDegrees() < 65) {
 
-    leaderAimingKraken.setControl(
-        new MotionMagicVoltage(
-            angle.getRotations() * ShooterConstants.kAimGearRatio,
-            true,
-            0.0,
-            0,
-            true,
-            false,
-            false));
+      leaderAimingKraken.setControl(
+          new MotionMagicVoltage(
+              angle.getRotations() * ShooterConstants.kAimGearRatio,
+              true,
+              0.0,
+              0,
+              true,
+              false,
+              false));
 
-    aimOutofLimit.set(false);
-    return true;
+      aimOutofLimit.set(false);
+      return true;
     } else {
 
-    aimOutofLimit.set(true);
-    return false;
+      aimOutofLimit.set(true);
+      return false;
     }
   }
   ;

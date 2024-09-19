@@ -5,7 +5,6 @@
 package frc.robot.commands.CommandGroup;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -49,18 +48,16 @@ public class getShooterReady extends ParallelCommandGroup {
     Supplier<Rotation2d> shooterAngle =
         () ->
             Goals.getGoalInfo().goal == Goal.SPEEKER
-                ?
-
-                new Rotation2d(Units.Degrees.of(-35))
+                ? new Rotation2d(Units.Degrees.of(-35))
                 // Speeker
                 /*new Rotation2d(
-                        drive
-                            .getPose()
-                            .getTranslation()
-                            .getDistance(new Translation2d(Speeker.getX(), Speeker.getY())),
-                        Speeker.getZ())
-                    .minus(new Rotation2d(Math.PI / 2))
-                    .times(1)*/
+                    drive
+                        .getPose()
+                        .getTranslation()
+                        .getDistance(new Translation2d(Speeker.getX(), Speeker.getY())),
+                    Speeker.getZ())
+                .minus(new Rotation2d(Math.PI / 2))
+                .times(1)*/
                 :
                 // FEED, 45
                 aimConstaints.FeedAngle;
@@ -71,7 +68,8 @@ public class getShooterReady extends ParallelCommandGroup {
         new AngleShooter(aim, shooterAngle),
 
         // run shooter back so note note in shooter motor
-        new RunShooter(shooter, -1).alongWith(new RunIntake(intake, -.1))
+        new RunShooter(shooter, -1)
+            .alongWith(new RunIntake(intake, -.1))
             .withTimeout(.2)
             .andThen(
 

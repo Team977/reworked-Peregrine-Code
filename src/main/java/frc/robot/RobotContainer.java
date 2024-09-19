@@ -21,8 +21,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.BasicCommands.RunIntake;
+import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.commands.BasicCommands.Shoot;
 import frc.robot.commands.CommandGroup.AmpScore;
 import frc.robot.commands.CommandGroup.IntakeSequence;
@@ -147,7 +148,7 @@ public class RobotContainer {
 
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive, () -> -test.getLeftX(), () -> -test.getLeftY(), () -> -test.getRightX()));
+            drive, () -> -test.getLeftY(), () -> -test.getLeftX(), () -> -test.getRightX()));
 
     // aim.setDefaultCommand(aimPassive.aimPassive(aim));
     // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
@@ -164,19 +165,21 @@ public class RobotContainer {
     // test last
 
     SmartDashboard.putBoolean("TEST Intake Sequnece", false);
-    Trigger run = new Trigger(() -> SmartDashboard.getBoolean("TEST Intake Sequnece", false));
-
     Command intakeSequence = new IntakeSequence(feedIntake, intake, shooter);
-    Command getShooterReady = new getShooterReady(drive, aim, shooter);
+    Command getShooterReady = new getShooterReady(drive, aim, shooter, intake);
     Command getAmpReady = new AmpScore(aim, shooter, intake);
     Command ampScore = new AmpScore(aim, shooter, intake);
-    Command shoot = new Shoot(shooter, intake, 1, ShooterConstants.SpeekerShooterSpeed);
+    Command shoot = new Shoot(shooter, intake, -.5, ShooterConstants.SpeekerShooterSpeed);
 
-    run.whileTrue(intakeSequence);
+    test.a().whileTrue(intakeSequence);
 
-    test.leftTrigger().whileTrue(getShooterReady).onFalse(CancleCommand(shoot));
+    test.leftTrigger().whileTrue(getShooterReady);
 
-    test.rightTrigger().whileTrue(shoot).onFalse(CancleCommand(shoot));
+    test.rightTrigger()
+        .whileTrue(
+            new RunShooter(shooter, ShooterConstants.SpeekerShooterSpeed)
+                .alongWith(new RunIntake(intake, 0.5)))
+        .whileFalse(new RunShooter(shooter, 0).alongWith(new RunIntake(intake, 0)));
     /*
     test.y().whileTrue(new getAmpReady(intake, shooter, aim));
 
