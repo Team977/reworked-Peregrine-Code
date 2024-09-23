@@ -47,15 +47,23 @@ public class Goals {
     }
     // else
 
-    if(goalInfo.goal == Goal.AMP || goalInfo.goal == Goal.INTAKE);
-
-    if (position.get().getX() < SpeekerSwitchPosX) {
+    if (position.get().getX() < SpeekerSwitchPosX && goalInfo.goal != Goal.AMP) {
 
       goalInfo.goal = Goal.SPEEKER;
       return;
     }
 
-    goalInfo.goal = Goal.FEED;
+    if (position.get().getX() > SpeekerSwitchPosX
+        && position.get().getX() < NoteSwitchPoseX
+        && goalInfo.goal != Goal.AMP) {
+      goalInfo.goal = Goal.FEED;
+      return;
+    }
+
+    if (position.get().getX() > NoteSwitchPoseX && goalInfo.goal != Goal.AMP) {
+      goalInfo.goal = Goal.INTAKE;
+      return;
+    }
   }
 
   public static Supplier<GoalInfo> getGoalInfo_Supplier() {
