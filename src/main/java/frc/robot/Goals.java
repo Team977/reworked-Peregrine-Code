@@ -47,9 +47,10 @@ public class Goals {
     }
     // else
 
-    if(goalInfo.goal == Goal.AMP || goalInfo.goal == Goal.INTAKE);
+    if (goalInfo.goal == Goal.AMP || goalInfo.goal == Goal.INTAKE)
+      ;
 
-    if (position.get().getX() < SpeekerSwitchPosX) {
+    if (position.get().getX() < Constants.Vision.SpeekerRed.getX() - SpeekerSwitchPosX) {
 
       goalInfo.goal = Goal.SPEEKER;
       return;
