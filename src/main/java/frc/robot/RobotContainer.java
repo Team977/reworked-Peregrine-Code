@@ -22,11 +22,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.BasicCommands.RunIntake;
-import frc.robot.commands.BasicCommands.RunShooter;
-import frc.robot.commands.BasicCommands.Shoot;
 import frc.robot.commands.CommandGroup.AmpScore;
 import frc.robot.commands.CommandGroup.IntakeSequence;
+import frc.robot.commands.CommandGroup.Shoot;
+import frc.robot.commands.CommandGroup.getAmpReady;
 import frc.robot.commands.CommandGroup.getShooterReady;
 import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.subsystems.Vision;
@@ -42,7 +41,6 @@ import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIOSim;
 import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIOVictor;
 import frc.robot.subsystems.intake.feedIntake.FeedIntake;
 import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.subsystems.shooter.shooterMotorFalcon;
 import frc.robot.subsystems.shooter.shooterRollerSim;
 
@@ -119,7 +117,6 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
 
     SmartDashboard.putData("autos", autoChooser);
-
     // Set up feedforward characterization
     // autoChooser.addOption(
     //   "Drive FF Characterization",
@@ -148,43 +145,32 @@ public class RobotContainer {
 
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive, () -> -test.getLeftY(), () -> -test.getLeftX(), () -> -test.getRightX()));
+            drive, () -> -test.getLeftX(), () -> -test.getLeftY(), () -> -test.getRightX()));
 
     // aim.setDefaultCommand(aimPassive.aimPassive(aim));
     // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
-    // test first
-    // test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(Units.Degrees.of(-35))));
-
-    // test.b().whileTrue(new RunIntake(intake, -0.5));
-
-    // test.x().whileTrue(new RunShooter(shooter, 2));
-
-    // test.y().whileTrue(new runFeedIntake(feedIntake, -.5));
-
-    // test last
-
-    SmartDashboard.putBoolean("TEST Intake Sequnece", false);
     Command intakeSequence = new IntakeSequence(feedIntake, intake, shooter);
     Command getShooterReady = new getShooterReady(drive, aim, shooter, intake);
-    Command getAmpReady = new AmpScore(aim, shooter, intake);
+    Command getAmpReady = new getAmpReady(intake, shooter, aim);
     Command ampScore = new AmpScore(aim, shooter, intake);
-    Command shoot = new Shoot(shooter, intake, -.5, ShooterConstants.SpeekerShooterSpeed);
+    Command setPoseAtSpeeker = Commands.runOnce(() -> drive.StepPoseAtSpeeker(1.5));
 
-    test.a().whileTrue(intakeSequence);
+    test.leftStick().whileTrue(intakeSequence);
 
     test.leftTrigger().whileTrue(getShooterReady);
 
-    test.rightTrigger()
-        .whileTrue(
-            new RunShooter(shooter, ShooterConstants.SpeekerShooterSpeed)
-                .alongWith(new RunIntake(intake, 0.5)))
-        .whileFalse(new RunShooter(shooter, 0).alongWith(new RunIntake(intake, 0)));
-    /*
-    test.y().whileTrue(new getAmpReady(intake, shooter, aim));
+    test.rightTrigger().whileTrue(new Shoot(shooter, intake));
 
-    test.x().whileTrue(new AmpScore(aim, shooter, intake));
-    */
+    test.y().whileTrue(getAmpReady);
+
+    test.x().whileTrue(ampScore);
+
+    test.start().onTrue(setPoseAtSpeeker);
+
+    SmartDashboard.putData("set Pose Speeker", setPoseAtSpeeker);
+    SmartDashboard.putData(getShooterReady);
+    SmartDashboard.putString("Side", Math977.isRed() ? "RED" : "BLUE");
   }
 
   /**
@@ -194,9 +180,5 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
-  }
-
-  public Command CancleCommand(Command command) {
-    return Commands.run(() -> command.cancel());
   }
 }

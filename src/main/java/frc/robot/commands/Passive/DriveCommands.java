@@ -61,9 +61,9 @@ public class DriveCommands {
           linearMagnitude = addTranslationMod(linearMagnitude);
           omega = addRotationMod(omega);
 
-          /*if (Goals.getGoalInfo().AutoRotate && omega <= 0.1) {
+          if (Goals.getGoalInfo().AutoRotate && omega <= 0.1) {
             omega = getAutoTurnPower(drive);
-          }*/
+          }
 
           // Calculate new linear velocity
           Translation2d linearVelocity =
@@ -86,7 +86,7 @@ public class DriveCommands {
   }
 
   private static final ProfiledPIDController PID =
-      new ProfiledPIDController(1, 0, 0, new Constraints(.75, .2), 0.02);
+      new ProfiledPIDController(1, 0, 0, new Constraints(.2, .1), 0.02);
 
   private static double getAutoTurnPower(Drive drive) {
 
@@ -102,13 +102,13 @@ public class DriveCommands {
         return getAngleBetweenRobotAndSpeeker(Robot.getTranslation());
 
       case INTAKE:
-        return getAngleBetweenRobotAndNote(Robot);
+        //return getAngleBetweenRobotAndNote(Robot);
 
       case FEED:
         return getAngleOffsetToFeedRotation(Robot);
 
       case AMP:
-        return getAngleOffsetToAmp(Robot);
+        //return getAngleOffsetToAmp(Robot);
 
       default:
         return new Rotation2d(0);
@@ -134,7 +134,7 @@ public class DriveCommands {
   }
 
   private static Rotation2d getAngleOffsetToFeedRotation(Pose2d Robot) {
-    return new Rotation2d();
+    return new Rotation2d(0);
   }
 
   private static double addTranslationMod(double input) {

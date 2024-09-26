@@ -12,6 +12,8 @@ public class Intake extends SubsystemBase {
 
   IntakeMotorsIO intakeMotorsIO;
 
+  double DesiredSpeed;
+
   /** Creates a new Intake. */
   public Intake(IntakeMotorsIO intakeMotorsIO) {
 
@@ -24,6 +26,7 @@ public class Intake extends SubsystemBase {
     OutputIntake outputIntake = intakeMotorsIO.getOutputs();
     SmartDashboard.putNumber("intake Sim Speed", outputIntake.speed);
     SmartDashboard.putBoolean("Intake has Note", isNotePresent());
+    SmartDashboard.putNumber("intake Desired Speed", DesiredSpeed);
 
     // This method will be called once per scheduler run
     // SmartDashboard.putNumber("Voltage", IRsensor.getVoltage());
@@ -35,6 +38,7 @@ public class Intake extends SubsystemBase {
 
   public void intakeNote(double speed) {
     intakeMotorsIO.setSpeed(speed);
+    DesiredSpeed = speed;
   }
 
   public boolean isNotePresent() {

@@ -44,6 +44,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants;
+import frc.robot.Math977;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.drive.ModuleIO.LogOut;
 import frc.robot.util.LocalADStarAK;
@@ -265,6 +267,17 @@ public class Drive extends SubsystemBase {
   /** Stops the drive. */
   public void stop() {
     runVelocity(new ChassisSpeeds());
+  }
+
+  public void StepPoseAtSpeeker(double offsetX) {
+    Translation2d speekerPose =
+        Math977.isRed()
+            ? Constants.Vision.SpeekerBlue.toTranslation2d()
+            : Constants.Vision.SpeekerRed.toTranslation2d();
+    double Offset = Math977.isRed() ? offsetX : -offsetX;
+    setPose(
+        new Pose2d(
+            new Translation2d(speekerPose.getX() + Offset, speekerPose.getY()), getRotation()));
   }
 
   /**
