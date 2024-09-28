@@ -21,6 +21,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
@@ -61,7 +62,7 @@ public class DriveCommands {
           linearMagnitude = addTranslationMod(linearMagnitude);
           omega = addRotationMod(omega);
 
-          if (Goals.getGoalInfo().AutoRotate && omega <= 0.1) {
+          if (Goals.getGoalInfo().AutoRotate && omega <= Math.abs(0.1)) {
             omega = getAutoTurnPower(drive);
           }
 
@@ -86,29 +87,37 @@ public class DriveCommands {
   }
 
   private static final ProfiledPIDController PID =
-      new ProfiledPIDController(1, 0, 0, new Constraints(.2, .1), 0.02);
+      new ProfiledPIDController(0.5, 0, 0, new Constraints(1, 2), 0.02);
+
+  // private static final PIDController PID = new PIDController(0.005, 0, 0);
 
   private static double getAutoTurnPower(Drive drive) {
 
     // get Rotations
     Rotation2d DesiredRotation = getDiseredAutoRotationOffset(drive.getPose());
 
+    SmartDashboard.putNumber("Desired Drive Rotation", DesiredRotation.getRotations());
+
+    // PID.enableContinuousInput(-.5, .5);
+    // if (Math.abs(DesiredRotation.getRotations()) > 0.2) {
     return PID.calculate(DesiredRotation.getRotations(), 0);
+    // }
+    // return 0;
   }
 
   private static Rotation2d getDiseredAutoRotationOffset(Pose2d Robot) {
     switch (Goals.getGoalInfo().goal) {
       case SPEEKER:
-        return getAngleBetweenRobotAndSpeeker(Robot.getTranslation());
+        return Robot.getRotation().minus(getAngleBetweenRobotAndSpeeker(Robot.getTranslation()));
 
       case INTAKE:
-        //return getAngleBetweenRobotAndNote(Robot);
+        // return getAngleBetweenRobotAndNote(Robot);
 
       case FEED:
         return getAngleOffsetToFeedRotation(Robot);
 
       case AMP:
-        //return getAngleOffsetToAmp(Robot);
+        // return getAngleOffsetToAmp(Robot);
 
       default:
         return new Rotation2d(0);
@@ -122,7 +131,7 @@ public class DriveCommands {
                 ? Constants.Vision.SpeekerRed.toTranslation2d()
                 : Constants.Vision.SpeekerBlue.toTranslation2d());
 
-    return new Rotation2d(offset.getX(), offset.getY());
+    return new Rotation2d(Math.atan2(offset.getY(), offset.getX()));
   }
 
   private static Rotation2d getAngleBetweenRobotAndNote(Pose2d Robot) {

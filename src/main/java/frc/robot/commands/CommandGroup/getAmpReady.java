@@ -36,9 +36,10 @@ public class getAmpReady extends ParallelCommandGroup {
                 // run Intake and Shooter UNTIL note is not seen
                 Commands.waitUntil(() -> !intake.isNotePresent()),
                 new RunIntake(intake, .2).repeatedly(),
-                new RunShooter(shooter, 2))
+                new RunShooter(shooter, .5))
+            .andThen(new RunShooter(shooter, 0)));
 
-            // once note is not seen run shooter for a secound
-            .andThen(new RunShooter(shooter, 1).withTimeout(.2)));
+    // once note is not seen run shooter for a secound
+    // .andThen(new RunShooter(shooter, 1).withTimeout(.2)));
   }
 }

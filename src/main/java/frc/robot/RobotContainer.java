@@ -14,6 +14,8 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -22,14 +24,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.BasicCommands.AngleShooter;
+import frc.robot.commands.BasicCommands.RunIntake;
+import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.commands.CommandGroup.AmpScore;
 import frc.robot.commands.CommandGroup.IntakeSequence;
-import frc.robot.commands.CommandGroup.Shoot;
 import frc.robot.commands.CommandGroup.getAmpReady;
 import frc.robot.commands.CommandGroup.getShooterReady;
 import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.aim.Aim;
+import frc.robot.subsystems.aim.aimConstaints;
 import frc.robot.subsystems.aim.aimMotorsIOKraken;
 import frc.robot.subsystems.aim.aimMotorsIOSim;
 import frc.robot.subsystems.drive.Drive;
@@ -41,6 +46,7 @@ import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIOSim;
 import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIOVictor;
 import frc.robot.subsystems.intake.feedIntake.FeedIntake;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.subsystems.shooter.shooterMotorFalcon;
 import frc.robot.subsystems.shooter.shooterRollerSim;
 
@@ -63,6 +69,7 @@ public class RobotContainer {
   public static FeedIntake feedIntake;
 
   private static final CommandXboxController test = new CommandXboxController(0);
+  private static final CommandXboxController OpTest = new CommandXboxController(1);
   // private static IOMoudlue Contruller;
 
   //  private final OIbase OI = new OIGuitarAndJoystick(1,0);
@@ -145,22 +152,34 @@ public class RobotContainer {
 
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive, () -> -test.getLeftX(), () -> -test.getLeftY(), () -> -test.getRightX()));
+            drive, () -> -test.getLeftY(), () -> -test.getLeftX(), () -> -test.getRightX()));
 
     // aim.setDefaultCommand(aimPassive.aimPassive(aim));
     // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
     Command intakeSequence = new IntakeSequence(feedIntake, intake, shooter);
     Command getShooterReady = new getShooterReady(drive, aim, shooter, intake);
-    Command getAmpReady = new getAmpReady(intake, shooter, aim);
+    Command getAmpReady =
+        new AngleShooter(
+                aim, () -> aimConstaints.PassiveAmpAngle, new Rotation2d(Units.Degrees.of(1)))
+            .andThen(new RunShooter(shooter, 1.5).alongWith(new RunIntake(intake, 1)));
     Command ampScore = new AmpScore(aim, shooter, intake);
     Command setPoseAtSpeeker = Commands.runOnce(() -> drive.StepPoseAtSpeeker(1.5));
 
-    test.leftStick().whileTrue(intakeSequence);
+    // test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(0)));
+
+    test.a().whileTrue(intakeSequence); // .onFalse(Commands.run(() -> intakeSequence.cancel());
+
+    OpTest.start().onTrue(Commands.run(() -> Goals.setAutoRotate(false)));
+    OpTest.back().onTrue(Commands.run(() -> Goals.setAutoRotate(true)));
 
     test.leftTrigger().whileTrue(getShooterReady);
 
-    test.rightTrigger().whileTrue(new Shoot(shooter, intake));
+    test.rightTrigger()
+        .whileTrue(
+            new RunShooter(shooter, ShooterConstants.SpeekerShooterSpeed)
+                .alongWith(new RunIntake(intake, 1)))
+        .whileFalse(new RunShooter(shooter, 0).alongWith(new RunIntake(intake, 0)));
 
     test.y().whileTrue(getAmpReady);
 

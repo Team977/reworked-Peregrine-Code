@@ -10,6 +10,8 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -19,6 +21,9 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants;
+import frc.robot.Math977;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.aim.aimMotorsIO.OutputAim;
 
 public class Aim extends SubsystemBase {
@@ -75,9 +80,14 @@ public class Aim extends SubsystemBase {
   }
 
   public void aimShooter(Rotation2d rotation) {
-    AimMotorsIO.setAngle(rotation);
 
     DesiredAngle = rotation;
+
+    if (rotation.getDegrees() > 50 || rotation.getDegrees() < -50) {
+      return;
+    }
+
+    AimMotorsIO.setAngle(rotation);
   }
 
   public Rotation2d getAngle() {
@@ -123,5 +133,20 @@ public class Aim extends SubsystemBase {
     SmartDashboard.putNumber("aim Vel deg", outputAim.Velocity * 360);
     SmartDashboard.putNumber("aim Volts", outputAim.Volts);
     SmartDashboard.putNumber("Desired angle Deg", DesiredAngle.getDegrees());
+
+    Translation3d Speeker =
+        Math977.isRed() ? Constants.Vision.SpeekerRed : Constants.Vision.SpeekerBlue;
+
+    SmartDashboard.putNumber(
+        "Auto Aim",
+        new Rotation2d(
+                Math.atan2(
+                    Speeker.getZ(),
+                    RobotContainer.drive
+                        .getPose()
+                        .getTranslation()
+                        .getDistance(new Translation2d(Speeker.getX(), Speeker.getY()))))
+            .minus(new Rotation2d(Math.PI / 2))
+            .getDegrees());
   }
 }

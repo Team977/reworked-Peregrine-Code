@@ -12,9 +12,9 @@ public class aimConstaints {
   public static final double MaxVelocity = 300;
 
   public static final double kAimGearRatio = 240.428571429;
-  public static final double kFollowerAimOffset = 0.684; // 0.841;
-  public static final double kLeaderAimOffset = .841; // 0.684;
+  public static final double kFollowerAimOffset = 0.851; // 0.841;
+  public static final double kLeaderAimOffset = .505; // 0.684;
 
-  public static final Rotation2d PassiveAmpAngle = new Rotation2d(Units.Degrees.of(30));
-  public static final Rotation2d FeedAngle = new Rotation2d(-Math.PI / 4);
+  public static final Rotation2d PassiveAmpAngle = new Rotation2d(Units.Degrees.of(-25)); // 30][\]
+  public static final Rotation2d FeedAngle = new Rotation2d(Units.Degrees.of(-35));
 }

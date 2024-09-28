@@ -169,13 +169,13 @@ public class Drive extends SubsystemBase {
     // m_estGlobalPose = RobotContainer.vision.getEstimatedGlobalPose();
 
     SmartDashboard.putData("field", m_Field);
-    SmartDashboard.putNumber("robot Rotation", rawGyroRotation.getDegrees());
   }
 
   public void periodic() {
 
     // publisher.set(cameraLeft);
     // arrayPublisher.set(new Pose3d[] {cameraLeft, cameraRight});
+    SmartDashboard.putNumber("robot Rotation", getPose().getRotation().getDegrees());
 
     // arrayPublisher.accept(camera);
     gyroIO.updateInputs(gyroInputs);
@@ -274,7 +274,7 @@ public class Drive extends SubsystemBase {
         Math977.isRed()
             ? Constants.Vision.SpeekerBlue.toTranslation2d()
             : Constants.Vision.SpeekerRed.toTranslation2d();
-    double Offset = Math977.isRed() ? offsetX : -offsetX;
+    double Offset = Math977.isRed() ? -offsetX : offsetX;
     setPose(
         new Pose2d(
             new Translation2d(speekerPose.getX() + Offset, speekerPose.getY()), getRotation()));

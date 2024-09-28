@@ -22,6 +22,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -65,11 +66,13 @@ public final class Constants {
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
     public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
 
-    public static final Translation3d SpeekerRed = new Translation3d(16.579342, 5.5, 1.4478);
-    public static final Translation3d SpeekerBlue = new Translation3d(-0.0381, 5.5, 1.4478);
+    public static final Translation3d SpeekerRed =
+        new Translation3d(16.579342, Units.inchesToMeters(218.42), Units.inchesToMeters(74));
+    public static final Translation3d SpeekerBlue =
+        new Translation3d(-0.0381, Units.inchesToMeters(218.42), Units.inchesToMeters(74));
   }
 
-  public static final Mode currentMode = Mode.SIM;
+  public static final Mode currentMode = Mode.REAL;
 
   public static enum Mode {
     /** Running on a real robot. */
