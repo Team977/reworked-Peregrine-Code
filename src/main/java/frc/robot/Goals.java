@@ -17,8 +17,8 @@ public class Goals {
 
   public static class GoalInfo {
 
-    public Goal goal = Goal.FEED;
-    public boolean AutoRotate = false;
+    public Goal goal = Goal.INTAKE;
+    public boolean AutoRotate = true;
     public boolean PassivlysSwitch = false;
   }
 

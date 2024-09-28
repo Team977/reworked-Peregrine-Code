@@ -21,12 +21,14 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 import frc.robot.Goals;
 import frc.robot.Math977;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
 
@@ -111,7 +113,7 @@ public class DriveCommands {
         return Robot.getRotation().minus(getAngleBetweenRobotAndSpeeker(Robot.getTranslation()));
 
       case INTAKE:
-        // return getAngleBetweenRobotAndNote(Robot);
+        return getAngleBetweenRobotAndNote(Robot);
 
       case FEED:
         return getAngleOffsetToFeedRotation(Robot);
@@ -135,7 +137,10 @@ public class DriveCommands {
   }
 
   private static Rotation2d getAngleBetweenRobotAndNote(Pose2d Robot) {
-    return new Rotation2d();
+
+    double rotation = RobotContainer.vision.getYawToNote();
+    SmartDashboard.putNumber("Yaw to note", -rotation);
+    return new Rotation2d(Units.Degrees.of(-rotation));
   }
 
   private static Rotation2d getAngleOffsetToAmp(Pose2d Robot) {
