@@ -8,7 +8,7 @@ import frc.robot.subsystems.shooter.ShooterConstants;
 
 public class shooterPassive {
 
-  private static final double SpeedMod = 0.5;
+  private static final double SpeedMod = 0.1;
 
   public static Command shooterPassive(Shooter shooter) {
     return Commands.run(

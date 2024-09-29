@@ -13,13 +13,13 @@ import frc.robot.subsystems.aim.aimConstaints;
 public class aimPassive {
 
   // The avarage shooter angle when note shoot at Speeker
-  private static Rotation2d ShooterAvg = new Rotation2d(Degree.of(35));
+  private static Rotation2d ShooterAvg = new Rotation2d(Degree.of(37.5));
 
   // 45 deg
   private static final Rotation2d shooterFeedAngle = aimConstaints.FeedAngle;
 
   // The avarage shooter angle when note shoot
-  private static Rotation2d ShootAvgAngle = new Rotation2d(Degree.of((35 + 45) / 2));
+  private static Rotation2d ShootAvgAngle = new Rotation2d(Degree.of((35 + 45 + aimConstaints.PassiveAmpAngle.getDegrees()) / 3));
 
   public static Command aimPassive(Aim aim) {
     return Commands.run(
@@ -36,22 +36,15 @@ public class aimPassive {
               aim.aimShooter(ShooterAvg);
               break;
 
+            case AMP:
+              aim.aimShooter(aimConstaints.PassiveAmpAngle);
+              break;
+
             default:
               aim.aimShooter(ShootAvgAngle);
               break;
           }
         },
         aim);
-  }
-
-  public static void addShootSpeekerAngle(Rotation2d angle) {
-
-    ShooterAvg.plus(angle).div(2);
-    addShootAvgAngle(angle);
-  }
-
-  public static void addShootAvgAngle(Rotation2d angle) {
-
-    ShootAvgAngle.plus(angle).div(2);
   }
 }

@@ -33,8 +33,11 @@ import frc.robot.commands.CommandGroup.RunNoteBack;
 import frc.robot.commands.CommandGroup.Shoot;
 import frc.robot.commands.CommandGroup.getShooterReady;
 import frc.robot.commands.Passive.DriveCommands;
+import frc.robot.commands.Passive.aimPassive;
+import frc.robot.commands.Passive.shooterPassive;
 import frc.robot.subsystems.IO.IOJoystick;
 import frc.robot.subsystems.IO.IOMoudlue;
+import frc.robot.subsystems.IO.IOXboxCon;
 import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.aim.Aim;
@@ -75,7 +78,7 @@ public class RobotContainer {
   private static final CommandXboxController test = new CommandXboxController(0);
   private static final CommandXboxController OpTest = new CommandXboxController(1);
 
-  private static IOMoudlue Contruller = new IOJoystick();
+  private static IOMoudlue Contruller = new IOXboxCon();
 
   //  private final OIbase OI = new OIGuitarAndJoystick(1,0);
   // Dashboard inputs
@@ -159,8 +162,8 @@ public class RobotContainer {
         DriveCommands.joystickDrive(
             drive, Contruller.getXPower(), Contruller.getYPower(), Contruller.getOmegaPower()));
 
-    // aim.setDefaultCommand(aimPassive.aimPassive(aim));
-    // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
+    aim.setDefaultCommand(aimPassive.aimPassive(aim));
+    //shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
     Command intakeSequence = new IntakeSequence(feedIntake, intake, shooter);
     Command getShooterReady = new getShooterReady(drive, aim, shooter, intake);
@@ -184,10 +187,9 @@ public class RobotContainer {
         .whileFalse(stopShooter);
 
     Contruller.getShoot()
-        .whileTrue(Goals.getCommandBasedOnGoal(Shoot, intakeSequence, Shoot, Shoot, ShootAmp))
-        .whileFalse(stopShooter);
+        .whileTrue(Goals.getCommandBasedOnGoal(Shoot, intakeSequence, Shoot, Shoot, ShootAmp));//.whileFalse(stopShooter);
 
-    Contruller.ReverseIntake().whileTrue(RevIntake).whileFalse(stopShooter);
+    Contruller.ReverseIntake().whileTrue(RevIntake);//.whileFalse(stopShooter);
 
     Contruller.setAutoRotateOff().onTrue(Commands.runOnce(() -> Goals.setAutoRotate(false)));
 
