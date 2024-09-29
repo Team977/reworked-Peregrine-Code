@@ -6,6 +6,7 @@ package frc.robot.subsystems.intake.IntakeSub;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.intake.IntakeSub.IntakeMotorsIO.OutputIntake;
 
 public class Intake extends SubsystemBase {
@@ -43,5 +44,9 @@ public class Intake extends SubsystemBase {
 
   public boolean isNotePresent() {
     return intakeMotorsIO.HasNote();
+  }
+
+  public Trigger NoteSensor(){
+    return new Trigger(() -> isNotePresent());
   }
 }

@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-
 import java.util.function.Supplier;
 
 public class Goals {
@@ -68,17 +67,18 @@ public class Goals {
     }
   }
 
-  public static Command getCommandBasedOnGoal(Command Speeker, Command intake, Command Feed, Command Manule, Command Amp){
+  public static Command getCommandBasedOnGoal(
+      Command Speeker, Command intake, Command Feed, Command Manule, Command Amp) {
     switch (goalInfo.goal) {
       case AMP:
         return Amp;
-    
+
       case SPEEKER:
         return Speeker;
 
       case INTAKE:
         return intake;
-      
+
       case FEED:
         return Feed;
       default:
@@ -134,7 +134,7 @@ public class Goals {
     return driveMode;
   }
 
-  public static void setDriveMode(DriveMode DriveMode){
+  public static void setDriveMode(DriveMode DriveMode) {
     driveMode = DriveMode;
   }
 

@@ -9,7 +9,6 @@ import frc.robot.commands.BasicCommands.RunIntake;
 import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.subsystems.intake.IntakeSub.Intake;
 import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.ShooterConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -19,11 +18,6 @@ public class Shoot extends ParallelCommandGroup {
   public Shoot(Shooter shooter, Intake intake, double ShooterSpeed, double IntakeSpeed) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-
-       new RunShooter(shooter, ShooterSpeed),
-        new RunIntake(intake, IntakeSpeed)
-
-    );
+    addCommands(new RunShooter(shooter, ShooterSpeed), new RunIntake(intake, IntakeSpeed));
   }
 }

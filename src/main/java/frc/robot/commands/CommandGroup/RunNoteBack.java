@@ -18,10 +18,6 @@ public class RunNoteBack extends ParallelCommandGroup {
   public RunNoteBack(Shooter shooter, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands( 
-      new RunShooter(shooter, -1)
-            .alongWith(new RunIntake(intake, -.1))
-            .withTimeout(.2)
-            );
+    addCommands(new RunShooter(shooter, -1).alongWith(new RunIntake(intake, -.1)).withTimeout(.2));
   }
 }

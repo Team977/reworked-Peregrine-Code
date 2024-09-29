@@ -14,7 +14,6 @@ import frc.robot.Goals.Goal;
 import frc.robot.Math977;
 import frc.robot.RobotContainer;
 import frc.robot.commands.BasicCommands.AngleShooter;
-import frc.robot.commands.BasicCommands.RunIntake;
 import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.subsystems.aim.Aim;
 import frc.robot.subsystems.aim.aimConstaints;
@@ -70,6 +69,26 @@ public class getShooterReady extends ParallelCommandGroup {
 
         // aim shooter
         new AngleShooter(aim, shooterAngle),
+
+        // run shooter back so note note in shooter motor
+        new RunNoteBack(shooter, intake)
+            .andThen(
+
+                // spin up shooter
+                new RunShooter(
+                    shooter,
+                    Goals.getGoalInfo().goal == Goal.SPEEKER
+                        ? ShooterConstants.SpeekerShooterSpeed
+                        : ShooterConstants.FeedShooterSpeed)));
+  }
+
+  public getShooterReady(
+      Drive drive, Aim aim, Shooter shooter, Intake intake, Rotation2d shooterAngle) {
+
+    addCommands(
+
+        // aim shooter
+        new AngleShooter(aim, () -> shooterAngle),
 
         // run shooter back so note note in shooter motor
         new RunNoteBack(shooter, intake)
