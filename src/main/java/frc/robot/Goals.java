@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+
 import java.util.function.Supplier;
 
 public class Goals {
@@ -66,6 +68,24 @@ public class Goals {
     }
   }
 
+  public static Command getCommandBasedOnGoal(Command Speeker, Command intake, Command Feed, Command Manule, Command Amp){
+    switch (goalInfo.goal) {
+      case AMP:
+        return Amp;
+    
+      case SPEEKER:
+        return Speeker;
+
+      case INTAKE:
+        return intake;
+      
+      case FEED:
+        return Feed;
+      default:
+        return Manule;
+    }
+  }
+
   public static Supplier<GoalInfo> getGoalInfo_Supplier() {
     return () -> goalInfo;
   }
@@ -95,7 +115,7 @@ public class Goals {
   }
 
   // drive Modes
-  private static enum DriveMode {
+  public static enum DriveMode {
     FULL,
     NORMAL,
     SLOW
@@ -112,6 +132,10 @@ public class Goals {
 
   public static DriveMode getDriveSpeedMode() {
     return driveMode;
+  }
+
+  public static void setDriveMode(DriveMode DriveMode){
+    driveMode = DriveMode;
   }
 
   public static double getTranslationMod() {

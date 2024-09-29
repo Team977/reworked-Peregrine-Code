@@ -24,15 +24,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Goals.DriveMode;
+import frc.robot.Goals.Goal;
 import frc.robot.commands.BasicCommands.AngleShooter;
 import frc.robot.commands.BasicCommands.RunIntake;
 import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.commands.CommandGroup.AmpScore;
 import frc.robot.commands.CommandGroup.IntakeSequence;
-import frc.robot.commands.CommandGroup.getAmpReady;
+import frc.robot.commands.CommandGroup.RunNoteBack;
+import frc.robot.commands.CommandGroup.Shoot;
 import frc.robot.commands.CommandGroup.getShooterReady;
 import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.IO.IOJoystick;
+import frc.robot.subsystems.IO.IOMoudlue;
 import frc.robot.subsystems.aim.Aim;
 import frc.robot.subsystems.aim.aimConstaints;
 import frc.robot.subsystems.aim.aimMotorsIOKraken;
@@ -70,7 +75,8 @@ public class RobotContainer {
 
   private static final CommandXboxController test = new CommandXboxController(0);
   private static final CommandXboxController OpTest = new CommandXboxController(1);
-  // private static IOMoudlue Contruller;
+
+  private static IOMoudlue Contruller = new IOJoystick();
 
   //  private final OIbase OI = new OIGuitarAndJoystick(1,0);
   // Dashboard inputs
@@ -152,22 +158,64 @@ public class RobotContainer {
 
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive, () -> -test.getLeftY(), () -> -test.getLeftX(), () -> -test.getRightX()));
+            drive, Contruller.getXPower(), Contruller.getYPower(), Contruller.getOmegaPower()));
 
     // aim.setDefaultCommand(aimPassive.aimPassive(aim));
     // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
     Command intakeSequence = new IntakeSequence(feedIntake, intake, shooter);
     Command getShooterReady = new getShooterReady(drive, aim, shooter, intake);
-    Command getAmpReady =
-        new AngleShooter(
+    Command getAmpReady = new RunNoteBack(shooter, intake);
+        /*new AngleShooter(
                 aim, () -> aimConstaints.PassiveAmpAngle, new Rotation2d(Units.Degrees.of(1)))
-            .andThen(new RunShooter(shooter, 1.5).alongWith(new RunIntake(intake, 1)));
-    Command ampScore = new AmpScore(aim, shooter, intake);
+            .andThen(new RunShooter(shooter, 1.5).alongWith(new RunIntake(intake, 1)));*/
     Command setPoseAtSpeeker = Commands.runOnce(() -> drive.StepPoseAtSpeeker(1.5));
+    Command ShootAmp = new Shoot(shooter, intake, 1.5, 1);
+    Command Shoot = new Shoot(shooter, intake, ShooterConstants.SpeekerShooterSpeed, 1);
+    Command MannuleGetShooterReady = new getShooterReady(drive, aim, shooter, intake, new Rotation2d(Units.Degrees.of(-25)));
+    Command stopShooter = new RunShooter(shooter, 0);
+    Command RevIntake = new Shoot(shooter, intake, -1, -.1);
+
+    Contruller.Intake().whileTrue(stopShooter);
+    Contruller.getShooterReady().whileTrue(Goals.getCommandBasedOnGoal(
+      getShooterReady,
+      intakeSequence,
+      stopShooter,
+      MannuleGetShooterReady,
+      getAmpReady)).whileFalse(stopShooter);
+
+    Contruller.getShoot().whileTrue(
+      Goals.getCommandBasedOnGoal(
+        Shoot, intakeSequence, Shoot, Shoot, ShootAmp)
+    ).whileFalse(stopShooter);
+
+    Contruller.ReverseIntake().whileTrue(RevIntake).whileFalse(stopShooter);
+
+    Contruller.setAutoRotateOff().onTrue(Commands.runOnce(() -> Goals.setAutoRotate(false)));
+
+    Contruller.setAutoRotateOn().onTrue(Commands.runOnce(() -> Goals.setAutoRotate(true)));
+
+    Contruller.setDriveModeFast().onTrue(Commands.runOnce(() -> Goals.setDriveMode(DriveMode.FULL)));
+    
+    Contruller.setDriveModeNormal().onTrue(Commands.runOnce(() -> Goals.setDriveMode(DriveMode.NORMAL)));
+
+    Contruller.setDriveModeSlow().onTrue(Commands.runOnce(() -> Goals.setDriveMode(DriveMode.SLOW)));
+
+    Contruller.setModeAmp().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.AMP)));
+
+    Contruller.setModeFeed().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.FEED)));
+
+    Contruller.setModeNote().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.INTAKE)));
+
+    Contruller.setModeSpeeker().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.SPEEKER)));
+
+    Contruller.setPassiveSwitchOff().onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(false)));
+
+    Contruller.setPassiveSwitchOn().onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(true)));
 
     // test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(0)));
 
+    /*
     test.a().whileTrue(intakeSequence); // .onFalse(Commands.run(() -> intakeSequence.cancel());
 
     OpTest.start().onTrue(Commands.run(() -> Goals.setAutoRotate(false)));
@@ -183,13 +231,13 @@ public class RobotContainer {
 
     test.y().whileTrue(getAmpReady);
 
-    test.x().whileTrue(ampScore);
+    test.x().whileTrue(ShootAmp);
 
     test.start().onTrue(setPoseAtSpeeker);
 
     SmartDashboard.putData("set Pose Speeker", setPoseAtSpeeker);
     SmartDashboard.putData(getShooterReady);
-    SmartDashboard.putString("Side", Math977.isRed() ? "RED" : "BLUE");
+    SmartDashboard.putString("Side", Math977.isRed() ? "RED" : "BLUE"); */
   }
 
   /**

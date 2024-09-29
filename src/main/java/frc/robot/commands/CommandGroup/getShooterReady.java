@@ -72,9 +72,7 @@ public class getShooterReady extends ParallelCommandGroup {
         new AngleShooter(aim, shooterAngle),
 
         // run shooter back so note note in shooter motor
-        new RunShooter(shooter, -1)
-            .alongWith(new RunIntake(intake, -.1))
-            .withTimeout(.2)
+        new RunNoteBack(shooter, intake)
             .andThen(
 
                 // spin up shooter

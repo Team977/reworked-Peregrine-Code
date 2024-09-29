@@ -119,7 +119,7 @@ public class DriveCommands {
         return getAngleOffsetToFeedRotation(Robot);
 
       case AMP:
-        // return getAngleOffsetToAmp(Robot);
+        return getAngleOffsetToAmp(Robot);
 
       default:
         return new Rotation2d(0);
@@ -148,7 +148,7 @@ public class DriveCommands {
   }
 
   private static Rotation2d getAngleOffsetToFeedRotation(Pose2d Robot) {
-    return new Rotation2d(0);
+    return new Rotation2d(Units.Degrees.of(-90)).minus(Robot.getRotation());
   }
 
   private static double addTranslationMod(double input) {
