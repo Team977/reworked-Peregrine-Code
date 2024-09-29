@@ -41,6 +41,7 @@ import frc.robot.subsystems.IO.IOXboxCon;
 import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.aim.Aim;
+import frc.robot.subsystems.aim.aimConstaints;
 import frc.robot.subsystems.aim.aimMotorsIOKraken;
 import frc.robot.subsystems.aim.aimMotorsIOSim;
 import frc.robot.subsystems.drive.Drive;
@@ -176,6 +177,8 @@ public class RobotContainer {
     Command Shoot = new Shoot(shooter, intake, ShooterConstants.SpeekerShooterSpeed, 1);
     Command MannuleGetShooterReady =
         new getShooterReady(drive, aim, shooter, intake, new Rotation2d(Units.Degrees.of(-25)));
+    Command FeedGetShooterReady =
+        new getShooterReady(drive, aim, shooter, intake, aimConstaints.FeedAngle);
     Command stopShooter = new RunShooter(shooter, 0);
     Command RevIntake = new Shoot(shooter, intake, -1, -.1);
 
@@ -183,7 +186,7 @@ public class RobotContainer {
     Contruller.getShooterReady()
         .whileTrue(
             Goals.getCommandBasedOnGoal(
-                getShooterReady, intakeSequence, stopShooter, MannuleGetShooterReady, getAmpReady))
+                getShooterReady, intakeSequence, getShooterReady, MannuleGetShooterReady, getAmpReady))
         .whileFalse(stopShooter);
 
     Contruller.getShoot()
