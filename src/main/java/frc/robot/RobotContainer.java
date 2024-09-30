@@ -22,8 +22,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Goals.DriveMode;
 import frc.robot.Goals.Goal;
@@ -34,11 +34,9 @@ import frc.robot.commands.CommandGroup.Shoot;
 import frc.robot.commands.CommandGroup.getShooterReady;
 import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.commands.Passive.aimPassive;
-import frc.robot.commands.Passive.shooterPassive;
-import frc.robot.subsystems.IO.IOJoystick;
+import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.IO.IOMoudlue;
 import frc.robot.subsystems.IO.IOXboxCon;
-import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.aim.Aim;
 import frc.robot.subsystems.aim.aimConstaints;
@@ -164,7 +162,7 @@ public class RobotContainer {
             drive, Contruller.getXPower(), Contruller.getYPower(), Contruller.getOmegaPower()));
 
     aim.setDefaultCommand(aimPassive.aimPassive(aim));
-    //shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
+    // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
 
     Command intakeSequence = new IntakeSequence(feedIntake, intake, shooter);
     Command getShooterReady = new getShooterReady(drive, aim, shooter, intake);
@@ -185,14 +183,24 @@ public class RobotContainer {
     Contruller.Intake().whileTrue(stopShooter);
     Contruller.getShooterReady()
         .whileTrue(
-            Goals.getCommandBasedOnGoal(
-                getShooterReady, intakeSequence, getShooterReady, MannuleGetShooterReady, getAmpReady))
+            new ConditionalCommand(
+                intakeSequence,
+                new ConditionalCommand(
+                    getShooterReady,
+                    new ConditionalCommand(
+                        FeedGetShooterReady,
+                        getAmpReady,
+                        () -> (Goals.getGoalInfo().goal == Goal.FEED)),
+                    () -> (Goals.getGoalInfo().goal == Goal.SPEEKER)),
+                () -> (Goals.getGoalInfo().goal == Goal.INTAKE)))
         .whileFalse(stopShooter);
 
     Contruller.getShoot()
-        .whileTrue(Goals.getCommandBasedOnGoal(Shoot, intakeSequence, Shoot, Shoot, ShootAmp));//.whileFalse(stopShooter);
+        .whileTrue(
+            new ConditionalCommand(ShootAmp, Shoot, () -> (Goals.getGoalInfo().goal == Goal.AMP)))
+        .whileFalse(stopShooter);
 
-    Contruller.ReverseIntake().whileTrue(RevIntake);//.whileFalse(stopShooter);
+    Contruller.ReverseIntake().whileTrue(RevIntake); // .whileFalse(stopShooter);
 
     Contruller.setAutoRotateOff().onTrue(Commands.runOnce(() -> Goals.setAutoRotate(false)));
 
@@ -221,7 +229,6 @@ public class RobotContainer {
     Contruller.setPassiveSwitchOn().onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(true)));
 
     intake.NoteSensor().onTrue(Commands.runOnce(() -> CANdle.pickedUpNote()));
-
 
     // test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(0)));
 

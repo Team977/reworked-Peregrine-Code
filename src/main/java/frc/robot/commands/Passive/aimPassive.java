@@ -19,7 +19,8 @@ public class aimPassive {
   private static final Rotation2d shooterFeedAngle = aimConstaints.FeedAngle;
 
   // The avarage shooter angle when note shoot
-  private static Rotation2d ShootAvgAngle = new Rotation2d(Degree.of((35 + 45 + aimConstaints.PassiveAmpAngle.getDegrees()) / 3));
+  private static Rotation2d ShootAvgAngle =
+      new Rotation2d(Degree.of((35 + 45 + aimConstaints.PassiveAmpAngle.getDegrees()) / 3));
 
   public static Command aimPassive(Aim aim) {
     return Commands.run(

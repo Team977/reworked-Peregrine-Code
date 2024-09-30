@@ -9,12 +9,10 @@ import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.Goals;
 
 public class Candle extends SubsystemBase {
@@ -93,7 +91,7 @@ public class Candle extends SubsystemBase {
     GoalStripR(8, 11, 4),
     GoalStripL(69, 6, 3),
     TopStripR(19, 40, 2),
-    TopStripL(75, 20, 5);
+    TopStripL(75, 40, 5);
 
     public final int startIndex;
     public final int segmentSize;
@@ -179,13 +177,13 @@ public class Candle extends SubsystemBase {
   Timer topLightStop = new Timer();
   double time = 3;
 
-  public void pickedUpNote(){
+  public void pickedUpNote() {
     LEDSegment.TopStripL.setColor(purple);
     LEDSegment.TopStripR.setColor(purple);
     topLightStop.restart();
   }
 
-  public void readyToShoot(){
+  public void readyToShoot() {
     LEDSegment.TopStripL.setColor(green);
     LEDSegment.TopStripR.setColor(green);
     topLightStop.restart();
@@ -201,43 +199,41 @@ public class Candle extends SubsystemBase {
     // SmartDashboard.putString("Top LED State",
     // RobotContainer.modeController.getTopLED().toString());
 
-      if(topLightStop.advanceIfElapsed(time)){
+    if (topLightStop.advanceIfElapsed(time)) {
 
+      LEDSegment.GoalStripL.setColor(black);
+      LEDSegment.GoalStripR.setColor(black);
+      topLightStop.stop();
+    }
+
+    switch (Goals.getGoalInfo().goal) {
+      case SPEEKER:
+        LEDSegment.GoalStripL.setColor(green);
+        LEDSegment.GoalStripR.setColor(green);
+
+        break;
+
+      case FEED:
+        LEDSegment.GoalStripL.setColor(white);
+        LEDSegment.GoalStripR.setColor(white);
+
+        break;
+
+      case INTAKE:
+        LEDSegment.GoalStripL.setColor(orange);
+        LEDSegment.GoalStripR.setColor(orange);
+
+        break;
+      case AMP:
+        LEDSegment.GoalStripL.setColor(blue);
+        LEDSegment.GoalStripR.setColor(blue);
+
+        break;
+      default:
         LEDSegment.GoalStripL.setColor(black);
         LEDSegment.GoalStripR.setColor(black);
-        topLightStop.stop();
-      }
-
-      switch (Goals.getGoalInfo().goal) {
-        case SPEEKER:
-          LEDSegment.GoalStripL.setColor(green);
-          LEDSegment.GoalStripR.setColor(green);
-          
-          break;
-      
-        case FEED:
-          LEDSegment.GoalStripL.setColor(white);
-          LEDSegment.GoalStripR.setColor(white);
-
-          break;
-
-        case INTAKE:
-          LEDSegment.GoalStripL.setColor(orange);
-          LEDSegment.GoalStripR.setColor(orange);
-
-          break;
-        case AMP:
-          
-          LEDSegment.GoalStripL.setColor(blue);
-          LEDSegment.GoalStripR.setColor(blue);
-        
-          break;
-          default:
-
-          LEDSegment.GoalStripL.setColor(black);
-          LEDSegment.GoalStripR.setColor(black);
-          break;
-      }
+        break;
+    }
 
     // }
   }

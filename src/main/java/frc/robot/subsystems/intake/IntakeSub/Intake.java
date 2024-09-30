@@ -46,7 +46,7 @@ public class Intake extends SubsystemBase {
     return intakeMotorsIO.HasNote();
   }
 
-  public Trigger NoteSensor(){
+  public Trigger NoteSensor() {
     return new Trigger(() -> isNotePresent());
   }
 }

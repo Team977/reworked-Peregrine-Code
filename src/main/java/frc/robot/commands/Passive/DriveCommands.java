@@ -89,7 +89,7 @@ public class DriveCommands {
   }
 
   private static final ProfiledPIDController PID =
-      new ProfiledPIDController(0.5, 0, 0, new Constraints(1, 2), 0.02);
+      new ProfiledPIDController(0.2, 0, 0, new Constraints(.5, 1), 0.02);
 
   // private static final PIDController PID = new PIDController(0.005, 0, 0);
 
@@ -119,7 +119,7 @@ public class DriveCommands {
         return getAngleOffsetToFeedRotation(Robot);
 
       case AMP:
-        return getAngleOffsetToAmp(Robot);
+        return Robot.getRotation().minus(getAngleOffsetToAmp(Robot));
 
       default:
         return new Rotation2d(0);
@@ -144,7 +144,7 @@ public class DriveCommands {
   }
 
   private static Rotation2d getAngleOffsetToAmp(Pose2d Robot) {
-    return new Rotation2d();
+    return new Rotation2d(Units.Degrees.of(90));
   }
 
   private static Rotation2d getAngleOffsetToFeedRotation(Pose2d Robot) {
