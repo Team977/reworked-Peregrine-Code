@@ -13,6 +13,7 @@ public class Goals {
     FEED,
     INTAKE,
     AMP,
+    MANULE, 
     NONE
   }
 
@@ -37,6 +38,12 @@ public class Goals {
 
   public static void setPositionSuppler(Supplier<Pose2d> positionSup) {
     position = positionSup;
+  }
+
+  public static void setManule(){
+    ChangeGoal(Goal.MANULE);
+    goalInfo.PassivlysSwitch = false;
+    goalInfo.AutoRotate = false;
   }
 
   public static void Update() {
@@ -64,25 +71,6 @@ public class Goals {
     if (position.get().getX() > NoteSwitchPoseX && goalInfo.goal != Goal.AMP) {
       goalInfo.goal = Goal.INTAKE;
       return;
-    }
-  }
-
-  public static Command getCommandBasedOnGoal(
-      Command Speeker, Command intake, Command Feed, Command Manule, Command Amp) {
-    switch (goalInfo.goal) {
-      case AMP:
-        return Amp;
-
-      case SPEEKER:
-        return Speeker;
-
-      case INTAKE:
-        return intake;
-
-      case FEED:
-        return Feed;
-      default:
-        return Manule;
     }
   }
 

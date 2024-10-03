@@ -80,4 +80,13 @@ public class IOXboxCon implements IOMoudlue {
   public Trigger setDriveModeSlow() {
     return new Trigger(() -> false);
   }
+
+  public Trigger setGoalMannule(){
+    return opporatorCon.leftStick();
+  }
+
+    
+  public default Trigger resetPose(){
+    return opporatorCon.rightStick();
+}
 }
