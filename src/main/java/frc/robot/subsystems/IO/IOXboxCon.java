@@ -81,11 +81,12 @@ public class IOXboxCon implements IOMoudlue {
     return new Trigger(() -> false);
   }
 
-  public Trigger setGoalMannule() {
+  public Trigger setGoalMannule(){
     return opporatorCon.leftStick();
   }
 
-  public Trigger resetPose() {
+    
+  public default Trigger resetPose(){
     return opporatorCon.rightStick();
-  }
+}
 }
