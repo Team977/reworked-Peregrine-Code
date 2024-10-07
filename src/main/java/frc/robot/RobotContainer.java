@@ -28,12 +28,10 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Goals.DriveMode;
 import frc.robot.Goals.Goal;
 import frc.robot.commands.BasicCommands.RunShooter;
-import frc.robot.commands.CommandGroup.AmpScore;
 import frc.robot.commands.CommandGroup.IntakeSequence;
 import frc.robot.commands.CommandGroup.RunNoteBack;
 import frc.robot.commands.CommandGroup.Shoot;
 import frc.robot.commands.CommandGroup.getShooterReady;
-import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.commands.Passive.aimPassive;
 import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.IO.IOMoudlue;
@@ -158,9 +156,9 @@ public class RobotContainer {
             () -> -driverController.getLeftY(),
             () -> -driverController.getRightX()));*/
 
-    drive.setDefaultCommand(
-        DriveCommands.joystickDrive(
-            drive, Contruller.getXPower(), Contruller.getYPower(), Contruller.getOmegaPower()));
+    // drive.setDefaultCommand(
+    //    DriveCommands.joystickDrive(
+    //        drive, Contruller.getXPower(), Contruller.getYPower(), Contruller.getOmegaPower()));
 
     aim.setDefaultCommand(aimPassive.aimPassive(aim));
     // shooter.setDefaultCommand(shooterPassive.shooterPassive(shooter));
@@ -191,8 +189,8 @@ public class RobotContainer {
                     new ConditionalCommand(
                         FeedGetShooterReady,
                         new ConditionalCommand(
-                            ShootAmp, 
-                            MannuleGetShooterReady, 
+                            ShootAmp,
+                            MannuleGetShooterReady,
                             () -> (Goals.getGoalInfo().goal == Goal.AMP)),
                         () -> (Goals.getGoalInfo().goal == Goal.FEED)),
                     () -> (Goals.getGoalInfo().goal == Goal.SPEEKER)),
@@ -226,8 +224,8 @@ public class RobotContainer {
     Contruller.setModeNote().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.INTAKE)));
 
     Contruller.setModeSpeeker().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.SPEEKER)));
-    
-    Contruller.setGoalMannule().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.MANULE)));
+
+    // Contruller.setGoalMannule().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.MANULE)));
 
     Contruller.setPassiveSwitchOff()
         .onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(false)));
