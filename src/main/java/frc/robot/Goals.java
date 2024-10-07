@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.Supplier;
 
 public class Goals {
@@ -12,10 +13,6 @@ public class Goals {
     FEED,
     INTAKE,
     AMP,
-<<<<<<< HEAD
-=======
-    MANULE,
->>>>>>> parent of ffcc00d (Revert "yas")
     NONE
   }
 
@@ -42,15 +39,6 @@ public class Goals {
     position = positionSup;
   }
 
-<<<<<<< HEAD
-=======
-  public static void setManule() {
-    ChangeGoal(Goal.MANULE);
-    goalInfo.PassivlysSwitch = false;
-    goalInfo.AutoRotate = false;
-  }
-
->>>>>>> parent of ffcc00d (Revert "yas")
   public static void Update() {
 
     SmartDashboard.putString("goal", goalInfo.goal.toString());
