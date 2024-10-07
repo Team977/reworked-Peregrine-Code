@@ -199,7 +199,7 @@ public class Candle extends SubsystemBase {
     // SmartDashboard.putString("Top LED State",
     // RobotContainer.modeController.getTopLED().toString());
 
-    if (topLightStop.advanceIfElapsed(time)) {
+    if (topLightStop.advanceIfElapsed(5)) {
 
       LEDSegment.GoalStripL.setColor(black);
       LEDSegment.GoalStripR.setColor(black);

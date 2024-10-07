@@ -80,4 +80,15 @@ public class IOXboxCon implements IOMoudlue {
   public Trigger setDriveModeSlow() {
     return new Trigger(() -> false);
   }
+<<<<<<< HEAD
+=======
+
+  public Trigger setGoalMannule() {
+    return opporatorCon.leftStick();
+  }
+
+  public Trigger resetPose() {
+    return opporatorCon.rightStick();
+  }
+>>>>>>> parent of ffcc00d (Revert "yas")
 }
