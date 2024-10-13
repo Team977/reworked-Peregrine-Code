@@ -29,6 +29,7 @@ import frc.robot.Constants;
 import frc.robot.Goals;
 import frc.robot.Math977;
 import frc.robot.RobotContainer;
+import frc.robot.Goals.Goal;
 import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
 
@@ -90,21 +91,28 @@ public class DriveCommands {
 
   private static final ProfiledPIDController PID =
       new ProfiledPIDController(0.2, 0, 0, new Constraints(.5, 1), 0.02);
+    
+    private static final ProfiledPIDController IntakePID =
+      new ProfiledPIDController(0.2, 0, 0, new Constraints(.5, 1), 0.02);
 
   // private static final PIDController PID = new PIDController(0.005, 0, 0);
 
   private static double getAutoTurnPower(Drive drive) {
 
-    // get Rotations
-    Rotation2d DesiredRotation = getDiseredAutoRotationOffset(drive.getPose());
+    if(Goals.getGoalInfo().goal != Goal.INTAKE){
+    // get Rotation
+      Rotation2d DesiredRotation = getDiseredAutoRotationOffset(drive.getPose());
 
-    SmartDashboard.putNumber("Desired Drive Rotation", DesiredRotation.getRotations());
+      SmartDashboard.putNumber("Desired Drive Rotation", DesiredRotation.getRotations());
 
     // PID.enableContinuousInput(-.5, .5);
     // if (Math.abs(DesiredRotation.getRotations()) > 0.2) {
-    return PID.calculate(DesiredRotation.getRotations(), 0);
+      return PID.calculate(DesiredRotation.getRotations(), 0);
     // }
     // return 0;
+    }
+
+    return getPowerOfRotationToNote(drive.getPose());
   }
 
   private static Rotation2d getDiseredAutoRotationOffset(Pose2d Robot) {
@@ -141,6 +149,10 @@ public class DriveCommands {
     double rotation = RobotContainer.vision.getYawToNote();
     SmartDashboard.putNumber("Yaw to note", -rotation);
     return new Rotation2d(Units.Degrees.of(-rotation));
+  }
+
+  public static double getPowerOfRotationToNote(Pose2d drive){
+    return IntakePID.calculate(getAngleBetweenRobotAndNote(drive).getRotations(), 0);
   }
 
   private static Rotation2d getAngleOffsetToAmp(Pose2d Robot) {

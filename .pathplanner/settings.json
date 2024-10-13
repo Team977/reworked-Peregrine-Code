@@ -6,10 +6,13 @@
     "Bottom_S3_C5_C4_C3-Paths",
     "DistrictPaths",
     "Mid_S2_S1_S3_C4-Paths",
+    "New Folder",
+    "Offseason",
     "Top_S1_C1_C2_C3-Paths"
   ],
   "autoFolders": [
-    "DistrictAutos"
+    "DistrictAutos",
+    "New Folder"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
