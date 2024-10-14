@@ -134,19 +134,21 @@ public class Aim extends SubsystemBase {
     SmartDashboard.putNumber("aim Volts", outputAim.Volts);
     SmartDashboard.putNumber("Desired angle Deg", DesiredAngle.getDegrees());
 
+    SmartDashboard.putNumber("Auto Aim", getAutoAim().getDegrees());
+  }
+
+  public Rotation2d getAutoAim() {
+
     Translation3d Speeker =
         Math977.isRed() ? Constants.Vision.SpeekerRed : Constants.Vision.SpeekerBlue;
 
-    SmartDashboard.putNumber(
-        "Auto Aim",
-        new Rotation2d(
-                Math.atan2(
-                    Speeker.getZ(),
-                    RobotContainer.drive
-                        .getPose()
-                        .getTranslation()
-                        .getDistance(new Translation2d(Speeker.getX(), Speeker.getY()))))
-            .minus(new Rotation2d(Math.PI / 2))
-            .getDegrees());
+    return new Rotation2d(
+            Math.atan2(
+                Speeker.getZ(),
+                RobotContainer.drive
+                    .getPose()
+                    .getTranslation()
+                    .getDistance(new Translation2d(Speeker.getX(), Speeker.getY()))))
+        .minus(new Rotation2d(Math.PI / 2));
   }
 }

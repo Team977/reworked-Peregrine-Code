@@ -33,7 +33,7 @@ import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
 
 public class DriveCommands {
-  private static final double DEADBAND = 0.1;
+  private static final double DEADBAND = 0.05;
 
   private DriveCommands() {}
 
@@ -61,10 +61,11 @@ public class DriveCommands {
           linearMagnitude = linearMagnitude * linearMagnitude;
           omega = Math.copySign(omega * omega, omega);
 
-          linearMagnitude = addTranslationMod(linearMagnitude);
-          omega = addRotationMod(omega);
+          linearMagnitude *= 0.25;
+          omega *= 0.15;
 
-          if (Goals.getGoalInfo().AutoRotate && omega <= Math.abs(0.1)) {
+          SmartDashboard.putNumber("Omega", omega);
+          if (Goals.getGoalInfo().AutoRotate && omega == 0) {
             omega = getAutoTurnPower(drive);
           }
 

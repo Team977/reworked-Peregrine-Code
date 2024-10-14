@@ -63,13 +63,14 @@ public final class Constants {
 
     // The standard deviations of our vision estimated poses, which affect correction rate
     // (Fake values. Experiment and determine estimation noise on an actual robot.)
-    public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
-    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+    public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(2, 2, 4);
+    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.25, 0.25, .5);
 
+    public static final double heaght = 110;
     public static final Translation3d SpeekerRed =
-        new Translation3d(16.579342, Units.inchesToMeters(218.42), Units.inchesToMeters(74));
+        new Translation3d(16.579342, Units.inchesToMeters(218.42), Units.inchesToMeters(heaght));
     public static final Translation3d SpeekerBlue =
-        new Translation3d(-0.0381, Units.inchesToMeters(218.42), Units.inchesToMeters(74));
+        new Translation3d(-0.0381, Units.inchesToMeters(218.42), Units.inchesToMeters(heaght));
   }
 
   public static final Mode currentMode = Mode.REAL;

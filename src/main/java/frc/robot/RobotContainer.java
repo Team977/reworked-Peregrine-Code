@@ -13,13 +13,10 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -28,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Goals.DriveMode;
 import frc.robot.Goals.Goal;
 import frc.robot.commands.BasicCommands.RunShooter;
-import frc.robot.commands.CommandGroup.AmpScore;
 import frc.robot.commands.CommandGroup.IntakeSequence;
 import frc.robot.commands.CommandGroup.RunNoteBack;
 import frc.robot.commands.CommandGroup.Shoot;
@@ -82,7 +78,7 @@ public class RobotContainer {
 
   //  private final OIbase OI = new OIGuitarAndJoystick(1,0);
   // Dashboard inputs
-  private final SendableChooser<Command> autoChooser;
+  // private final SendableChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -129,9 +125,9 @@ public class RobotContainer {
     Commands.startEnd(
             () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel)
         .withTimeout(5.0));*/
-    autoChooser = AutoBuilder.buildAutoChooser();
+    // autoChooser = AutoBuilder.buildAutoChooser();
 
-    SmartDashboard.putData("autos", autoChooser);
+    // SmartDashboard.putData("autos", autoChooser);
     // Set up feedforward characterization
     // autoChooser.addOption(
     //   "Drive FF Characterization",
@@ -190,10 +186,7 @@ public class RobotContainer {
                     getShooterReady,
                     new ConditionalCommand(
                         FeedGetShooterReady,
-                        new ConditionalCommand(
-                            ShootAmp, 
-                            MannuleGetShooterReady, 
-                            () -> (Goals.getGoalInfo().goal == Goal.AMP)),
+                        getAmpReady,
                         () -> (Goals.getGoalInfo().goal == Goal.FEED)),
                     () -> (Goals.getGoalInfo().goal == Goal.SPEEKER)),
                 () -> (Goals.getGoalInfo().goal == Goal.INTAKE)))
@@ -226,18 +219,17 @@ public class RobotContainer {
     Contruller.setModeNote().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.INTAKE)));
 
     Contruller.setModeSpeeker().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.SPEEKER)));
-    
-    Contruller.setGoalMannule().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.MANULE)));
+
+    // Contruller.setGoalMannule().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.MANULE)));
 
     Contruller.setPassiveSwitchOff()
         .onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(false)));
 
     Contruller.setPassiveSwitchOn().onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(true)));
 
-    intake.NoteSensor()
-        .onTrue(Commands.runOnce(() -> CANdle.pickedUpNote()))
-        .onTrue(Commands.run(() -> Goals.ChangeGoal(Goal.SPEEKER)))
-        .onFalse(Commands.run(() -> Goals.ChangeGoal(Goal.INTAKE)));
+    // intake.NoteSensor()
+    //    .onTrue(Commands.runOnce(() -> CANdle.pickedUpNote()));
+    // .onFalse(Commands.run(() -> Goals.ChangeGoal(Goal.INTAKE)));
 
     // test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(0)));
 
@@ -272,6 +264,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return Commands.runOnce(() -> CANdle.pickedUpNote());
   }
 }
