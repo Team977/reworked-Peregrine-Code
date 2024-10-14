@@ -14,44 +14,25 @@
         {
           "type": "named",
           "data": {
-            "name": "GetShooterReadyClose"
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid-S2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "FireNote"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "RunIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Mid-S2"
-                }
-              }
-            ]
+            "name": "GoToNote"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "S2-MidC"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "GetShooterReadyClose"
           }
         },
         {
@@ -67,22 +48,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "RunIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S2-S1"
-                }
-              }
-            ]
+            "name": "FireNote"
           }
         },
         {

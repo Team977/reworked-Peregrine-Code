@@ -43,12 +43,6 @@
               "data": {
                 "name": "GetShooterReady"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "aim"
-              }
             }
           ]
         }
