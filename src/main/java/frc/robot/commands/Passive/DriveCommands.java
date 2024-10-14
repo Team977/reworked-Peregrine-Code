@@ -27,9 +27,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 import frc.robot.Goals;
+import frc.robot.Goals.Goal;
 import frc.robot.Math977;
 import frc.robot.RobotContainer;
-import frc.robot.Goals.Goal;
 import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
 
@@ -92,25 +92,25 @@ public class DriveCommands {
 
   private static final ProfiledPIDController PID =
       new ProfiledPIDController(0.2, 0, 0, new Constraints(.5, 1), 0.02);
-    
-    private static final ProfiledPIDController IntakePID =
+
+  private static final ProfiledPIDController IntakePID =
       new ProfiledPIDController(0.2, 0, 0, new Constraints(.5, 1), 0.02);
 
   // private static final PIDController PID = new PIDController(0.005, 0, 0);
 
   private static double getAutoTurnPower(Drive drive) {
 
-    if(Goals.getGoalInfo().goal != Goal.INTAKE){
-    // get Rotation
+    if (Goals.getGoalInfo().goal != Goal.INTAKE) {
+      // get Rotation
       Rotation2d DesiredRotation = getDiseredAutoRotationOffset(drive.getPose());
 
       SmartDashboard.putNumber("Desired Drive Rotation", DesiredRotation.getRotations());
 
-    // PID.enableContinuousInput(-.5, .5);
-    // if (Math.abs(DesiredRotation.getRotations()) > 0.2) {
+      // PID.enableContinuousInput(-.5, .5);
+      // if (Math.abs(DesiredRotation.getRotations()) > 0.2) {
       return PID.calculate(DesiredRotation.getRotations(), 0);
-    // }
-    // return 0;
+      // }
+      // return 0;
     }
 
     return getPowerOfRotationToNote(drive.getPose());
@@ -152,7 +152,7 @@ public class DriveCommands {
     return new Rotation2d(Units.Degrees.of(-rotation));
   }
 
-  public static double getPowerOfRotationToNote(Pose2d drive){
+  public static double getPowerOfRotationToNote(Pose2d drive) {
     return IntakePID.calculate(getAngleBetweenRobotAndNote(drive).getRotations(), 0);
   }
 

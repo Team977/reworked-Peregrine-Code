@@ -4,13 +4,10 @@
 
 package frc.robot.commands.BasicCommands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Passive.DriveCommands;
 import frc.robot.subsystems.drive.Drive;
 
@@ -21,7 +18,7 @@ public class DriveToNote extends Command {
   Translation2d StartPose;
   double Speed;
   /** Creates a new DriveToRotation. */
-  public DriveToNote(Drive drive, double MaxDistance, double  Speed) {
+  public DriveToNote(Drive drive, double MaxDistance, double Speed) {
     this.drive = drive;
     this.MaxDistance = MaxDistance;
     this.Speed = Speed;
@@ -33,7 +30,6 @@ public class DriveToNote extends Command {
   public void initialize() {
 
     StartPose = drive.getPose().getTranslation();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,12 +38,12 @@ public class DriveToNote extends Command {
 
     double omega = DriveCommands.getPowerOfRotationToNote(drive.getPose());
 
-              drive.runVelocity(
-              ChassisSpeeds.fromFieldRelativeSpeeds(
-                  0,
-                  Speed * drive.getMaxLinearSpeedMetersPerSec(),
-                  omega * drive.getMaxAngularSpeedRadPerSec(), new Rotation2d(0)));
-
+    drive.runVelocity(
+        ChassisSpeeds.fromFieldRelativeSpeeds(
+            0,
+            Speed * drive.getMaxLinearSpeedMetersPerSec(),
+            omega * drive.getMaxAngularSpeedRadPerSec(),
+            new Rotation2d(0)));
   }
 
   // Called once the command ends or is interrupted.
@@ -57,7 +53,7 @@ public class DriveToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(StartPose.getDistance(drive.getPose().getTranslation()) == MaxDistance){
+    if (StartPose.getDistance(drive.getPose().getTranslation()) == MaxDistance) {
       return true;
     }
     return false;
