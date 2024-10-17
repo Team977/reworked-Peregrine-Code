@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 import frc.robot.Goals;
-import frc.robot.Goals.Goal;
 import frc.robot.Math977;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.drive.Drive;
@@ -59,10 +58,10 @@ public class DriveCommands {
           double omega = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND);
 
           // Square values
-          linearMagnitude = linearMagnitude * linearMagnitude;
+          linearMagnitude = linearMagnitude * linearMagnitude * linearMagnitude;
           omega = Math.copySign(omega * omega, omega);
 
-          linearMagnitude *= 0.25;
+          linearMagnitude *= 0.75;
           omega *= 0.15;
 
           SmartDashboard.putNumber("Omega", omega);
@@ -100,20 +99,17 @@ public class DriveCommands {
 
   private static double getAutoTurnPower(Drive drive) {
 
-    if (Goals.getGoalInfo().goal != Goal.INTAKE) {
-      // get Rotation
-      Rotation2d DesiredRotation = getDiseredAutoRotationOffset(drive.getPose());
+    // if (Goals.getGoalInfo().goal != Goal.INTAKE) {
+    // get Rotation
+    Rotation2d DesiredRotation = getDiseredAutoRotationOffset(drive.getPose());
 
-      SmartDashboard.putNumber("Desired Drive Rotation", DesiredRotation.getRotations());
-
-      // PID.enableContinuousInput(-.5, .5);
-      // if (Math.abs(DesiredRotation.getRotations()) > 0.2) {
-      return PID.calculate(DesiredRotation.getRotations(), 0);
-      // }
-      // return 0;
-    }
-
-    return getPowerOfRotationToNote(drive.getPose());
+    SmartDashboard.putNumber("Desired Drive Rotation", DesiredRotation.getRotations());
+    // }
+    // PID.enableContinuousInput(-.5, .5);
+    // if (Math.abs(DesiredRotation.getRotations()) > 0.2) {
+    return PID.calculate(DesiredRotation.getRotations(), 0);
+    // }
+    // return 0;
   }
 
   private static Rotation2d getDiseredAutoRotationOffset(Pose2d Robot) {
@@ -142,7 +138,8 @@ public class DriveCommands {
                 ? Constants.Vision.SpeekerRed.toTranslation2d()
                 : Constants.Vision.SpeekerBlue.toTranslation2d());
 
-    return new Rotation2d(Math.atan2(offset.getY(), offset.getX()));
+    return new Rotation2d(Math.atan2(offset.getY(), offset.getX()))
+        .minus(new Rotation2d(Units.Degree.of(-2.25)));
   }
 
   private static Rotation2d getAngleBetweenRobotAndNote(Pose2d Robot) {
@@ -157,7 +154,7 @@ public class DriveCommands {
   }
 
   private static Rotation2d getAngleOffsetToAmp(Pose2d Robot) {
-    return new Rotation2d(Units.Degrees.of(90));
+    return new Rotation2d(Units.Degrees.of(-97.25));
   }
 
   private static Rotation2d getAngleOffsetToFeedRotation(Pose2d Robot) {

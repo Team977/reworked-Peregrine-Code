@@ -32,7 +32,8 @@ public class AmpScore extends ParallelCommandGroup {
             Commands.waitUntil(() -> aim.atPosition(shootRotation, new Rotation2d(Math.PI / 20)))
                 // run shooter when angle close to 0
                 .andThen(
-                    new RunShooter(shooter, 4).alongWith(new RunIntake(intake, .5).repeatedly()))
+                    new RunShooter(shooter, () -> 4)
+                        .alongWith(new RunIntake(intake, .5).repeatedly()))
                 .withTimeout(1),
 
             // ends when above command ends:

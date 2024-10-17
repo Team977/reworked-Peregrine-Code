@@ -134,7 +134,7 @@ public class Aim extends SubsystemBase {
     SmartDashboard.putNumber("aim Volts", outputAim.Volts);
     SmartDashboard.putNumber("Desired angle Deg", DesiredAngle.getDegrees());
 
-    SmartDashboard.putNumber("Auto Aim", getAutoAim().getDegrees());
+    // SmartDashboard.putNumber("Auto Aim", getAutoAim().getDegrees());
   }
 
   public Rotation2d getAutoAim() {

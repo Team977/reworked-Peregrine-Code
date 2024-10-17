@@ -48,6 +48,7 @@ public class Goals {
   public static void Update() {
 
     SmartDashboard.putString("goal", goalInfo.goal.toString());
+    SmartDashboard.putBoolean("Auto Rotate", goalInfo.AutoRotate);
 
     if (!goalInfo.PassivlysSwitch) {
       return;

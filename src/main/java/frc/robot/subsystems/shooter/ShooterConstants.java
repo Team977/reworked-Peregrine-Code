@@ -3,7 +3,7 @@ package frc.robot.subsystems.shooter;
 public class ShooterConstants {
 
   // rps
-  public static final double SpeekerShooterSpeed = 20;
+  public static final double SpeekerShooterSpeed = 7.5;
   // rps
   public static final double FeedShooterSpeed = 4;
 

@@ -14,13 +14,26 @@
         {
           "type": "named",
           "data": {
+            "name": "SpinUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "FireNote"
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "Mid-S2"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Mid-S2"
+                }
+              }
+            ]
           }
         },
         {
@@ -38,6 +51,12 @@
         {
           "type": "named",
           "data": {
+            "name": "SpinUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "FireNote"
           }
         },
@@ -50,7 +69,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FireNote"
+            "name": "GoToNote"
           }
         },
         {

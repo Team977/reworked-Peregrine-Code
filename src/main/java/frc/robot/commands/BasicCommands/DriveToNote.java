@@ -40,8 +40,8 @@ public class DriveToNote extends Command {
 
     drive.runVelocity(
         ChassisSpeeds.fromFieldRelativeSpeeds(
-            0,
             Speed * drive.getMaxLinearSpeedMetersPerSec(),
+            0,
             omega * drive.getMaxAngularSpeedRadPerSec(),
             new Rotation2d(0)));
   }
@@ -53,7 +53,7 @@ public class DriveToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (StartPose.getDistance(drive.getPose().getTranslation()) == MaxDistance) {
+    if (StartPose.getDistance(drive.getPose().getTranslation()) >= MaxDistance) {
       return true;
     }
     return false;

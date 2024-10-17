@@ -13,10 +13,14 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -24,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Goals.DriveMode;
 import frc.robot.Goals.Goal;
+import frc.robot.commands.BasicCommands.DriveToNote;
 import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.commands.CommandGroup.IntakeSequence;
 import frc.robot.commands.CommandGroup.RunNoteBack;
@@ -69,7 +74,7 @@ public class RobotContainer {
   public static Intake intake;
   public static final Vision vision = new Vision();
   public static FeedIntake feedIntake;
-  private static Candle CANdle = new Candle();
+  public static Candle CANdle = new Candle();
 
   private static final CommandXboxController test = new CommandXboxController(0);
   private static final CommandXboxController OpTest = new CommandXboxController(1);
@@ -78,7 +83,7 @@ public class RobotContainer {
 
   //  private final OIbase OI = new OIGuitarAndJoystick(1,0);
   // Dashboard inputs
-  // private final SendableChooser<Command> autoChooser;
+  private final SendableChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -125,9 +130,22 @@ public class RobotContainer {
     Commands.startEnd(
             () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel)
         .withTimeout(5.0));*/
-    // autoChooser = AutoBuilder.buildAutoChooser();
 
-    // SmartDashboard.putData("autos", autoChooser);
+    NamedCommands.registerCommand(
+        "GoToNote",
+        new DriveToNote(drive, 1.5, .01).raceWith(new IntakeSequence(feedIntake, intake, shooter)));
+    NamedCommands.registerCommand(
+        "SpinUp",
+        new RunShooter(shooter, () -> ShooterConstants.SpeekerShooterSpeed).withTimeout(.2));
+    NamedCommands.registerCommand(
+        "GetShooterReady", new getShooterReady(drive, aim, shooter, intake));
+    NamedCommands.registerCommand(
+        "FireNote",
+        new Shoot(shooter, intake, ShooterConstants.SpeekerShooterSpeed, 1)
+            .withTimeout(.5)
+            .andThen(new RunShooter(shooter, () -> 0).withTimeout(0.1)));
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("autos", autoChooser);
     // Set up feedforward characterization
     // autoChooser.addOption(
     //   "Drive FF Characterization",
@@ -154,6 +172,7 @@ public class RobotContainer {
             () -> -driverController.getLeftY(),
             () -> -driverController.getRightX()));*/
 
+    shooter.setDefaultCommand(new RunShooter(shooter, () -> 0));
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive, Contruller.getXPower(), Contruller.getYPower(), Contruller.getOmegaPower()));
@@ -163,18 +182,21 @@ public class RobotContainer {
 
     Command intakeSequence = new IntakeSequence(feedIntake, intake, shooter);
     Command getShooterReady = new getShooterReady(drive, aim, shooter, intake);
-    Command getAmpReady = new RunNoteBack(shooter, intake);
+    Command getAmpReady =
+        new RunNoteBack(shooter, intake)
+            .repeatedly()
+            .withTimeout(0.3); // .andThen(new RunShooter(shooter, () -> 1.6));
     /*new AngleShooter(
         aim, () -> aimConstaints.PassiveAmpAngle, new Rotation2d(Units.Degrees.of(1)))
     .andThen(new RunShooter(shooter, 1.5).alongWith(new RunIntake(intake, 1)));*/
     Command setPoseAtSpeeker = Commands.runOnce(() -> drive.StepPoseAtSpeeker(1.5));
-    Command ShootAmp = new Shoot(shooter, intake, 1.5, 1);
+    Command ShootAmp = new Shoot(shooter, intake, 1.6, 1);
     Command Shoot = new Shoot(shooter, intake, ShooterConstants.SpeekerShooterSpeed, 1);
     Command MannuleGetShooterReady =
         new getShooterReady(drive, aim, shooter, intake, new Rotation2d(Units.Degrees.of(-25)));
     Command FeedGetShooterReady =
         new getShooterReady(drive, aim, shooter, intake, aimConstaints.FeedAngle);
-    Command stopShooter = new RunShooter(shooter, 0);
+    Command stopShooter = new RunShooter(shooter, () -> 0);
     Command RevIntake = new Shoot(shooter, intake, -1, -.1);
 
     Contruller.Intake().whileTrue(stopShooter);
@@ -194,7 +216,10 @@ public class RobotContainer {
 
     Contruller.getShoot()
         .whileTrue(
-            new ConditionalCommand(ShootAmp, Shoot, () -> (Goals.getGoalInfo().goal == Goal.AMP)))
+            new ConditionalCommand(ShootAmp, Shoot, () -> (Goals.getGoalInfo().goal == Goal.AMP))
+                .alongWith(
+                    Commands.run(() -> RobotContainer.CANdle.SetNormal()),
+                    Commands.run(() -> Goals.ChangeGoal(Goal.INTAKE))))
         .whileFalse(stopShooter);
 
     Contruller.ReverseIntake().whileTrue(RevIntake); // .whileFalse(stopShooter);
@@ -222,13 +247,20 @@ public class RobotContainer {
 
     // Contruller.setGoalMannule().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.MANULE)));
 
-    Contruller.setPassiveSwitchOff()
-        .onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(false)));
+    Contruller.setAutoRotateOff().whileTrue(Commands.run(() -> Goals.setAutoRotate(false)));
+    Contruller.setAutoRotateOn().whileTrue(Commands.run(() -> Goals.setAutoRotate(true)));
+    Contruller.resetPose().whileTrue(Commands.run(() -> drive.resetPose()));
 
-    Contruller.setPassiveSwitchOn().onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(true)));
+    // Contruller.setPassiveSwitchOff()
+    //    .onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(false)));
+
+    // Contruller.setPassiveSwitchOn().onTrue(Commands.runOnce(() ->
+    // Goals.setPassivlysSwitch(true)));
+    // SmartDashboard.putData("Drive to Note", new DriveToNote(drive, 1,
+    // .1).raceWith(intakeSequence));
 
     // intake.NoteSensor()
-    //    .onTrue(Commands.runOnce(() -> CANdle.pickedUpNote()));
+    // .onTrue(Commands.runOnce(() -> CANdle.pickedUpNote()));
     // .onFalse(Commands.run(() -> Goals.ChangeGoal(Goal.INTAKE)));
 
     // test.a().whileTrue(new AngleShooter(aim, () -> new Rotation2d(0)));
@@ -264,6 +296,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return Commands.runOnce(() -> CANdle.pickedUpNote());
+    return autoChooser.getSelected();
   }
 }

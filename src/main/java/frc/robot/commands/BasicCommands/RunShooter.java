@@ -6,14 +6,15 @@ package frc.robot.commands.BasicCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.Shooter;
+import java.util.function.DoubleSupplier;
 
 public class RunShooter extends Command {
 
   private final Shooter shooter;
-  private final double speed;
+  private final DoubleSupplier speed;
 
   /** Creates a new RunShooter. */
-  public RunShooter(Shooter shooter, double Speed) {
+  public RunShooter(Shooter shooter, DoubleSupplier Speed) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.shooter = shooter;
@@ -29,7 +30,7 @@ public class RunShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setVelocity(speed);
+    shooter.setVelocity(speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

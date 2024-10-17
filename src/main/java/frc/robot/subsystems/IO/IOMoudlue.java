@@ -17,6 +17,10 @@ public interface IOMoudlue {
     return () -> 0;
   }
 
+  public default Trigger resetPose() {
+    return new Trigger(() -> false);
+  }
+
   public default Trigger getShooterReady() {
     return new Trigger(() -> false);
   }
@@ -74,14 +78,6 @@ public interface IOMoudlue {
   }
 
   public default Trigger setDriveModeSlow() {
-    return new Trigger(() -> false);
-  }
-
-  public default Trigger setGoalMannule() {
-    return new Trigger(() -> false);
-  }
-
-  public default Trigger resetPose() {
     return new Trigger(() -> false);
   }
 }

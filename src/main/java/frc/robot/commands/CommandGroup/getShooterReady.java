@@ -68,9 +68,10 @@ public class getShooterReady extends ParallelCommandGroup {
                 // spin up shooter
                 new RunShooter(
                     shooter,
-                    Goals.getGoalInfo().goal == Goal.SPEEKER
-                        ? ShooterConstants.SpeekerShooterSpeed
-                        : ShooterConstants.FeedShooterSpeed)));
+                    () ->
+                        Goals.getGoalInfo().goal == Goal.SPEEKER
+                            ? ShooterConstants.SpeekerShooterSpeed
+                            : ShooterConstants.SpeekerShooterSpeed)));
   }
 
   public getShooterReady(
@@ -86,10 +87,7 @@ public class getShooterReady extends ParallelCommandGroup {
             .andThen(
 
                 // spin up shooter
-                new RunShooter(
-                    shooter,
-                    Goals.getGoalInfo().goal == Goal.SPEEKER
-                        ? ShooterConstants.SpeekerShooterSpeed
-                        : ShooterConstants.FeedShooterSpeed)));
+                new RunShooter(shooter, () -> Goals.getGoalInfo().goal == Goal.SPEEKER ? 20 : 20)));
+    // ShooterConstants.FeedShooterSpeed)));
   }
 }

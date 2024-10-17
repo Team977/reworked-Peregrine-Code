@@ -4,7 +4,11 @@
 
 package frc.robot.commands.CommandGroup;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.Goals;
+import frc.robot.Goals.Goal;
+import frc.robot.RobotContainer;
 import frc.robot.commands.BasicCommands.RunIntake;
 import frc.robot.commands.BasicCommands.RunShooter;
 import frc.robot.commands.BasicCommands.runFeedIntake;
@@ -31,7 +35,11 @@ public class IntakeSequence extends ParallelCommandGroup {
             .andThen(
                 new RunIntake(intake, .2)
                     .repeatedly()
-                    .alongWith(new RunShooter(shooter, -1))
-                    .withTimeout(1)));
+                    .alongWith(
+                        new RunShooter(shooter, () -> -1),
+                        Commands.runOnce(() -> RobotContainer.CANdle.pickedUpNote()),
+                        Commands.runOnce(() -> Goals.ChangeGoal(Goal.SPEEKER)))
+                    .withTimeout(0.2)
+                    .andThen(new RunShooter(shooter, () -> 0))));
   }
 }

@@ -188,7 +188,7 @@ public class Vision {
     PhotonPipelineResult NoteDet = getLatestNoteResult();
 
     if (NoteDet.hasTargets()) {
-      return -NoteDet.getBestTarget().getYaw();
+      return -NoteDet.getBestTarget().getYaw() + 10;
     } else return 0.0;
   }
 
