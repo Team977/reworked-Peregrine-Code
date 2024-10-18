@@ -3,52 +3,40 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.89,
-        "y": 6.17
+        "x": 1.309243119380694,
+        "y": 6.314843398917567
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.960511242959807,
-        "y": 6.572114796651245
+        "x": 4.319807995608835,
+        "y": 7.342841161532056
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.281950694955519,
-        "y": 5.776912294565331
+        "x": 8.211513811220824,
+        "y": 7.4309552554704394
       },
       "prevControl": {
-        "x": 6.5629099919168485,
-        "y": 6.010795383414129
+        "x": 5.068777794085105,
+        "y": 7.460326620116567
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
-  "constraintZones": [],
-  "eventMarkers": [
+  "rotationTargets": [
     {
-      "name": "ResetShooter",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "ResetShooter"
-              }
-            }
-          ]
-        }
-      }
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0,
+      "rotateFast": false
     }
   ],
+  "constraintZones": [],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
@@ -61,9 +49,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Mid_S2_S1_S3_C4-Paths",
+  "folder": "Amp-S1-Mid",
   "previewStartingState": {
-    "rotation": 26.676591670308255,
+    "rotation": 32.19573393471332,
     "velocity": 0
   },
   "useDefaultConstraints": false

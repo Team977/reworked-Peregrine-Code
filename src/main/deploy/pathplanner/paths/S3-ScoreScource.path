@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6946944060158917,
-        "y": 6.659084862112717
+        "x": 2.777811351687105,
+        "y": 4.156048097427144
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7184190187857824,
-        "y": 7.029575674353249
+        "x": 1.9113560946263224,
+        "y": 4.258847873688592
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.966388070543364,
-        "y": 7.000326399702681
+        "x": 1.2211290254423093,
+        "y": 4.581932884796002
       },
       "prevControl": {
-        "x": 1.9663880705433638,
-        "y": 7.000326399702681
+        "x": 1.8379276830110018,
+        "y": 4.3029049206577845
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -47,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ResetShooter"
+                "name": "GetShooterReady"
               }
             }
           ]
@@ -56,21 +50,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -29.248826336546923,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "DistrictPaths",
+  "folder": "Source-S3-Mid",
   "previewStartingState": {
-    "rotation": 58.97611461255429,
+    "rotation": -1.8476102659946785,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

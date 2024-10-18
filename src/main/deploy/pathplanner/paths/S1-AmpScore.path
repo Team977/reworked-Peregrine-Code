@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9956373451939315,
-        "y": 6.990576641485824
+        "x": 2.8512397633024253,
+        "y": 6.990384785778517
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3326537864477173,
-        "y": 6.971077125052112
+        "x": 2.11695564714922,
+        "y": 6.9022706918401315
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.7574180516532072,
-        "y": 6.756582444281278
+        "x": 1.2798717547345657,
+        "y": 6.417643175179016
       },
       "prevControl": {
-        "x": 2.2644054789297248,
-        "y": 7.107573740088097
+        "x": 1.9994701885647073,
+        "y": 6.975699103455453
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,21 +50,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 34.04593735660167,
+    "rotation": 31.82744657667307,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "DistrictPaths",
+  "folder": "Amp-S1-Mid",
   "previewStartingState": {
-    "rotation": -8.004728857292815,
+    "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
