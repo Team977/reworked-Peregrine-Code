@@ -76,7 +76,7 @@ public class RobotContainer {
   public static FeedIntake feedIntake;
   public static Candle CANdle = new Candle();
 
-  private static final CommandXboxController test = new CommandXboxController(0);
+  // private static final CommandXboxController test = new CommandXboxController(0);
   private static final CommandXboxController OpTest = new CommandXboxController(1);
 
   private static IOMoudlue Contruller = new IOXboxCon();
@@ -187,7 +187,10 @@ public class RobotContainer {
     Command getAmpReady =
         new RunNoteBack(shooter, intake)
             .repeatedly()
-            .withTimeout(0.3); // .andThen(new RunShooter(shooter, () -> 1.6));
+            .withTimeout(0.3)
+            .andThen(
+                new RunShooter(
+                    shooter, () -> 1.6)); // .andThen(new RunShooter(shooter, () -> 1.6));
     /*new AngleShooter(
         aim, () -> aimConstaints.PassiveAmpAngle, new Rotation2d(Units.Degrees.of(1)))
     .andThen(new RunShooter(shooter, 1.5).alongWith(new RunIntake(intake, 1)));*/
@@ -212,7 +215,9 @@ public class RobotContainer {
                         FeedGetShooterReady,
                         getAmpReady,
                         () -> (Goals.getGoalInfo().goal == Goal.FEED)),
-                    () -> (Goals.getGoalInfo().goal == Goal.SPEEKER)),
+                    () ->
+                        (Goals.getGoalInfo().goal == Goal.SPEEKER
+                            || Goals.getGoalInfo().goal == Goal.MANULE)),
                 () -> (Goals.getGoalInfo().goal == Goal.INTAKE)))
         .whileFalse(stopShooter);
 
@@ -253,6 +258,7 @@ public class RobotContainer {
     Contruller.setAutoRotateOn().whileTrue(Commands.run(() -> Goals.setAutoRotate(true)));
     Contruller.resetPose().whileTrue(Commands.run(() -> drive.resetPose()));
 
+    OpTest.a().whileTrue(Commands.run(() -> Goals.ChangeGoal(Goal.MANULE)));
     // Contruller.setPassiveSwitchOff()
     //    .onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(false)));
 

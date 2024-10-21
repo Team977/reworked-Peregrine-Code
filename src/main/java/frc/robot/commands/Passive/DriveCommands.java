@@ -154,7 +154,7 @@ public class DriveCommands {
   }
 
   private static Rotation2d getAngleOffsetToAmp(Pose2d Robot) {
-    return new Rotation2d(Units.Degrees.of(-97.25));
+    return new Rotation2d(Units.Degrees.of(-90));
   }
 
   private static Rotation2d getAngleOffsetToFeedRotation(Pose2d Robot) {

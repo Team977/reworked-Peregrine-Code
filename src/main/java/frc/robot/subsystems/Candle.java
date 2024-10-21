@@ -183,7 +183,7 @@ public class Candle extends SubsystemBase {
     LEDSegment.TopStripR.setColor(white);
   }
 
-  public void readyToShoot() {
+  public static void readyToShoot() {
     LEDSegment.TopStripL.setColor(green);
     LEDSegment.TopStripR.setColor(green);
   }
@@ -219,6 +219,11 @@ public class Candle extends SubsystemBase {
         LEDSegment.GoalStripL.setColor(blue);
         LEDSegment.GoalStripR.setColor(blue);
 
+        break;
+
+      case MANULE:
+        LEDSegment.GoalStripL.setColor(green);
+        LEDSegment.GoalStripR.setColor(green);
         break;
       default:
         LEDSegment.GoalStripL.setColor(black);
