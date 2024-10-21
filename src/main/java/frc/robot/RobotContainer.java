@@ -144,6 +144,8 @@ public class RobotContainer {
         new Shoot(shooter, intake, ShooterConstants.SpeekerShooterSpeed, 1)
             .withTimeout(.5)
             .andThen(new RunShooter(shooter, () -> 0).withTimeout(0.1)));
+
+    NamedCommands.registerCommand("RunIntake", new IntakeSequence(feedIntake, intake, shooter));
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("autos", autoChooser);
     // Set up feedforward characterization

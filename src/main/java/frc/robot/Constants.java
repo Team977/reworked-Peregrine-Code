@@ -66,7 +66,7 @@ public final class Constants {
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(2, 2, 4);
     public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
 
-    public static final double heaght = 97.5;
+    public static final double heaght = 89 + 7;
     public static final Translation3d SpeekerRed =
         new Translation3d(16.579342, Units.inchesToMeters(218.42), Units.inchesToMeters(heaght));
     public static final Translation3d SpeekerBlue =
