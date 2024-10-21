@@ -29,14 +29,25 @@ import static frc.robot.Constants.Vision.*;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import javax.swing.text.html.Option;
+
+import org.opencv.photo.Photo;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Vision {
   private final PhotonCamera aprilTagCameraLeft;
@@ -46,6 +57,11 @@ public class Vision {
   private final PhotonPoseEstimator PhotonEstimatorLeft;
   private final PhotonPoseEstimator PhotonEstimatorRight;
   private double lastEstTimestamp = 0;
+
+  private static enum ProcessingType{
+    AVERAGE,
+    TAKEBESTVALUE
+  }
 
   public Vision() {
     aprilTagCameraLeft = new PhotonCamera(kAprilTagCameraNameLeft);
@@ -69,12 +85,8 @@ public class Vision {
     PhotonEstimatorRight.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
   }
 
-  public PhotonPipelineResult getLatestAprilTagResultLeft() {
-    return aprilTagCameraLeft.getLatestResult();
-  }
-
-  public PhotonPipelineResult getLatestAprilTagResultRight() {
-    return aprilTagCameraRight.getLatestResult();
+  public PhotonPipelineResult getLatestAprilTagResult(PhotonCamera photonCamera) {
+    return photonCamera.getLatestResult();
   }
 
   /**
@@ -84,18 +96,10 @@ public class Vision {
    * @return An {@link EstimatedRobotPose} with an estimated pose, estimate timestamp, and targets
    *     used for estimation.
    */
-  public Optional<EstimatedRobotPose> getEstimatedGlobalPoseLeft() {
-    var visionEst = PhotonEstimatorLeft.update();
-    double latestTimestamp = aprilTagCameraLeft.getLatestResult().getTimestampSeconds();
-    boolean newResult = Math.abs(latestTimestamp - lastEstTimestamp) > 1e-5;
 
-    if (newResult) lastEstTimestamp = latestTimestamp;
-    return visionEst;
-  }
-
-  public Optional<EstimatedRobotPose> getEstimatedGlobalPoseRight() {
-    var visionEst = PhotonEstimatorRight.update();
-    double latestTimestamp = aprilTagCameraRight.getLatestResult().getTimestampSeconds();
+    public Optional<EstimatedRobotPose> getEstimatedGlobalPose(PhotonPoseEstimator photonPoseEstimator, PhotonCamera photonCamera) {
+    var visionEst = photonPoseEstimator.update();
+    double latestTimestamp = photonCamera.getLatestResult().getTimestampSeconds();
     boolean newResult = Math.abs(latestTimestamp - lastEstTimestamp) > 1e-5;
 
     if (newResult) lastEstTimestamp = latestTimestamp;
@@ -103,7 +107,14 @@ public class Vision {
   }
 
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
-    Optional<EstimatedRobotPose> RightCamera = getEstimatedGlobalPoseRight();
+
+    List<Optional<EstimatedRobotPose>> robotPoses = new ArrayList<Optional<EstimatedRobotPose>>();
+    robotPoses.add(getEstimatedGlobalPose(PhotonEstimatorLeft, aprilTagCameraLeft));
+    robotPoses.add(getEstimatedGlobalPose(PhotonEstimatorRight, aprilTagCameraRight));
+
+    return combinePoses(robotPoses);
+
+    /*Optional<EstimatedRobotPose> RightCamera = getEstimatedGlobalPoseRight();
     Optional<EstimatedRobotPose> LeftCamera = getEstimatedGlobalPoseLeft();
 
     if (RightCamera.isEmpty() || LeftCamera.isEmpty()) {
@@ -138,6 +149,77 @@ public class Vision {
 
     new Est*/
   }
+  
+  private Optional<EstimatedRobotPose> combinePoses(List<Optional<EstimatedRobotPose>> poses){
+
+    boolean hasValues = false;
+
+    Pose3d estamatedAvgPose = new Pose3d(0, 0, 0, new Rotation3d(0, 0, 0));
+
+    List<PhotonTrackedTarget> photonTrackedTargets = new ArrayList<PhotonTrackedTarget>();
+
+    double lastEstTimestamp = 0;
+
+    int usedSamples = 0;
+
+    for(int i = 0; i < poses.size(); i++){
+
+      if(poses.get(i).isPresent()){
+
+        EstimatedRobotPose estimatedRobotPoseLoop = poses.get(i).get();
+
+        if(i != 0){
+          if(estamatedAvgPose.getTranslation().getDistance(estimatedRobotPoseLoop.estimatedPose.getTranslation()) > 1){
+            return Optional.empty();
+          };
+        }
+
+        estamatedAvgPose
+          .plus(
+              new Transform3d(estimatedRobotPoseLoop.estimatedPose.getTranslation()
+                , estimatedRobotPoseLoop.estimatedPose.getRotation())).div(poses.size());
+
+        lastEstTimestamp
+           = lastEstTimestamp < estimatedRobotPoseLoop.timestampSeconds? estimatedRobotPoseLoop.timestampSeconds: lastEstTimestamp;
+      
+          photonTrackedTargets = combinePhotonTrackedTargets(photonTrackedTargets, estimatedRobotPoseLoop.targetsUsed);
+
+          /*
+        for(int j = 0; j < estimatedRobotPoseLoop.targetsUsed.size(); j++){
+
+          if(!photonTrackedTargets.contains(estimatedRobotPoseLoop.targetsUsed.get(j))){
+            photonTrackedTargets.add(estimatedRobotPoseLoop.targetsUsed.get(j));
+          }
+
+        } */
+
+      }else{
+        return Optional.empty();
+      }
+
+    }
+
+    estamatedAvgPose.div(usedSamples);
+
+    if(!hasValues){
+      return Optional.empty();
+    }
+
+    return Optional.of(new EstimatedRobotPose(estamatedAvgPose, lastEstTimestamp, photonTrackedTargets, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR));
+
+  }
+
+  public List<PhotonTrackedTarget> combinePhotonTrackedTargets(List<PhotonTrackedTarget> photonTargetsAddTo, List<PhotonTrackedTarget> photonTargetsAdd){
+        for(int j = 0; j < photonTargetsAdd.size(); j++){
+
+          if(!photonTargetsAddTo.contains(photonTargetsAdd.get(j))){
+            photonTargetsAddTo.add(photonTargetsAdd.get(j));
+          }
+
+        }
+
+        return photonTargetsAddTo;
+  }
 
   public double getAngle() {
     if (aprilTagCameraRight.getLatestResult().hasTargets()) {
@@ -154,7 +236,7 @@ public class Vision {
    */
   public Matrix<N3, N1> getEstimationStdDevs(Pose2d estimatedPose) {
     var estStdDevs = kSingleTagStdDevs;
-    var targets = getLatestAprilTagResultLeft().getTargets();
+    var targets = combinePhotonTrackedTargets(getLatestAprilTagResult(aprilTagCameraLeft).targets, getLatestAprilTagResult(aprilTagCameraRight).targets);
     int numTags = 0;
     double avgDist = 0;
     for (var tgt : targets) {
