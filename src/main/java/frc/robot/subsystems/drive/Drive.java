@@ -13,6 +13,8 @@
 
 package frc.robot.subsystems.drive;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -157,8 +159,8 @@ public class Drive extends SubsystemBase {
                   LogOut logout = modules[0].getLog();
 
                   log.motor("FL")
-                      .angularPosition(logout.rotation)
-                      .angularVelocity(logout.anglerVelocity)
+                      .angularPosition(Degrees.of( gyroInputs.yawPosition.getDegrees()))
+                      .angularVelocity(RadiansPerSecond.of(gyroInputs.yawVelocityRadPerSec))
                       .current(logout.amps)
                       .voltage(logout.volts);
                   // .linearPosition(logout.Position)
