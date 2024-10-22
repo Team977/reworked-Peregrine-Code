@@ -3,43 +3,49 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7218158264581296,
-        "y": 4.4057046969192335
+        "x": 3.804867277192988,
+        "y": 5.30386846996972
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5588997188727838,
-        "y": 3.9651342272273102
+        "x": 7.363529026345465,
+        "y": 2.9346772232736873
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8071827163332332,
-        "y": 4.097305368134887
+        "x": 8.309255573380506,
+        "y": 3.080923596526529
       },
       "prevControl": {
-        "x": 1.8071827163332332,
-        "y": 4.097305368134887
+        "x": 6.817542566201523,
+        "y": 3.0224250472253917
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
+  "rotationTargets": [],
+  "constraintZones": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 0,
-      "rotateFast": false
+      "name": "end",
+      "minWaypointRelativePos": 0.6,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
     }
   ],
-  "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.2,
+      "name": "get SHooter ready",
+      "waypointRelativePos": 0.4,
       "command": {
         "type": "parallel",
         "data": {
@@ -47,7 +53,7 @@
             {
               "type": "named",
               "data": {
-                "name": "RunIntake"
+                "name": "ResetShooter"
               }
             }
           ]
@@ -56,21 +62,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 0,
+    "velocity": 0.0,
+    "rotation": -5.492324557127427,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Source-S3-Mid",
+  "folder": "DistrictPaths",
   "previewStartingState": {
-    "rotation": -63.43494882292208,
+    "rotation": 0.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

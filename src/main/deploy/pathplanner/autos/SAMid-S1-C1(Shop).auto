@@ -1,0 +1,111 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7824422299675968,
+      "y": 6.727333169630711
+    },
+    "rotation": 56.88865803962799
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "GetShooterReadyCloseFast"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "MidSC-S1"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1-Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S1-C1(Shop)"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RunMagAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C1-Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GetShooterReadyClose"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1-C1(Shop)"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "DistrictAutos",
+  "choreoAuto": false
+}

@@ -1,0 +1,103 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.34,
+      "y": 5.557362183607978
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "GetShooterReadyClose"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid-S2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RunMagAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S2-MidC"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S2-Score-C3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RunMagAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C3-Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C3-Score-C2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RunMagAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C2-Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "DistrictAutos",
+  "choreoAuto": false
+}

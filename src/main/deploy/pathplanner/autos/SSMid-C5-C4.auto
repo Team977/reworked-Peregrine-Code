@@ -1,0 +1,105 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.8327743151212798,
+      "y": 4.373613761472538
+    },
+    "rotation": -58.67130713219582
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "GetShooterReadyCloseFast"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SSMid-C5"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GoToNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score-C5-Straght"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GetShooterReadyClose"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Score-C5-C3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GoToNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score-C4-Straght"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GetShooterReadyClose"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "DistrictAutos",
+  "choreoAuto": false
+}
