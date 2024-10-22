@@ -35,7 +35,6 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -96,12 +95,11 @@ public class Drive extends SubsystemBase {
           Constants.Vision.kRobotToApriltagCamRight.getRotation()); */
 
   // WPILib
-  StructPublisher<Pose3d> publisher =
+  StructPublisher<Pose3d> publisherL =
       NetworkTableInstance.getDefault().getStructTopic("leftCamPose", Pose3d.struct).publish();
-  StructArrayPublisher<Pose3d> arrayPublisher =
-      NetworkTableInstance.getDefault()
-          .getStructArrayTopic("leftCamPoseArray", Pose3d.struct)
-          .publish();
+  StructPublisher<Pose3d> publisherR =
+      NetworkTableInstance.getDefault().getStructTopic("rightCamPose", Pose3d.struct).publish();
+
   //  private StructArrayPublisher<Pose3d> arrayPublisher =
   //     NetworkTableInstance.getDefault().getStructArrayTopic("AprilTags",
   // Pose3d.struct).publish();
@@ -173,7 +171,14 @@ public class Drive extends SubsystemBase {
 
   public void periodic() {
 
-    // publisher.set(cameraLeft);
+    publisherL.set(
+        new Pose3d(
+            Constants.Vision.kRobotToApriltagCamLeft.getTranslation(),
+            Constants.Vision.kRobotToApriltagCamLeft.getRotation()));
+    publisherR.set(
+        new Pose3d(
+            Constants.Vision.kRobotToApriltagCamRight.getTranslation(),
+            Constants.Vision.kRobotToApriltagCamRight.getRotation()));
     // arrayPublisher.set(new Pose3d[] {cameraLeft, cameraRight});
     SmartDashboard.putNumber("robot Rotation", getPose().getRotation().getDegrees());
 

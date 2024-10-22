@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.9847983228729987,
+      "y": 6.583808951093687
+    },
+    "rotation": 57.14427804956695
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp-S1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1-AmpScore"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AmpScore-Mid"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

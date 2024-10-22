@@ -18,7 +18,7 @@ public class Goals {
 
   public static class GoalInfo {
 
-    public Goal goal = Goal.INTAKE;
+    public Goal goal = Goal.MANULE;
     public boolean AutoRotate = true;
     public boolean PassivlysSwitch = false;
   }

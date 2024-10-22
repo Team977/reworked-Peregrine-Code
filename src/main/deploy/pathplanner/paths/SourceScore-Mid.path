@@ -1,0 +1,69 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.9091890867867262,
+        "y": 4.426390230452671
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.508149434351127,
+        "y": 1.394215425010424
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.997263310441111,
+        "y": 1.140721711372164
+      },
+      "prevControl": {
+        "x": 6.997263310441111,
+        "y": 1.140721711372164
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.25,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Source-S3-Mid",
+  "previewStartingState": {
+    "rotation": -49.08561677997492,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

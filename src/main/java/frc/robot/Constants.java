@@ -50,12 +50,12 @@ public final class Constants {
     public static final Transform3d kRobotToApriltagCamLeft =
         new Transform3d(
             new Translation3d(-0.3683, -0.254, 0.1524),
-            new Rotation3d(0.0, -0.523599, -0.0698132 + Math.PI)); // yaw3.14
+            new Rotation3d(0.0, -0.523599, -0.0698132 + Math.PI - .15)); // yaw3.14
 
     public static final Transform3d kRobotToApriltagCamRight =
         new Transform3d(
             new Translation3d(-0.3683, 0.2540, 0.1524),
-            new Rotation3d(0.0, -0.523599, 0.0698132 + Math.PI)); // yaw3.14
+            new Rotation3d(0.0, -0.523599, 0.0698132 + Math.PI - .15)); // yaw3.14
 
     // The layout of the AprilTags on the field
     public static final AprilTagFieldLayout kTagLayout =
@@ -64,9 +64,9 @@ public final class Constants {
     // The standard deviations of our vision estimated poses, which affect correction rate
     // (Fake values. Experiment and determine estimation noise on an actual robot.)
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(2, 2, 4);
-    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.1, 0.1, .1);
 
-    public static final double heaght = 97.5;
+    public static final double heaght = 89 + 9 + 6;
     public static final Translation3d SpeekerRed =
         new Translation3d(16.579342, Units.inchesToMeters(218.42), Units.inchesToMeters(heaght));
     public static final Translation3d SpeekerBlue =

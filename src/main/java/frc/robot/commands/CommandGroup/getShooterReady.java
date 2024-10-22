@@ -6,6 +6,7 @@ package frc.robot.commands.CommandGroup;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants;
 import frc.robot.Goals;
@@ -13,8 +14,8 @@ import frc.robot.Goals.Goal;
 import frc.robot.Math977;
 import frc.robot.commands.BasicCommands.AngleShooter;
 import frc.robot.commands.BasicCommands.RunShooter;
+import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.aim.Aim;
-import frc.robot.subsystems.aim.aimConstaints;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.intake.IntakeSub.Intake;
 import frc.robot.subsystems.shooter.Shooter;
@@ -44,17 +45,7 @@ public class getShooterReady extends ParallelCommandGroup {
      *
      */
 
-    Supplier<Rotation2d> shooterAngle =
-        () ->
-            Goals.getGoalInfo().goal == Goal.SPEEKER
-                ?
-                // new Rotation2d(Units.Degrees.of(-35))
-                // Speeker
-                aim.getAutoAim()
-                // new Rotation2d(Units.Degrees.of(-35))
-                :
-                // FEED, 45
-                aimConstaints.FeedAngle;
+    Supplier<Rotation2d> shooterAngle = () -> aim.getAimAngleBasedOnGoal();
 
     addCommands(
 
@@ -71,7 +62,10 @@ public class getShooterReady extends ParallelCommandGroup {
                     () ->
                         Goals.getGoalInfo().goal == Goal.SPEEKER
                             ? ShooterConstants.SpeekerShooterSpeed
-                            : ShooterConstants.SpeekerShooterSpeed)));
+                            : ShooterConstants.SpeekerShooterSpeed))
+            .alongWith(
+                Commands.waitUntil(() -> (shooter.getVelocity() > 20))
+                    .andThen(Commands.runOnce(() -> Candle.readyToShoot()))));
   }
 
   public getShooterReady(

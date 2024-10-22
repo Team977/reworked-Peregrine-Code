@@ -3,10 +3,12 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "Bottom_S3_C5_C4_C3-Paths",
-    "DistrictPaths",
+    "Top_S1_C1_C2_C3-Paths",
+    "Source-S3-Mid",
     "Mid_S2_S1_S3_C4-Paths",
-    "Top_S1_C1_C2_C3-Paths"
+    "DistrictPaths",
+    "Bottom_S3_C5_C4_C3-Paths",
+    "Amp-S1-Mid"
   ],
   "autoFolders": [
     "DistrictAutos"

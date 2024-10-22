@@ -62,7 +62,7 @@ public class DriveCommands {
           omega = Math.copySign(omega * omega, omega);
 
           linearMagnitude *= 0.75;
-          omega *= 0.15;
+          omega *= 0.25;
 
           SmartDashboard.putNumber("Omega", omega);
           if (Goals.getGoalInfo().AutoRotate && omega == 0) {
@@ -154,11 +154,11 @@ public class DriveCommands {
   }
 
   private static Rotation2d getAngleOffsetToAmp(Pose2d Robot) {
-    return new Rotation2d(Units.Degrees.of(-97.25));
+    return new Rotation2d(Units.Degrees.of(-90));
   }
 
   private static Rotation2d getAngleOffsetToFeedRotation(Pose2d Robot) {
-    return new Rotation2d(Units.Degrees.of(-90)).minus(Robot.getRotation());
+    return new Rotation2d(0);
   }
 
   private static double addTranslationMod(double input) {

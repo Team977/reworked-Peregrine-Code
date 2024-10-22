@@ -5,6 +5,7 @@
 package frc.robot.subsystems.aim;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
+import frc.robot.Goals;
 import frc.robot.Math977;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.aim.aimMotorsIO.OutputAim;
@@ -44,6 +46,8 @@ public class Aim extends SubsystemBase {
   public Aim(aimMotorsIO AimMotorsIO) {
 
     this.AimMotorsIO = AimMotorsIO;
+
+    SmartDashboard.putNumber("manule Aim", -30);
 
     sysId =
         new SysIdRoutine(
@@ -135,6 +139,25 @@ public class Aim extends SubsystemBase {
     SmartDashboard.putNumber("Desired angle Deg", DesiredAngle.getDegrees());
 
     // SmartDashboard.putNumber("Auto Aim", getAutoAim().getDegrees());
+  }
+
+  public Rotation2d getAimAngleBasedOnGoal() {
+
+    switch (Goals.getGoalInfo().goal) {
+      case FEED:
+        return aimConstaints.FeedAngle;
+
+      case SPEEKER:
+        return getAutoAim();
+
+      case MANULE:
+        return new Rotation2d(
+            Degrees.of(
+                SmartDashboard.getNumber("manule Aim", -30))); // aimConstaints.ManuleSpeekerShot;
+
+      default:
+        return new Rotation2d();
+    }
   }
 
   public Rotation2d getAutoAim() {

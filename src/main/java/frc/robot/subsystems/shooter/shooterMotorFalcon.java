@@ -71,6 +71,10 @@ public class shooterMotorFalcon implements shooterMotorIO {
 
     OutputShooter outputMag = new OutputShooter();
 
+    topShootCurrent.refresh();
+    topShootVelocity.refresh();
+    topShootAppliedVolts.refresh();
+
     outputMag.amps = topShootCurrent.getValueAsDouble();
     outputMag.speed = topShootVelocity.getValueAsDouble();
     outputMag.volts = topShootAppliedVolts.getValueAsDouble();

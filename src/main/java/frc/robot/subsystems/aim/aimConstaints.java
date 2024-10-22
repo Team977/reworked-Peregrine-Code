@@ -17,4 +17,6 @@ public class aimConstaints {
 
   public static final Rotation2d PassiveAmpAngle = new Rotation2d(Units.Degrees.of(-25)); // 30][\]
   public static final Rotation2d FeedAngle = new Rotation2d(Units.Degrees.of(-30));
+  public static final Rotation2d ManuleSpeekerShot =
+      new Rotation2d(Units.Degrees.of(-30)); // 30][\]
 }
