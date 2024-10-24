@@ -218,13 +218,13 @@ public class Candle extends SubsystemBase {
       case AMP:
         LEDSegment.GoalStripL.setColor(blue);
         LEDSegment.GoalStripR.setColor(blue);
-
         break;
 
       case MANULE:
         LEDSegment.GoalStripL.setColor(green);
         LEDSegment.GoalStripR.setColor(green);
         break;
+
       default:
         LEDSegment.GoalStripL.setColor(black);
         LEDSegment.GoalStripR.setColor(black);

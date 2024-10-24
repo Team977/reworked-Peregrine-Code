@@ -20,6 +20,12 @@
         {
           "type": "named",
           "data": {
+            "name": "SpinUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "FireNote"
           }
         },
@@ -33,6 +39,18 @@
           "type": "path",
           "data": {
             "pathName": "S1-AmpScore"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUp"
           }
         },
         {

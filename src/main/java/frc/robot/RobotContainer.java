@@ -88,6 +88,9 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    aDirection = SysIdRoutine.Direction.kForward;
+    bDirection = SysIdRoutine.Direction.kReverse;
+
     switch (Constants.currentMode) {
       case SIM:
         drive =
@@ -229,7 +232,10 @@ public class RobotContainer {
                     Commands.run(() -> Goals.ChangeGoal(Goal.INTAKE))))
         .whileFalse(stopShooter);
 
-    Contruller.ReverseIntake().whileTrue(RevIntake); // .whileFalse(stopShooter);
+    Contruller.ReverseIntake().whileTrue(drive.sysIdDynamic(aDirection));
+    OpTest.a().whileTrue(drive.sysIdQuasistatic(bDirection));
+
+    // Contruller.ReverseIntake().whileTrue(RevIntake); // .whileFalse(stopShooter);
 
     Contruller.setAutoRotateOff().onTrue(Commands.runOnce(() -> Goals.setAutoRotate(false)));
 
@@ -258,7 +264,7 @@ public class RobotContainer {
     Contruller.setAutoRotateOn().whileTrue(Commands.run(() -> Goals.setAutoRotate(true)));
     Contruller.resetPose().whileTrue(Commands.run(() -> drive.resetPose()));
 
-    OpTest.a().whileTrue(Commands.run(() -> Goals.ChangeGoal(Goal.MANULE)));
+    // OpTest.a().whileTrue(Commands.run(() -> Goals.ChangeGoal(Goal.MANULE)));
     // Contruller.setPassiveSwitchOff()
     //    .onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(false)));
 
