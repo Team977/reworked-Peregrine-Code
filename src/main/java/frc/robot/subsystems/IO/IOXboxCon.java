@@ -86,6 +86,6 @@ public class IOXboxCon implements IOMoudlue {
   }
 
   public Trigger setGoalMannule() {
-    return opporatorCon.leftStick();
+    return opporatorCon.rightStick();
   }
 }

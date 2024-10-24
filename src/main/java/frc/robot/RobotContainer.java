@@ -229,7 +229,7 @@ public class RobotContainer {
                     Commands.run(() -> Goals.ChangeGoal(Goal.INTAKE))))
         .whileFalse(stopShooter);
 
-    Contruller.ReverseIntake().whileTrue(RevIntake); // .whileFalse(stopShooter);
+    Contruller.ReverseIntake().whileTrue(RevIntake.repeatedly()); // .whileFalse(stopShooter);
 
     Contruller.setAutoRotateOff().onTrue(Commands.runOnce(() -> Goals.setAutoRotate(false)));
 
@@ -258,7 +258,7 @@ public class RobotContainer {
     Contruller.setAutoRotateOn().whileTrue(Commands.run(() -> Goals.setAutoRotate(true)));
     Contruller.resetPose().whileTrue(Commands.run(() -> drive.resetPose()));
 
-    OpTest.a().whileTrue(Commands.run(() -> Goals.ChangeGoal(Goal.MANULE)));
+    Contruller.setGoalMannule().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.MANULE)));
     // Contruller.setPassiveSwitchOff()
     //    .onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(false)));
 
@@ -304,6 +304,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return shooter.RunSysIDTest(true); 
+    //return autoChooser.getSelected();
   }
 }

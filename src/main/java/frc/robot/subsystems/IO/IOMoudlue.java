@@ -80,4 +80,8 @@ public interface IOMoudlue {
   public default Trigger setDriveModeSlow() {
     return new Trigger(() -> false);
   }
+
+  public default Trigger setGoalMannule(){
+    return new Trigger(() -> false);
+  }
 }

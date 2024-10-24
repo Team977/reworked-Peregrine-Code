@@ -2,8 +2,10 @@ package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.robot.Constants;
@@ -20,6 +22,7 @@ public class shooterMotorFalcon implements shooterMotorIO {
   private final StatusSignal<Double> topShootVelocity = topShooterFalcon.getVelocity();
   private final StatusSignal<Double> topShootAppliedVolts = topShooterFalcon.getMotorVoltage();
   private final StatusSignal<Double> topShootCurrent = topShooterFalcon.getStatorCurrent();
+  private final StatusSignal<Double> topShootAclleration = topShooterFalcon.getAcceleration();
   private final StatusSignal<Double> bottomShootPosition = bottomShooterFalcon.getPosition();
   private final StatusSignal<Double> bottomShootVelocity = bottomShooterFalcon.getVelocity();
   private final StatusSignal<Double> bottomShootAppliedVolts =
@@ -35,10 +38,10 @@ public class shooterMotorFalcon implements shooterMotorIO {
     shooterConfig.Slot0.kV = 2.0;
 
     // set Motion Magic Velocity settings
-    var shooterMotionMagicConfigs = shooterConfig.MotionMagic;
-    shooterMotionMagicConfigs.MotionMagicAcceleration =
+    shooterConfig.MotionMagic.MotionMagicAcceleration =
         1600; // Target acceleration of 400 rps/s (0.25 seconds to max)
-    shooterMotionMagicConfigs.MotionMagicJerk = 8000.0; // Target jerk of 4000 rps/s/s (0.1 seconds)
+    shooterConfig.MotionMagic.MotionMagicJerk = 8000.0; // Target jerk of 4000 rps/s/s (0.1 seconds)
+
 
     shooterConfig.CurrentLimits.StatorCurrentLimit = 160.0;
     shooterConfig.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -74,10 +77,14 @@ public class shooterMotorFalcon implements shooterMotorIO {
     topShootCurrent.refresh();
     topShootVelocity.refresh();
     topShootAppliedVolts.refresh();
-
+    topShootAclleration.refresh();
+    topShootPosition.refresh();
+    
+    outputMag.acceleration = topShootAclleration.getValueAsDouble();
     outputMag.amps = topShootCurrent.getValueAsDouble();
     outputMag.speed = topShootVelocity.getValueAsDouble();
     outputMag.volts = topShootAppliedVolts.getValueAsDouble();
+    outputMag.position = topShootPosition.getValueAsDouble();
 
     return outputMag;
   }
@@ -85,5 +92,9 @@ public class shooterMotorFalcon implements shooterMotorIO {
   public void setVelocity(double topRPM, double bottomRPM) {
     topShooterFalcon.setControl(new MotionMagicVelocityVoltage(topRPM));
     bottomShooterFalcon.setControl(new MotionMagicVelocityVoltage(bottomRPM));
+  }
+
+  public void setVolts(double volts){
+    topShooterFalcon.setVoltage(volts);
   }
 }
