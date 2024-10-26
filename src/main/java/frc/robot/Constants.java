@@ -71,6 +71,10 @@ public final class Constants {
         new Translation3d(16.579342, Units.inchesToMeters(218.42), Units.inchesToMeters(heaght));
     public static final Translation3d SpeekerBlue =
         new Translation3d(-0.0381, Units.inchesToMeters(218.42), Units.inchesToMeters(heaght));
+    public static final Translation3d FeedRed =
+        new Translation3d(15.0, Units.inchesToMeters(180.0), 0);
+    public static final Translation3d FeedBlue =
+        new Translation3d(1.0, Units.inchesToMeters(180.0), 0);
   }
 
   public static final Mode currentMode = Mode.REAL;

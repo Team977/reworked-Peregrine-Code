@@ -30,11 +30,11 @@ public class IOXboxCon implements IOMoudlue {
   }
 
   public Trigger ReverseIntake() {
-    return opporatorCon.b();
+    return opporatorCon.a();
   }
 
   public Trigger Intake() {
-    return opporatorCon.a();
+    return opporatorCon.leftTrigger();
   }
 
   public Trigger setModeSpeeker() {
@@ -65,14 +65,6 @@ public class IOXboxCon implements IOMoudlue {
     return opporatorCon.start();
   }
 
-  public Trigger setPassiveSwitchOn() {
-    return opporatorCon.leftStick();
-  }
-
-  public Trigger setPassiveSwitchOff() {
-    return opporatorCon.rightBumper();
-  }
-
   public Trigger setDriveModeFast() {
     return new Trigger(() -> false);
   }
@@ -86,6 +78,6 @@ public class IOXboxCon implements IOMoudlue {
   }
 
   public Trigger setGoalMannule() {
-    return opporatorCon.leftStick();
+    return opporatorCon.rightStick();
   }
 }

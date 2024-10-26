@@ -33,7 +33,7 @@ import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
 
 public class DriveCommands {
-  private static final double DEADBAND = 0.05;
+  private static final double DEADBAND = 0.1;
 
   private DriveCommands() {}
 
@@ -121,7 +121,7 @@ public class DriveCommands {
         return getAngleBetweenRobotAndNote(Robot);
 
       case FEED:
-        return getAngleOffsetToFeedRotation(Robot);
+        return Robot.getRotation().minus(getAngleOffsetToFeedRotation(Robot.getTranslation()));
 
       case AMP:
         return Robot.getRotation().minus(getAngleOffsetToAmp(Robot));
@@ -157,8 +157,15 @@ public class DriveCommands {
     return new Rotation2d(Units.Degrees.of(-90));
   }
 
-  private static Rotation2d getAngleOffsetToFeedRotation(Pose2d Robot) {
-    return new Rotation2d(0);
+  private static Rotation2d getAngleOffsetToFeedRotation(Translation2d Robot) {
+    Translation2d offset =
+        Robot.minus(
+            Math977.isRed()
+                ? Constants.Vision.FeedRed.toTranslation2d()
+                : Constants.Vision.FeedBlue.toTranslation2d());
+
+    return new Rotation2d(Math.atan2(offset.getY(), offset.getX()))
+        .minus(new Rotation2d(Units.Degree.of(-2.25)));
   }
 
   private static double addTranslationMod(double input) {

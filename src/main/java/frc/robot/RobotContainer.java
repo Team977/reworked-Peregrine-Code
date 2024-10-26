@@ -193,12 +193,12 @@ public class RobotContainer {
             .withTimeout(0.3)
             .andThen(
                 new RunShooter(
-                    shooter, () -> 1.6)); // .andThen(new RunShooter(shooter, () -> 1.6));
+                    shooter, () -> 1.45)); // .andThen(new RunShooter(shooter, () -> 1.6));
     /*new AngleShooter(
         aim, () -> aimConstaints.PassiveAmpAngle, new Rotation2d(Units.Degrees.of(1)))
     .andThen(new RunShooter(shooter, 1.5).alongWith(new RunIntake(intake, 1)));*/
     Command setPoseAtSpeeker = Commands.runOnce(() -> drive.StepPoseAtSpeeker(1.5));
-    Command ShootAmp = new Shoot(shooter, intake, 1.6, 1);
+    Command ShootAmp = new Shoot(shooter, intake, 1.45, 1);
     Command Shoot = new Shoot(shooter, intake, ShooterConstants.SpeekerShooterSpeed, 1);
     Command MannuleGetShooterReady =
         new getShooterReady(drive, aim, shooter, intake, new Rotation2d(Units.Degrees.of(-25)));
@@ -207,7 +207,8 @@ public class RobotContainer {
     Command stopShooter = new RunShooter(shooter, () -> 0);
     Command RevIntake = new Shoot(shooter, intake, -1, -.1);
 
-    Contruller.Intake().whileTrue(stopShooter);
+    // Contruller.Intake().whileTrue(intakeSequence);
+
     Contruller.getShooterReady()
         .whileTrue(
             new ConditionalCommand(
@@ -232,10 +233,7 @@ public class RobotContainer {
                     Commands.run(() -> Goals.ChangeGoal(Goal.INTAKE))))
         .whileFalse(stopShooter);
 
-    Contruller.ReverseIntake().whileTrue(drive.sysIdDynamic(aDirection));
-    OpTest.a().whileTrue(drive.sysIdQuasistatic(bDirection));
-
-    // Contruller.ReverseIntake().whileTrue(RevIntake); // .whileFalse(stopShooter);
+    Contruller.ReverseIntake().whileTrue(RevIntake.repeatedly()); // .whileFalse(stopShooter);
 
     Contruller.setAutoRotateOff().onTrue(Commands.runOnce(() -> Goals.setAutoRotate(false)));
 
@@ -263,8 +261,9 @@ public class RobotContainer {
     Contruller.setAutoRotateOff().whileTrue(Commands.run(() -> Goals.setAutoRotate(false)));
     Contruller.setAutoRotateOn().whileTrue(Commands.run(() -> Goals.setAutoRotate(true)));
     Contruller.resetPose().whileTrue(Commands.run(() -> drive.resetPose()));
+    Contruller.Intake().whileTrue(new IntakeSequence(feedIntake, intake, shooter));
 
-    // OpTest.a().whileTrue(Commands.run(() -> Goals.ChangeGoal(Goal.MANULE)));
+    Contruller.setGoalMannule().onTrue(Commands.runOnce(() -> Goals.ChangeGoal(Goal.MANULE)));
     // Contruller.setPassiveSwitchOff()
     //    .onTrue(Commands.runOnce(() -> Goals.setPassivlysSwitch(false)));
 
@@ -310,6 +309,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    // return shooter.RunSysIDTest(true);
     return autoChooser.getSelected();
   }
 }
