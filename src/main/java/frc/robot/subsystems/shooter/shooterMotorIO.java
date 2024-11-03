@@ -17,7 +17,5 @@ public interface shooterMotorIO {
 
   public default void setVelocity(double topRPM, double bottomRPM) {}
 
-  public default void setVolts(double volts){
-
-  }
+  public default void setVolts(double volts) {}
 }

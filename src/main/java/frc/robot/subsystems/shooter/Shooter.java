@@ -4,13 +4,11 @@
 
 package frc.robot.subsystems.shooter;
 
-import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.subsystems.drive.ModuleIO.LogOut;
 import frc.robot.subsystems.shooter.shooterMotorIO.OutputShooter;
 
 public class Shooter extends SubsystemBase {
@@ -24,11 +22,12 @@ public class Shooter extends SubsystemBase {
 
     this.ShooterMotorIO = ShooterMotorIO;
 
-    sysIdRoutine = new SysIdRoutine(
+    sysIdRoutine =
+        new SysIdRoutine(
             new SysIdRoutine.Config(),
             new SysIdRoutine.Mechanism(
                 (voltage) -> {
-                    ShooterMotorIO.setVolts(voltage.in(Units.Volts));
+                  ShooterMotorIO.setVolts(voltage.in(Units.Volts));
                 },
                 log -> {
                   OutputShooter logout = ShooterMotorIO.getOutput();
@@ -63,18 +62,20 @@ public class Shooter extends SubsystemBase {
     return ShooterMotorIO.getOutput().speed;
   }
 
-  public Command RunSysIDTest(boolean quasistatic){
+  public Command RunSysIDTest(boolean quasistatic) {
     double time = 15;
 
     if (quasistatic) {
-    
-      sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward).withTimeout(time)
-    .andThen(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).withTimeout(time));
-    
+
+      sysIdRoutine
+          .quasistatic(SysIdRoutine.Direction.kForward)
+          .withTimeout(time)
+          .andThen(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).withTimeout(time));
     }
 
-    return sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward).withTimeout(time)
-    .andThen(sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).withTimeout(time));
-
+    return sysIdRoutine
+        .dynamic(SysIdRoutine.Direction.kForward)
+        .withTimeout(time)
+        .andThen(sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).withTimeout(time));
   }
 }

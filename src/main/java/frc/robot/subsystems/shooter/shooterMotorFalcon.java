@@ -2,10 +2,8 @@ package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.robot.Constants;
@@ -41,7 +39,6 @@ public class shooterMotorFalcon implements shooterMotorIO {
     shooterConfig.MotionMagic.MotionMagicAcceleration =
         1600; // Target acceleration of 400 rps/s (0.25 seconds to max)
     shooterConfig.MotionMagic.MotionMagicJerk = 8000.0; // Target jerk of 4000 rps/s/s (0.1 seconds)
-
 
     shooterConfig.CurrentLimits.StatorCurrentLimit = 160.0;
     shooterConfig.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -79,7 +76,7 @@ public class shooterMotorFalcon implements shooterMotorIO {
     topShootAppliedVolts.refresh();
     topShootAclleration.refresh();
     topShootPosition.refresh();
-    
+
     outputMag.acceleration = topShootAclleration.getValueAsDouble();
     outputMag.amps = topShootCurrent.getValueAsDouble();
     outputMag.speed = topShootVelocity.getValueAsDouble();
@@ -94,7 +91,7 @@ public class shooterMotorFalcon implements shooterMotorIO {
     bottomShooterFalcon.setControl(new MotionMagicVelocityVoltage(bottomRPM));
   }
 
-  public void setVolts(double volts){
+  public void setVolts(double volts) {
     topShooterFalcon.setVoltage(volts);
   }
 }

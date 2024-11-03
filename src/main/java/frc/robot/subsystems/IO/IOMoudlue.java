@@ -81,7 +81,7 @@ public interface IOMoudlue {
     return new Trigger(() -> false);
   }
 
-  public default Trigger setGoalMannule(){
+  public default Trigger setGoalMannule() {
     return new Trigger(() -> false);
   }
 }
