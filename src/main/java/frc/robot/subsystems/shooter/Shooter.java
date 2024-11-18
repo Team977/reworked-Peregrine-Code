@@ -66,18 +66,17 @@ public class Shooter extends SubsystemBase {
   public Command RunSysIDTest(boolean quasistatic) {
     double time = 15;
 
-    Command stopShooter = Commands.run(() -> setVelocity(0)).withTimeout(2);
+    if (quasistatic) {
+
+      sysIdRoutine
+          .quasistatic(SysIdRoutine.Direction.kForward)
+          .withTimeout(time)
+          .andThen(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).withTimeout(time));
+    }
+
     return sysIdRoutine
-        .quasistatic(SysIdRoutine.Direction.kForward)
+        .dynamic(SysIdRoutine.Direction.kForward)
         .withTimeout(time)
-        .andThen(stopShooter)
-        .andThen(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).withTimeout(time))
-        .andThen(stopShooter)
-        .andThen(sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward), stopShooter)
-        .withTimeout(time)
-        .andThen(stopShooter)
-        .andThen(
-            sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).withTimeout(time), stopShooter)
-        .andThen(stopShooter);
+        .andThen(sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).withTimeout(time));
   }
 }

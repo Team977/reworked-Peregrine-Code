@@ -77,7 +77,7 @@ public final class Constants {
         new Translation3d(1.0, Units.inchesToMeters(180.0), 0);
   }
 
-  public static final Mode currentMode = Mode.REAL;
+  public static final Mode currentMode = Mode.SIM;
 
   public static enum Mode {
     /** Running on a real robot. */
