@@ -26,12 +26,6 @@
         {
           "type": "named",
           "data": {
-            "name": "SpinUp"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "FireNote"
           }
         },

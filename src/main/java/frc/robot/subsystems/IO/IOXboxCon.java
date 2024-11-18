@@ -58,10 +58,10 @@ public class IOXboxCon implements IOMoudlue {
   }
 
   public Trigger resetPose() {
-    return opporatorCon.leftStick();
+    return opporatorCon.povUp();
   }
 
-  public Trigger setAutoRotateOff() {
+  public Trigger nuhuub() {
     return opporatorCon.start();
   }
 
